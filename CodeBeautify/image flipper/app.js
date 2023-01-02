@@ -57,10 +57,12 @@ function flipVV(e){
 // }
 
 var download = document.createElement('a');
-download.addEventListener('click', function(ev){
+download.innerHTML = 'download';
+download.addEventListener('click', function(e){
     download.href = img.src;
     download.download = 'img.png';
 }, false)
 
 const btn = document.getElementById('button');
+console.log(btn)
 btn.appendChild(download)
