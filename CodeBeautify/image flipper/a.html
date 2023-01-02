@@ -24,11 +24,12 @@
                         <label for="img">Upload Image:</label>
                         <input type="file"accept=".JPEG,.JPG,.PNG"onchange="loadfile(event)" name="img" >
                         <h1 class="mt-5">Flip The Image</h1>
-                        <button class="" onclick= "flipImage()">Flip Image</button>
+                        <button id="flipH">Flip Horizontally</button>
+                        <button id="flipV">Flip Vertically</button>
+                        <button id="button" onclick="downloadimg()" >Download</button>
                     </div>
                     <div class="column is-6" id="flip" style="border: 1px solid gray;">
                         <image id="img" class="mt-3"></image>
-                        <image id="output" class="mt-3"></image>
                     </div>
                 </div>
             </div>
