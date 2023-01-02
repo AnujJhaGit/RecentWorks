@@ -35,8 +35,33 @@ function flipVV(e){
         img.style.webkitTransform = 'scaleY(-1)'
     }
 }
-const btn = document.getElementById('button')
 
-function downloadimg(){
-    console.log(img.src)
-}
+
+// function downloadimg(){
+// //  document.getElementById('button').href = "img."
+// console.log(img.src)
+
+// axios({
+//     url: img.src,
+//     method:'GET',
+//     responseType: 'blob'
+// })
+// .then((response) => {
+//    const url = window.URL
+//    .createObjectURL(new Blob([response.data]));
+//           const link = document.getElementById('button');
+//           link.href = url;
+//           link.setAttribute('download', 'image.jpg');
+//           link.click();
+// })
+// }
+
+var download = document.createElement('a');
+download.innerHTML = 'download the image';
+download.addEventListener('click', function(ev){
+    download.href = img.src;
+    download.download = 'img.png';
+}, false)
+
+const btn = document.getElementById('button');
+btn.appendChild(download)
