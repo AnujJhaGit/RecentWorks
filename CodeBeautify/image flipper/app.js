@@ -57,7 +57,6 @@ function flipVV(e){
 // }
 
 var download = document.createElement('a');
-download.innerHTML = 'download the image';
 download.addEventListener('click', function(ev){
     download.href = img.src;
     download.download = 'img.png';
