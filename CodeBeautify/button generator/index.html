@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css"/>
+
+</head>
+<body>
+    <div>
+        <center>
+          <h1>Css3 Button Generator</h1>
+        </center>
+      
+        <div>
+          <h3>Customize Area</h3>
+          <div>
+            <!--generate-->
+            <div>
+              <p>Text :</p>
+              <input type="text" value="Lorem" placeholder="Text" /></br>
+            </div>
+      
+            <div>
+              <p>Font Family :</p>
+              <select></br>
+        <option>Arial, Helvetica, sans-serif</option>
+        <option>"Times New Roman", Times, serif</option>
+        <option>"Comic Sans MS", cursive, sans-serif</option>
+          <option>Impact, Charcoal, sans-serif</option>
+          <option >Verdana, Geneva, sans-serif</option>
+              <option>"Lucida Console", Monaco, monospace	</option>
+       </select>
+            </div>
+            <div>
+              <p>Font Size :</p>
+              <div id="font-size"></div>
+              <div id="font-size-amount">18px</div>
+            </div>
+      
+            <div>
+              <p>Border Radius :</p>
+              <div id="border-radius"></div>
+              <div id="border-radius-amount">4px</div>
+            </div>
+      
+            <div>
+              <p>Padding Left :</p>
+              <input data-numscrubber type="number" min="0" max="50" value="10" id="padding-left" /></br>
+            </div>
+            <div >
+              <p >Padding Right :</p>
+              <input data-numscrubber type="number" min="0" max="50" value="10"  id="padding-right" /></br>
+            </div>
+            <div >
+              <p >Padding Top :</p>
+              <input data-numscrubber type="number" min="0" max="50" value="5"  id="padding-top" /></br>
+            </div>
+            <div >
+              <p >Padding Bottom :</p>
+              <input data-numscrubber type="number" min="0" max="50" value="5"  id="padding-bottom" /></br>
+            </div>
+      
+            <div >
+              <p >Color :</p>
+              <input type="text" id="hue"  data-control="hue">
+            </div>
+            <div >
+              <p >Background :</p>
+              <input type="text" id="hue" data-control="hue">
+            </div>
+      
+            <div >
+              <p >Hover Color :</p>
+              <input type="text" id="hue"  data-control="hue">
+            </div>
+      
+            <div >
+              <p >Hover Background :</p>
+              <input type="text" id="hue" data-control="hue">
+            </div>
+      
+      
+          </div>
+          <!--generate-->
+      
+        </div>
+      
+        <div>
+          <h3>Button Preview</h3>
+          <div>
+            <button>Lorem</button>
+          </div>
+        </div>
+      
+      
+        <div>
+          <center>
+            <h3>Codes</h3></center>
+          <button data-clipboard-target="#codes">Copy Codes</button>
+          <span>Copied to clipboard!</span>
+          <div id="codes">
+            <span>.button {</span>
+            <p>font-family:Arial, Helvetica, sans-serif;</p>
+            <p>font-size:18px;</p>
+            <p>border-radius:4px;</p>
+            <p>padding-left:10px;</p>
+            <p>padding-right:10px;</p>
+            <p>padding-top:5px;</p>
+            <p>padding-bottom:5px;</p>
+            <p>color:#ffffff;</p>
+            <p>background-color:#cc6666;</p>
+            <p >outline:none;</p>
+            <p >border:none;</p>
+            <p >cursor:pointer;</p>
+            <p >display:inline-block;</p>
+            <span>}</span></br>
+            </br>
+            <span>.button:hover {</span>
+            <p>color:#ffffff;</p>
+            <p>background-color:#8e4747;</p>
+            <span>}</span>
+          </div>
+        </div>
+      </div>
+      <!--container-->
+
+
+      <script src="app.js"></script>
+</body>
+</html>
