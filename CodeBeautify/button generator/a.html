@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css"/>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <style>
+#container div,
+#container form {
+  float: left;
+}
+</style>
+</head>
+<body>
+  <h1 class="mb-5 title is-1 has-text-centered">Modern Button Generator</h1>
+
+  <div class="container p-5 columns" style="width: 594px;">
+    <form id="inputForm" class="form box  column is-6">
+      <h2>Input:</h2> Text:
+      <input id="buttonText" placeholder="Text" value="Demo Text"></input>
+      <br> Height:
+      <input id="buttonHeight" placeholder="Height" value="40px"></input>
+      <br> Width:
+      <input id="buttonWidth" placeholder="Width" value="100px"></input>
+      <br> Text Color:
+      <input id="colorTxt" placeholder="Color Text" value="#555555" maxlength="7"></input>
+      <br> Background Color:
+      <input id="colorBg" placeholder="Color Background" value="#ffffff" maxlength="7"></input>
+      <br> Border Color:
+      <input id="colorBdr" placeholder="Color Border" value="#555555" maxlength="7"></input>
+      <br> Hover Background:
+      <input id="hoverBg" placeholder="Hover Background" value="#555555" maxlength="7"></input>
+      <br> Hover Text:
+      <input id="hoverTxt" placeholder="Hover Text" value="#ffffff" maxlength="7"></input>
+      <br>
+    </form>
+  
+    <div id="outputForm" class ="column is-6">
+      <h2>Output:</h2>
+      <div id="demo">
+        <button id="myButton>" style="margin:10px;">Demo Text</button>
+      </div>
+  
+      CSS style:
+      <textarea class="textarea container" id="cssOutput" value="button{
+      background-color:009999;
+        }"></textarea>
+      <br> HTML Inline style (no hover):
+      <br>
+      <textarea class="textarea" id="htmlOutput" value="button{
+      background-color:009999;
+        }"></textarea>
+      <br>
+    </div>
+  
+  
+  </div>
+
+  <script>
+    $(document).ready(function() {
+  var style = "",
+    hover = "";
+  updateStyle();
+
+  $("input").keyup(function() {
+    updateStyle();
+  });
+
+});
+
+function updateStyle() {
+  style = "height:" + $("#buttonHeight").val() +
+    ";width:" + $("#buttonWidth").val() +
+    ";color:" + $("#colorTxt").val() +
+    ";background-color:" + $("#colorBg").val() +
+    ";border: 1px solid " + $("#colorBdr").val() + ";";
+
+  hover = "color:" + $("#hoverTxt").val() +
+    ";background-color:" + $("#hoverBg").val();
+
+  $("#demo> button").html($("#buttonText").val());
+  $("#demo> button").attr("style", style);
+  $("#demo> button").hover(function() {
+    $("#demo> button").css("color", $("#hoverTxt").val());
+    $("#demo> button").css("background-color", $("#hoverBg").val());
+  }, function() {
+    $("#demo> button").attr("style", style);
+  });
+
+  $("#cssOutput").val("button{" + style + "transition: all 1s ease;" +  "}button:hover{" + hover + "}");
+  $("#htmlOutput").val("<button style='" + style + "'>" + $("#buttonText").val() + "</button>");
+
+}
+  </script>
+</body>
+</html>
