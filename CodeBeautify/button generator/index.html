@@ -5,138 +5,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css"/>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <center>
-          <h1 class="title is-1">Css3 Button Generator</h1>
-        </center>
-      
-        <div>
-          <h3 class="subtitle is-3">Customize Area</h3>
-          <div>
+    <div class="container">
+        <h1 class="title is-1 is-size-1 has-text-centered has-text-danger mt-5">Button Generator</h1>
+        <div class="properties has-background-warning p-5 mt-2" style="height: 83vh; border-radius: 10px;">
+            <form>
+                <input class="is-size-6  mt-0 p-2" type="text" placeholder="Button Text" id="btnText">
+                <input class="is-size-6 mt-3 p-2" type="text" placeholder="Background Color" id="bgColor">
+                <input class="is-size-6 mt-3 p-2" type="text" placeholder="Text Color" id="txtColor">
+                <Select class="p-2 is-size-6 mt-3" name="texttransform" id="txtTransform">
+                    <option value="" disabled selected>Text Transform</option>
+                    <option value="uppercase">Uppercase</option>
+                    <option value="capitalize">Capitalize</option>
+                    <option value="lowercase">Lowercase</option>
+                </Select>
 
-            <div class="columns">
-              <div class="column is-6">
-                <div>
-                  <p>Text :</p>
-                  <input type="text" value="Lorem" placeholder="Text" /></br>
-                </div>
-          
-                <div>
-                  <p>Font Family :</p>
-                  <select></br>
-            <option>Arial, Helvetica, sans-serif</option>
-            <option>"Times New Roman", Times, serif</option>
-            <option>"Comic Sans MS", cursive, sans-serif</option>
-              <option>Impact, Charcoal, sans-serif</option>
-              <option >Verdana, Geneva, sans-serif</option>
-                  <option>"Lucida Console", Monaco, monospace	</option>
-           </select>
-                </div>
-                <div>
-                  <p>Font Size :</p>
-                  <div id="font-size"></div>
-                  <div id="font-size-amount">18px</div>
-                </div>
-          
-                <div>
-                  <p>Border Radius :</p>
-                  <div id="border-radius"></div>
-                  <div id="border-radius-amount">4px</div>
-                </div>
-          
-                <div>
-                  <p>Padding Left :</p>
-                  <input data-numscrubber type="number" min="0" max="50" value="10" id="padding-left" /></br>
-                </div>
-                <div >
-                  <p >Padding Right :</p>
-                  <input data-numscrubber type="number" min="0" max="50" value="10"  id="padding-right" /></br>
-                </div>
-                <div >
-                  <p >Padding Top :</p>
-                  <input data-numscrubber type="number" min="0" max="50" value="5"  id="padding-top" /></br>
-                </div>
-                <div >
-                  <p >Padding Bottom :</p>
-                  <input data-numscrubber type="number" min="0" max="50" value="5"  id="padding-bottom" /></br>
-                </div>
-          
-                <div >
-                  <p >Color :</p>
-                  <input type="text" id="hue"  data-control="hue">
-                </div>
-                <div >
-                  <p >Background :</p>
-                  <input type="text" id="hue" data-control="hue">
-                </div>
-          
-                <div >
-                  <p >Hover Color :</p>
-                  <input type="text" id="hue"  data-control="hue">
-                </div>
-          
-                <div >
-                  <p >Hover Background :</p>
-                  <input type="text" id="hue" data-control="hue">
-                </div>
-          
-          
-              </div>
-              <!--generate-->
-          
-            </div>
-          
-            <div>
-              <h3>Button Preview</h3>
-              <div>
-                <button>Lorem</button>
-              </div>
-            </div>
-          
-              </div>
-              <div class="column is-6">
-                    
-      
-        <div>
-          <center>
-            <h3>Codes</h3></center>
-          <button data-clipboard-target="#codes">Copy Codes</button>
-          <span>Copied to clipboard!</span>
-          <div id="codes">
-            <span>.button {</span>
-            <p>font-family:Arial, Helvetica, sans-serif;</p>
-            <p>font-size:18px;</p>
-            <p>border-radius:4px;</p>
-            <p>padding-left:10px;</p>
-            <p>padding-right:10px;</p>
-            <p>padding-top:5px;</p>
-            <p>padding-bottom:5px;</p>
-            <p>color:#ffffff;</p>
-            <p>background-color:#cc6666;</p>
-            <p >outline:none;</p>
-            <p >border:none;</p>
-            <p >cursor:pointer;</p>
-            <p >display:inline-block;</p>
-            <span>}</span></br>
-            </br>
-            <span>.button:hover {</span>
-            <p>color:#ffffff;</p>
-            <p>background-color:#8e4747;</p>
-            <span>}</span>
-          </div>
+                <input class="is-size-6 mt-3 p-2" type="number" class="m-0 is-inline-block" placeholder="Top Padding" id="tPad" style="width: 47%;">
+                <input class="is-size-6 mt-3 p-2 is-inline-block" type="number" class="ml-4" placeholder="Right Padding" id="rPad" style="width: 47%;">
+                <input class="is-size-6 mt-3 p-2 is-inline-block" type="number" class="m-0" placeholder="Bottom Padding" id="bPad"style="width: 47%;">
+                <input class="is-size-6 mt-3 p-2 is-inline-block" type="number" class="ml-4" placeholder="Left Padding" id="lPad"style="width: 47%;">
+
+
+                <input class="is-size-6 mt-3 p-2" type="number" class="m-0" placeholder="Top Left Radius"  id="tlRad">
+                <input class="is-size-6 mt-3 p-2" type="number" class="ml-4" placeholder="Top Right Radius"  id="trRad">
+                <input class="is-size-6 mt-3 p-2" type="number" class="m-0" placeholder="Bottom Left Radius"  id="blRad">
+                <input class="is-size-6 mt-3 p-2" type="number" class="ml-4" placeholder="Bottom Right Radius"  id="brRad">
+
+                <label class="mr-5  is-size-5" for="border">Border</label>
+                <input class="is-size-6 mt-3 p-2" type="radio" name="border" value="y">Yes
+                <input class="is-size-6 ml-6 mt-3 p-2" type="radio" name="border" value="n">No
+                <input class="is-size-6 mt-3 p-2" type="text" placeholder="Border(2px solid red)"id="border" style="opacity: 0;"> 
+
+            </form>
         </div>
-      </div>
-              </div>
+
+        <div class="btns">
+            <div class="btn has-background-light p-5 mt-2"style="height: 40vh;">
+                <button id="btn">Dummy Text</button>
             </div>
-            <!--generate-->
-      
-      <!--container-->
+            <a class="is-inline-block has-text-info has-background-primary is-size-5 is-capitalized" style="text-decoration: none; position: relative;left: 50%;right: 50%;transform: translate(-50%);margin-top: 50px;border-radius: 50px;padding: 15px 35px;" href="#" id="generateCode">generate code</a>
+        </div>
+        <div class="coding">
+            <div>
+                <h3 class="html pt-2 has-text-danger " style="opacity: 0;">HTML</h3>
+                <div id=" html-code pl-4 has-text-grey-light">
 
+                </div>
+            </div>
 
-      <script src="app.js"></script>
+            <h3 class="css mt-6 pt-2 has-text-danger"style="opacity: 0;">CSS</h3>
+            <div id="css-code pl-4 has-text-grey-light"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

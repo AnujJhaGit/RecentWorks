@@ -60,38 +60,39 @@
   </div>
 
   <script>
-    $(document).ready(function() {
+
+document.querySelector(document).ready(function() {
   var style = "",
     hover = "";
   updateStyle();
 
-  $("input").keyup(function() {
+  document.querySelector("input").keyup(function() {
     updateStyle();
   });
 
 });
 
 function updateStyle() {
-  style = "height:" + $("#buttonHeight").val() +
-    ";width:" + $("#buttonWidth").val() +
-    ";color:" + $("#colorTxt").val() +
-    ";background-color:" + $("#colorBg").val() +
-    ";border: 1px solid " + $("#colorBdr").val() + ";";
+  style = "height:" + document.querySelector("#buttonHeight").value +
+    ";width:" + document.querySelector("#buttonWidth").value +
+    ";color:" + document.querySelector("#colorTxt").value +
+    ";background-color:" + document.querySelector("#colorBg").value +
+    ";border: 1px solid " + document.querySelector("#colorBdr").value + ";";
 
-  hover = "color:" + $("#hoverTxt").val() +
-    ";background-color:" + $("#hoverBg").val();
+  hover = "color:" + document.querySelector("#hoverTxt").value +
+    ";background-color:" + document.querySelector("#hoverBg").value;
 
-  $("#demo> button").html($("#buttonText").val());
-  $("#demo> button").attr("style", style);
-  $("#demo> button").hover(function() {
-    $("#demo> button").css("color", $("#hoverTxt").val());
-    $("#demo> button").css("background-color", $("#hoverBg").val());
+  document.querySelector("#demo> button").html(document.querySelector("#buttonText").value);
+  document.querySelector("#demo> button").attr("style", style);
+  document.querySelector("#demo> button").hover(function() {
+    document.querySelector("#demo> button").css("color", document.querySelector("#hoverTxt").value);
+    document.querySelector("#demo> button").css("background-color", document.querySelector("#hoverBg").value);
   }, function() {
-    $("#demo> button").attr("style", style);
+    document.querySelector("#demo> button").attr("style", style);
   });
 
-  $("#cssOutput").val("button{" + style + "transition: all 1s ease;" +  "}button:hover{" + hover + "}");
-  $("#htmlOutput").val("<button style='" + style + "'>" + $("#buttonText").val() + "</button>");
+  document.querySelector("#cssOutput").val("button{" + style + "transition: all 1s ease;" +  "}button:hover{" + hover + "}");
+  document.querySelector("#htmlOutput").val("<button style='" + style + "'>" + document.querySelector("#buttonText").value + "</button>");
 
 }
   </script>
