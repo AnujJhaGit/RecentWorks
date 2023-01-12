@@ -1,0 +1,14 @@
+.scare {
+    width: 340px;height: 310px;margin: 5px 5px 20px 5px;
+padding: 10px 15px;
+    background-color: #fbfbfd;
+    border-radius: 10px;
+    border: rgba(0, 0, 0, 0.05) 1px solid;
+    box-shadow: rgb(33 35 38 / 10%) 6px 10px 10px -15px;
+}
+label,.labelText{
+    width: 160px;font-size: 14px;   
+}
+.textInput{
+    border: 1px solid gray;border-radius: 25px;
+}
