@@ -1,111 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
     <div>
-        <section></section>
-        <section class="container section">
-            <h1 class="title is-size-2">CSS3 Button Generator</h1>
-            <div class="columns is-centered">
-                <div class="column is-8">
-                    <form action="">
-                        <h1 class="subtitle">Button Text</h1>
-                        <div class="columns card">
-                            <div class="column">
-
-                                <label for="" class="label">Enter Text</label>
-                                <input type="text" class="input">
-                            </div>
-                            <div class="column">
-                                <label class="label">Transform</label>
-                                <div class="select">
-                                    <select>
-                                      <option>  Uppercase</option>
-                                      <option>Lowercase</option>
-                                      <option>Capitalize</option>
-                                    </select>
-                                  </div>
-                            </div>
-                            <div class="column">
-                                <label class="label">Font Style</label>
-                                <div class="select">
-                                    <select>
-                                      <option>abc</option>
-                                      <option>def</option>
-                                      <option>ghi</option>
-                                    </select>
-                                  </div>
-                            </div>
-                           <div class="column">
-                            <label for="" class="label">Font Weight</label>
-                            <input type="range" min="0" max="900" class="mt-3">
-                           </div>
-                           <div class="column">
-                            <label for="" class="label">Font Size</label>
-                            <input type="number" min="0" max="50" class="input" placeholder="0">
-                           </div>
-                           <div class="column">
-                            <label for="" class="label">Font Color</label>
-                            <div class="field is-horizontal">
-                                <input type="color" class="input">
-                                <span class="m-3">Red</span>
-                            </div>
-                           </div>
-                        </div>
-                        <h1 class="subtitle">Button Text</h1>
-                        <div class="columns card">
-                            <div class="column">
-
-                                <label for="" class="label">Enter Text</label>
-                                <input type="text" class="input">
-                            </div>
-                            <div class="column">
-                                <label class="label">Transform</label>
-                                <div class="select">
-                                    <select>
-                                      <option>  Uppercase</option>
-                                      <option>Lowercase</option>
-                                      <option>Capitalize</option>
-                                    </select>
-                                  </div>
-                            </div>
-                            <div class="column">
-                                <label class="label">Font Style</label>
-                                <div class="select">
-                                    <select>
-                                      <option>abc</option>
-                                      <option>def</option>
-                                      <option>ghi</option>
-                                    </select>
-                                  </div>
-                            </div>
-                           <div class="column">
-                            <label for="" class="label">Font Weight</label>
-                            <input type="range" min="0" max="900" class="mt-3">
-                           </div>
-                           <div class="column">
-                            <label for="" class="label">Font Size</label>
-                            <input type="number" min="0" max="50" class="input" placeholder="0">
-                           </div>
-                           <div class="column">
-                            <label for="" class="label">Font Color</label>
-                            <div class="field is-horizontal">
-                                <input type="color" class="input">
-                                <span class="m-3">Red</span>
-                            </div>
-                           </div>
-                        </div>
-                    </form>
+      <section></section>
+      <section class="container section">
+        <h1 class="title is-size-2">CSS3 Button Generator</h1>
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <form action="">
+              <h1 class="subtitle">Button Text</h1>
+              <div class="columns card">
+                <div class="column">
+                  <label for="" class="label">Enter Text</label>
+                  <input type="text" class="input" />
                 </div>
-                <div class="column is-4"></div>
-            </div>
-        </section>
+                <div class="column">
+                  <label class="label">Transform</label>
+                  <div class="select">
+                    <select>
+                      <option>Uppercase</option>
+                      <option>Lowercase</option>
+                      <option>Capitalize</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Font Style</label>
+                  <div class="select">
+                    <select>
+                      <option>abc</option>
+                      <option>def</option>
+                      <option>ghi</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="column">
+                  <label for="" class="label">Font Weight</label>
+                  <div class="field is-horizontal">
+                    <input type="range" min="0" max="900" class="mt-3" />
+                    <div class="mt-3">0</div>
+                  </div>
+                </div>
+                <div class="column">
+                  <label for="" class="label">Font Size</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="50"
+                    class="input"
+                    placeholder="0"
+                  />
+                </div>
+                <div class="column">
+                  <label for="" class="label">Font Color</label>
+                  <div class="field is-horizontal">
+                    <input type="color" class="input" />
+                    <span class="m-3">Red</span>
+                  </div>
+                </div>
+              </div>
+              <h1 class="subtitle">Button Border Radius</h1>
+              <div class="columns card">
+                <div class="column">
+                  <label for="" class="label">Border top left</label>
+                  <div class="field is-horizontal">
+                    <input type="range" min="1" max="50" class="" />
+                    <div class="">0</div>
+                  </div>
+                </div>
+                <div class="column">
+                  <label for="" class="label">Border top right</label>
+                  <div class="field is-horizontal">
+                    <input type="range" min="1" max="50" class="" />
+                    <div class="">0</div>
+                  </div>
+                </div>
+                <div class="column">
+                  <label for="" class="label">Border bottom right</label>
+                  <div class="field is-horizontal">
+                    <input type="range" min="1" max="50" class="" />
+                    <div class="">0</div>
+                  </div>
+                </div>
+                <div class="column">
+                  <label for="" class="label">Border bottom left</label>
+                  <div class="field is-horizontal">
+                    <input type="range" min="1" max="50" class="" />
+                    <div class="">0</div>
+                  </div>
+                </div>
+              </div>
+              <div class="columns">
+                <div class="column is-6">
+                  <h1 class="subtitle">Button Padding</h1>
+                  <div class="columns card">
+                    <div class="column">
+                      <label for="" class="label">Horizontal Padding</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="70"
+                        placeholder="0"
+                        class="input"
+                      />
+                    </div>
+                    <div class="column">
+                      <label for="" class="label">Vertical Padding</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="70"
+                        placeholder="0"
+                        class="input"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <h1 class="subtitle">Border</h1>
+                  <div class="columns card">
+                    <div class="column">
+                      <label for="" class="label">Color Border</label>
+                      <div class="field is-horizontal">
+                        <input type="color" class="input" />
+                        <span class="m-3">Red</span>
+                      </div>
+                    </div>
+                    <div class="column">
+                      <label class="label">Transform</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="30"
+                        placeholder="0"
+                        class="input"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-2">
+                    <h1 class="subtitle">Border</h1>
+                    <div class="columns card">
+                      <div class="column">
+                        <label for="" class="label ml-3">None</label>
+                          <input type="checkbox" class="ml-5" />
+                      </div>
+                    </div>
+                </div>
+              </div>
+<div class="columns">
+    <div class="column is-7">
+        <h1 class="subtitle">Button Background</h1>
+        <div class="columns card">
+          <div class="column field is-horizontal">
+            <label for="" class="label mt-2">Solid Background</label>
+            <input type="checkbox" class="ml-5" />
+          </div>
+          <div class="column field is-horizontal">
+            <label class="label mt-3">Gradient Background</label>
+            <input type="checkbox" class="ml-5">
+          </div>
+        </div>
     </div>
-</body>
+    <div class="column">
+        <h1 class="subtitle">Size</h1>
+        <div class="columns card">
+            <div class="column">
+                <div class="field is-horizontal">
+                    <label for="" class="label">Vertical Size :</label>
+                    <span class="ml-2">0</span>
+                </div>
+                <input type="range" min="0" max="100" id="">
+            </div>
+            <div class="column">
+                <div class="field is-horizontal">
+                    <label for="" class="label">Horizontal Size :</label>
+                    <span class="ml-2">0</span>
+                </div>
+                <input type="range" min="0" max="200" id="">
+            </div>
+        </div>
+    </div>
+</div>
+
+              <h1 class="subtitle">Button: Hover Effects</h1>
+              <div class="columns card">
+                <div class="column is-3">
+                    <div class="field is-horizontal">
+                        <label for="" class="label">Width Hover :</label>
+                        <span class="ml-2">0</span>
+                    </div>
+                 
+                  <input type="range" min="0" max="100" />
+                </div>
+                <div class="column is-3">
+                    <div class="field is-horizontal">
+                        <label for="" class="label">Move UP on Hover :</label>
+                        <span class="ml-2">0</span>
+                    </div>
+                 
+                  <input type="range" min="0" max="100" />
+                </div>
+                <div class="column">
+                    <label class="label">Background Color</label>
+                    <div class="field is-horizontal">
+                        <input type="color" class="" />
+                        <span class="ml-3">Red</span>
+                      </div>
+                </div>
+                <div class="column ">
+                    <label class="label">Font Color</label>
+                    <div class="field is-horizontal">
+                        <input type="color" class="" />
+                        <span class="ml-3">Red</span>
+                      </div>
+                </div>
+
+              </div>
+            </form>
+          </div>
+          <div class="column is-4">
+            
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
 </html>
