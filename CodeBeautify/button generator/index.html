@@ -1,66 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1 class="title is-1 is-size-1 has-text-centered has-text-danger mt-5">Button Generator</h1>
-        <div class="properties has-background-warning p-5 mt-2" style="height: 83vh; border-radius: 10px;">
-            <form>
-                <input class="is-size-6  mt-0 p-2" type="text" placeholder="Button Text" id="btnText">
-                <input class="is-size-6 mt-3 p-2" type="text" placeholder="Background Color" id="bgColor">
-                <input class="is-size-6 mt-3 p-2" type="text" placeholder="Text Color" id="txtColor">
-                <Select class="p-2 is-size-6 mt-3" name="texttransform" id="txtTransform">
-                    <option value="" disabled selected>Text Transform</option>
-                    <option value="uppercase">Uppercase</option>
-                    <option value="capitalize">Capitalize</option>
-                    <option value="lowercase">Lowercase</option>
-                </Select>
-
-                <input class="is-size-6 mt-3 p-2" type="number" class="m-0 is-inline-block" placeholder="Top Padding" id="tPad" style="width: 47%;">
-                <input class="is-size-6 mt-3 p-2 is-inline-block" type="number" class="ml-4" placeholder="Right Padding" id="rPad" style="width: 47%;">
-                <input class="is-size-6 mt-3 p-2 is-inline-block" type="number" class="m-0" placeholder="Bottom Padding" id="bPad"style="width: 47%;">
-                <input class="is-size-6 mt-3 p-2 is-inline-block" type="number" class="ml-4" placeholder="Left Padding" id="lPad"style="width: 47%;">
-
-
-                <input class="is-size-6 mt-3 p-2" type="number" class="m-0" placeholder="Top Left Radius"  id="tlRad">
-                <input class="is-size-6 mt-3 p-2" type="number" class="ml-4" placeholder="Top Right Radius"  id="trRad">
-                <input class="is-size-6 mt-3 p-2" type="number" class="m-0" placeholder="Bottom Left Radius"  id="blRad">
-                <input class="is-size-6 mt-3 p-2" type="number" class="ml-4" placeholder="Bottom Right Radius"  id="brRad">
-
-                <label class="mr-5  is-size-5" for="border">Border</label>
-                <input class="is-size-6 mt-3 p-2" type="radio" name="border" value="y">Yes
-                <input class="is-size-6 ml-6 mt-3 p-2" type="radio" name="border" value="n">No
-                <input class="is-size-6 mt-3 p-2" type="text" placeholder="Border(2px solid red)"id="border" style="opacity: 0;"> 
-
-            </form>
-        </div>
-
-        <div class="btns">
-            <div class="btn has-background-light p-5 mt-2"style="height: 40vh;">
-                <button id="btn">Dummy Text</button>
-            </div>
-            <a class="is-inline-block has-text-info has-background-primary is-size-5 is-capitalized" style="text-decoration: none; position: relative;left: 50%;right: 50%;transform: translate(-50%);margin-top: 50px;border-radius: 50px;padding: 15px 35px;" href="#" id="generateCode">generate code</a>
-        </div>
-        <div class="coding">
-            <div>
-                <h3 class="html pt-2 has-text-danger " style="opacity: 0;">HTML</h3>
-                <div id=" html-code pl-4 has-text-grey-light">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS3 Button Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <section class="container section">
+      <h1 class="title is-size-2">CSS3 Button Generator</h1>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <form action="">
+            <h1 class="subtitle has-text-primary">Button Text</h1>
+            <div class="columns card">
+              <div class="column">
+                <label class="label">Enter Text</label>
+                <input type="text" value="Button" class="input" id="btnText" />
+              </div>
+              <div class="column">
+                <label class="label">Transform</label>
+                <div class="select">
+                  <select id="trList">
+                    <option value="U" selected="selected">Uppercase</option>
+                    <option value="L">Lowercase</option>
+                    <option value="C">Capitalize</option>
+                  </select>
                 </div>
+              </div>
+              <div class="column">
+                <label class="label">Font Style</label>
+                <div class="select">
+                  <select id="fStyle">
+                    <option>Roboto</option>
+                    <option>Poppins</option>
+                    <option>Oswald</option>
+                  </select>
+                </div>
+              </div>
+              <div class="column">
+                <label for="" class="label">Font Weight</label>
+                <div class="field is-horizontal">
+                  <input
+                    type="range"
+                    min="0"
+                    max="900"
+                    class="mt-3"
+                    id="fWeight"
+                  />
+                  <div class="mt-3" id="showfWeight">0</div>
+                </div>
+              </div>
+              <div class="column">
+                <label for="" class="label">Font Size</label>
+                <input
+                  id="fSize"
+                  type="number"
+                  min="0"
+                  max="50"
+                  class="input"
+                  placeholder="0"
+                />
+              </div>
+              <div class="column">
+                <label for="" class="label">Font Color</label>
+                <div class="field is-horizontal">
+                  <input type="color" class="input" id="fColor" value="#f1f1f1" />
+                  <input
+                    type="text"
+                    value="#f1f1f1"
+                    id="colorInput"
+                    style="width:60px"
+                  />
+                </div>
+              </div>
             </div>
-
-            <h3 class="css mt-6 pt-2 has-text-danger"style="opacity: 0;">CSS</h3>
-            <div id="css-code pl-4 has-text-grey-light"></div>
+            <h1 class="subtitle">Button Border Radius</h1>
+            <div class="columns card">
+              <div class="column">
+                <label for="" class="label">Border top left</label>
+                <div class="field is-horizontal">
+                  <input type="range" min="1" max="50" class="" id="btLeft" />
+                  <div class="">0</div>
+                </div>
+              </div>
+              <div class="column">
+                <label for="" class="label">Border top right</label>
+                <div class="field is-horizontal">
+                  <input type="range" min="1" max="50" class="" id="btRight" />
+                  <div class="">0</div>
+                </div>
+              </div>
+              <div class="column">
+                <label for="" class="label">Border bottom right</label>
+                <div class="field is-horizontal">
+                  <input type="range" min="1" max="50" class="" id="bbRight" />
+                  <div class="">0</div>
+                </div>
+              </div>
+              <div class="column">
+                <label for="" class="label">Border bottom left</label>
+                <div class="field is-horizontal">
+                  <input type="range" min="1" max="50" class="" id="bbLeft" />
+                  <div class="">0</div>
+                </div>
+              </div>
+            </div>
+            <h1 class="subtitle">Button Background</h1>
+            <div class="columns card">
+              <div class="column">
+                <label for="" class="label">Background color</label>
+                <div class="field is-horizontal">
+                  <input type="color" class="input" id="bgColor" value="#f1f1f1" />
+                  <input
+                    type="text"
+                    value="#f1f1f1"
+                    id="bgColorInput"
+                    style="width:60px"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="columns is-centered">
+              <div class="column">
+                <button class="button is-primary" id="genBtn">Generate Button</button>
+              </div>
+            </div>
+          </form>
         </div>
-    </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div id="button"></div>
+        </div>
+        <div class="column">
+          <div id="code"></div>
+        </div>
+      </div>
+    </section>
 
-    <script src="script.js"></script>
-</body>
-</html>
+        
+        <script>
+            const btnText = document.getElementById("btnText");
+            const trList = document.getElementById("trList");
+            const fStyle = document.getElementById("fStyle");
+            const fWeight = document.getElementById("fWeight");
+            const showfWeight = document.getElementById("showfWeight");
+            const fSize = document.getElementById("fSize");
+            const fColor = document.getElementById("fColor");
+            const colorInput = document.getElementById("colorInput");
+            const btLeft = document.getElementById("btLeft");
+            const btRight = document.getElementById("btRight");
+            const bbRight = document.getElementById("bbRight");
+            const bbLeft = document.getElementById("bbLeft");
+            const bgColor = document.getElementById("bgColor");
+            const bgColorInput = document.getElementById("bgColorInput");
+            const genBtn = document.getElementById("genBtn");
+            const button = document.getElementById("button");
+            const code = document.getElementById("code");
+      
+            genBtn.addEventListener("click", () => {
+              let css = `.generated-btn{
+              font-family: ${fStyle.value};
+              font-weight: ${fWeight.value};
+              font-size: ${fSize.value}px;
+              color: ${fColor.value};
+              background-color: ${bgColor.value};
+              text-transform: ${
+                trList.value === "U"
+                  ? "uppercase"
+                  : trList.value === "L"
+                  ? "lowercase"
+                  : "capitalize"
+              };
+              border-radius: ${btLeft.value}px ${btRight.value}px ${bbRight.value}px ${bbLeft.value}px;
+            }`;
+              let btn = `<button class="generated-btn">${btnText.value}</button>`;
+              button.innerHTML = btn;
+              code.innerHTML = `<pre>${css}</pre>`;
+            });
+          </script>
+        </body>
+      </html>
+      
