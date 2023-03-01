@@ -1,7 +1,0 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-.container{padding: 0 100px;display: grid;grid-template-columns: repeat(3,1fr);grid-template-rows: 1fr 1fr;grid-gap: 20px;height: 100vh;}h1{grid-column-start: 1;grid-column-end: -1;}
-input,select{width: 100%;border-radius: 10px;border: none;}input[type="radio"]{width: 30px;}input:focus,select:focus{outline: none;}button{position: relative;left: 50%;top: 50%;transform: translate(-50%,-50%);}
