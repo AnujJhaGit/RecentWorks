@@ -49,6 +49,14 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/an-old-hope.min.css">
+
+<style>
+   .hljs{
+  white-space: pre-wrap;
+}
+</style>
   </head>
   <body class="has-background-light">
     <div>
@@ -131,11 +139,11 @@
                       type="color"
                       class="input"
                       id="fColor"
-                      value="#2c2b2b"
+                      value="#fff"
                     />
                     <input
                       type="text"
-                      value="#2c2b2b"
+                      value="#fff"
                       id="colorInput"
                       style="width: 50px"
                     />
@@ -151,11 +159,11 @@
                       type="color"
                       class="input"
                       id="brColor"
-                      value="#29ccc9"
+                      value="#000"
                     />
                     <input
                       type="text"
-                      value="#29ccc9"
+                      value="#000"
                       id="txtbrcolor"
                       style="width: 60px"
                     />
@@ -168,10 +176,10 @@
                       type="range"
                       min="1"
                       max="50"
-                      value="26"
+                      value="6"
                       id="btLeft"
                     />
-                    <span id="showbtLeft">26</span>
+                    <span id="showbtLeft">6</span>
                   </div>
                 </div>
                 <div class="column">
@@ -181,10 +189,10 @@
                       type="range"
                       min="1"
                       max="50"
-                      value="26"
+                      value="6"
                       id="btRight"
                     />
-                    <span id="showbtRight">26</span>
+                    <span id="showbtRight">6</span>
                   </div>
                 </div>
                 <div class="column">
@@ -194,10 +202,10 @@
                       type="range"
                       min="1"
                       max="50"
-                      value="26"
+                      value="6"
                       id="bbRight"
                     />
-                    <span id="showbbRight">26</span>
+                    <span id="showbbRight">6</span>
                   </div>
                 </div>
                 <div class="column">
@@ -207,10 +215,10 @@
                       type="range"
                       min="1"
                       max="50"
-                      value="26"
+                      value="6"
                       id="bbLeft"
                     />
-                    <span id="showbbLeft">26</span>
+                    <span id="showbbLeft">6</span>
                   </div>
                 </div>
               </div>
@@ -250,13 +258,13 @@
                       <div class="field is-horizontal">
                         <input
                           type="color"
-                          value="#dddd31"
+                          value="#405cf5"
                           class="input"
                           id="btnbrColor"
                         />
                         <input
                           type="text"
-                          value="#dddd11"
+                          value="#405cf5"
                           id="btntxtbrcolor"
                           style="width: 90px"
                         />
@@ -270,13 +278,13 @@
                     <div class="column">
                       <div class="field is-horizontal">
                         <label for="" class="label">Vertical :</label>
-                        <span class="ml-1" id="showvSize">50</span>
+                        <span class="ml-1" id="showvSize">44</span>
                       </div>
                       <input
                         type="range"
                         min="0"
                         max="100"
-                        value="55"
+                        value="44"
                         id="vSize"
                       />
                     </div>
@@ -332,14 +340,14 @@
                     <input
                       type="color"
                       class="input"
-                      value="#b7f0b8"
+                      value="#f5680a"
                       id="bgColor"
                       style="width: 50px"
                     />
                     <input
                       type="text"
                       id="txtbgColor"
-                      value="#b7f0b8"
+                      value="#f5680a"
                       class="input"
                       style="width: 90px"
                     />
@@ -349,50 +357,56 @@
             </form>
           </div>
           <div class="column is-3" style="max-height: 680px; overflow-y: auto">
-            <h1 class="title">Css Button Generator</h1>
-            <div
-              class="has-background-grey-light p-4"
-              style="border: 1px solid #e5e5e5"
-            >
-              <div class="has-text-black">
-                <div class="box has-text-centered p-6">
-                  <button id="btn">Button</button>
+            <div>
+              <h1 class="title">Css Button Generator</h1>
+              <div
+                class="has-background-grey-light p-4"
+                style="border: 1px solid #e5e5e5"
+              >
+                <div class="has-text-black">
+                  <div class="box has-text-centered p-6">
+                    <button id="btn">Button</button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <div class="">
-                <h1 class="subtitle mt-5 mb-2">HTML Code :</h1>
-                <div
+              
+              <div class="" >
+               <h4 class="subtitle mt-4 mb-0">HTML Code :</h4>
+                <pre
                   id="htmlCode"
-                  class="textarea has-background-black has-text-white"
-                  style="min-height: 65px"
+                  class="textarea has-background-black mt-1 columns"
+                  style="min-height: 95px"
                 >
-                  <button
-                    class="button is-primary is-outlined is-pulled-right"
-                    id="btn-copy"
-                  >
-                    Copy
-                  </button>
-                  <p id="para-copy" class="mt-2">
-                   
-                  </p>
-                </div>
-                <h1 class="subtitle mt-4 mb-2">CSS Code :</h1>
-                <div
+                
+                <code id="para-copy" class="p-0 column is-9 hljs language-xml" >
+                </code>
+                <button
+                class="button  is-primary ml-4 is-small"
+                id="btn-copy"
+              >
+                Copy
+              </button>
+
+            
+              </pre>
+              </div>
+
+              <div class="mt-5">
+                <h4 class="subtitle is-4 mb-0">CSS Code :</h4>
+                <pre
                   id="csscode"
-                  class="textarea has-background-black has-text-white p-5"
+                  class="textarea has-background-black "
                   style="min-height: 90vh"
                 >
                   <button
-                    class="button is-primary is-outlined is-pulled-right"
+                    class="button is-primary is-pulled-right"
                     id="copy-button"
                   >
                     Copy
                   </button>
-                  <p id="content-to-copy">
-                  </p>
-                </div>
+                  <code id="content-to-copy" class="hljs language-css">
+                  </code>
+                </pre>
               </div>
             </div>
           </div>
@@ -406,7 +420,8 @@
                   <div class="columns p-3">
                     <div class="column p-3">
                       <div
-                        class="container p-3 has-text-centered has-background-white mb-4" id="btnParent"
+                        class="container p-3 has-text-centered has-background-white mb-4"
+                        id="btnParent"
                       >
                         <button id="btn1">button</button>
                       </div>
@@ -467,7 +482,8 @@
                       </div>
                       <div
                         class="container p-3 has-text-centered has-background-white mb-4"
-               m        >
+                        m
+                      >
                         <button id="btn13">button</button>
                       </div>
                     </div>
@@ -479,6 +495,7 @@
         </div>
       </section>
     </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
