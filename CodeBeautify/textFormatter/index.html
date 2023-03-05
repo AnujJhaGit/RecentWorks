@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Formatter</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Text Formatter</h1>
+            <div class="columns">
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Input Text:</label>
+                        <div class="control has-icons-right">
+                            <textarea id="input-text" class="textarea" placeholder="Enter text here"></textarea>
+                            <button type="reset" class="button is-link is-light is-small is-rounded" style="margin-top: 5px;">Reset</button>
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control is-flex-wrap-wrap">
+                            <button type="button" class="button is-primary is-small is-rounded" onclick="formatText('uppercase-all')">Uppercase All</button>
+                            <button type="button" class="button is-primary is-small is-rounded" onclick="formatText('lowercase-all')">Lowercase All</button>
+                            <button type="button" class="button is-primary is-small is-rounded" onclick="formatText('capitalize-sentences')">Capitalize Sentences</button>
+                            <button type="button" class="button is-primary is-small is-rounded" onclick="formatText('capitalize-words')">Capitalize Words</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Output Text:</label>
+                        <div class="control">
+                            <textarea id="output-text" class="textarea" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Find and Replace:</label>
+                        <div class="columns is-multiline">
+                            <div class="column is-half">
+                                <div class="field">
+                                    <div class="control has-icons-right">
+                                        <input id="find-text" class="input" type="text" placeholder="Enter text to find">
+                                        <span class="icon is-small is-right">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="field">
+                                    <div class="control has-icons-right">
+                                        <input id="replace-text" class="input" type="text" placeholder="Enter text to replace with">
+                                        <span class="icon is-small is-right">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-12">
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="checkbox">
+                                            <input id="case-sensitive" type="checkbox">
+                                            Case Sensitive
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-12">
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="button" class="button is-link is-small is-rounded" onclick="formatText('find-and-replace')">
+                                            <span class="icon">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </span>
+                                            <span>Find and Replace</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
+</body>
+</html>
+    
