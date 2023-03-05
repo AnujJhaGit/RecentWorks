@@ -21,6 +21,42 @@ function formatText(action) {
         let regexOption = isCaseSensitive ? 'g' : 'gi';
         outputText = inputText.replace(new RegExp(findText, regexOption), replaceText);
         break;
+      case 'add-text':
+        let addText = document.querySelector('input[type="text"]').value;
+        let position = document.getElementById('select').value;
+        let textArray = inputText.split('\n');
+        for (let i = 0; i < textArray.length; i++) {
+          if (position === 'Start') {
+            textArray[i] = addText + textArray[i];
+          } else {
+            textArray[i] = textArray[i] + addText;
+          }
+        }
+        outputText = textArray.join('\n');
+        break;
+      case 'trim-text':
+        let trimPosition = document.getElementById('trimPos').value;
+        let trimCharacters = parseInt(document.getElementById('trimChar').value, 10);
+        let linesArray = inputText.split('\n');
+        for (let i = 0; i < linesArray.length; i++) {
+          if (trimPosition === 'First') {
+            linesArray[i] = linesArray[i].substr(trimCharacters);
+          } else {
+            linesArray[i] = linesArray[i].substr(0, linesArray[i].length - trimCharacters);
+          }
+        }
+        outputText = linesArray.join('\n');
+        break;
+      case 'bold':
+        outputText = '<b>' + inputText + '</b>';
+        break;
+      case 'italic':
+        outputText = '<i>' + inputText + '</i>';
+        break;
+      case 'underline':
+        outputText = '<u>' + inputText + '</u>';
+        break;
     }
-    document.getElementById('output-text').value = outputText;
+    document.getElementById('output-text').innerHTML = outputText;
   }
+  

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Editor</title>
+	<style type="text/css">
+		label {
+			display: block;
+			margin-top: 10px;
+		}
+		textarea {
+			width: 100%;
+			height: 200px;
+			font-size: 16px;
+			padding: 10px;
+			box-sizing: border-box;
+			margin-top: 5px;
+		}
+		button {
+			margin-top: 5px;
+			padding: 5px;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+	<label>Input:</label>
+	<textarea id="input"></textarea>
+
+	<button id="bold">Bold</button>
+	<button id="italic">Italic</button>
+	<button id="underline">Underline</button>
+
+	<label>Output:</label>
+	<textarea id="output"></textarea>
+
+	<script>
+		// Get the input and output textareas
+		var input = document.getElementById("input");
+		var output = document.getElementById("output");
+
+		// Get the bold, italic, and underline buttons
+		var boldBtn = document.getElementById("bold");
+		var italicBtn = document.getElementById("italic");
+		var underlineBtn = document.getElementById("underline");
+
+		// Add event listeners to the buttons
+		boldBtn.addEventListener("click", function() {
+			applyStyle("bold");
+		});
+
+		italicBtn.addEventListener("click", function() {
+			applyStyle("italic");
+		});
+
+		underlineBtn.addEventListener("click", function() {
+			applyStyle("underline");
+		});
+
+		// Function to apply styles to the output textarea
+		function applyStyle(style) {
+			// Get the selected text from the input textarea
+			var selectedText = input.value.substring(input.selectionStart, input.selectionEnd);
+			
+			// Apply the specified style to the selected text
+			if (style == "bold") {
+				selectedText = "<b>" + selectedText + "</b>";
+			} else if (style == "italic") {
+				selectedText = "<i>" + selectedText + "</i>";
+			} else if (style == "underline") {
+				selectedText = "<u>" + selectedText + "</u>";
+			}
+			
+			// Insert the styled text into the output textarea
+			output.value = output.value.substring(0, output.selectionStart) + selectedText + output.value.substring(output.selectionEnd);
+		}
+	</script>
+</body>
+</html>
