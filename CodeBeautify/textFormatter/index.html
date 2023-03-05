@@ -12,6 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <section class="section">
@@ -20,22 +21,42 @@
         <div class="columns">
           <div class="column is-half">
             <div class="field">
-              <label class="label">Input Text:</label>
-              <div class="control has-icons-right">
-                <textarea
-                  id="input-text"
-                  class="textarea"
-                  placeholder="Enter text here"
-                ></textarea>
-                <button id="reset"
-                  type="reset"
-                  class="button is-link is-light is-small is-rounded"
-                  style="margin-top: 5px"
-                >
-                  Reset
-                </button>
+                <label class="label">Input Text:</label>
+                <div class="control">
+                  <textarea
+                    id="input-text"
+                    class="textarea"
+                    placeholder="Enter text here"
+                  ></textarea>
+                  <button id="reset"
+                    type="reset"
+                    class="button is-link is-light is-small is-rounded"
+                    style="margin-top: 5px"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
-            </div>
+              <div class="columns">
+                <div class="column"> 
+                     <div class="field is-flex">
+                    <label class="label mt-3 mr-3">Words:</label>
+                    <div class="control">
+                      
+                      <input class="input" name="" value="0" id="word-count" readonly>
+                    </div>
+                  </div></div>
+                <div class="column">
+                    <div class="field is-flex">
+                      <label class="label mt-3 mr-3">Characters:</label>
+                      <div class="control">
+                      <input class="input" name="" value="0" id="char-count" readonly>
+                        
+                      </div>
+                    </div></div>
+              </div>
+            
+              
             <div class="field is-grouped">
               <div class="control is-flex-wrap-wrap">
                 <button
@@ -65,6 +86,7 @@
                 >
                   Capitalize Words
                 </button>
+               
               </div>
             </div>
             <div class="columns mt-5 box">
@@ -138,11 +160,36 @@
           </div>
           <div class="column">
             <div class="field">
-              <label class="label">Output Text:</label>
-              <div class="control">
-                <div id="output-text" class="textarea" ></div>
-              </div>
+                <label class="label">Output Text:</label>
+                <div class="control">
+                  <div class="textarea-wrapper">
+                    <div id="output-text" class="textarea"></div>
+                    <div class="copy-wrapper mr-6 mt-3" id="copy-wrapper">
+                        <button id="copy-btn" class="button is-primary is-small is-rounded">Copy</button>
+                      <i id="copy-icon" class="fas ml-2 fa-copy"></i>
+                    </div>
+                  </div>
+                </div>
             </div>
+            <div class="columns">
+                <div class="column"> 
+                     <div class="field is-flex">
+                    <label class="label mt-3 mr-3">Words:</label>
+                    <div class="control">
+                      
+                      <input class="input" name=""value="0" id="output-word-count" readonly>
+                    </div>
+                  </div></div>
+                <div class="column">
+                    <div class="field is-flex">
+                      <label class="label mt-3 mr-3">Characters:</label>
+                      <div class="control">
+                      <input class="input" value="0" name="" id="output-char-count" readonly>
+                        
+                      </div>
+                    </div></div>
+              </div>
+              
             <div class="field">
               <label class="label">Find and Replace:</label>
               <div class="columns is-multiline">
@@ -202,6 +249,7 @@
         </div>
       </div>
     </section>
+    <script src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
   </body>
 </html>

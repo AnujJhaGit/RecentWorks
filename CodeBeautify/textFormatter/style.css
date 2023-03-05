@@ -1,0 +1,35 @@
+.textarea-wrapper {
+  position: relative;
+}
+
+#output-text {
+  padding-top: 25px;
+}
+
+.copy-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-top: none;
+}
+
+#copy-icon {
+  font-size: 1.2rem;
+  color: #007bff;
+  cursor: pointer;
+}
+.control {
+  position: relative;
+}
+#reset {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
