@@ -1,78 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Text Editor</title>
-	<style type="text/css">
-		label {
-			display: block;
-			margin-top: 10px;
-		}
-		textarea {
-			width: 100%;
-			height: 200px;
-			font-size: 16px;
-			padding: 10px;
-			box-sizing: border-box;
-			margin-top: 5px;
-		}
-		button {
-			margin-top: 5px;
-			padding: 5px;
-			font-size: 16px;
-		}
-	</style>
-</head>
-<body>
-	<label>Input:</label>
-	<textarea id="input"></textarea>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bold and Thank You</title>
+    <script>
+      function countWords(text) {
+        return text.trim().split(/\s+/).length;
+      }
 
-	<button id="bold">Bold</button>
-	<button id="italic">Italic</button>
-	<button id="underline">Underline</button>
+      function countCharacters(text) {
+        return text.length;
+      }
 
-	<label>Output:</label>
-	<textarea id="output"></textarea>
+	  function boldAndThank() {
+  var inputText = document.getElementById("input").value;
+  var outputText = "<b>" + inputText + "</b> Thank you!";
+  document.getElementById("output").innerHTML = outputText;
+  document.getElementById("output").value = document.getElementById("output").textContent;
+  document.getElementById("count").innerHTML =
+    "Word count: " +
+    countWords(document.getElementById("output").value) +
+    "<br>Character count: " +
+    countCharacters(document.getElementById("output").value);
+}
 
-	<script>
-		// Get the input and output textareas
-		var input = document.getElementById("input");
-		var output = document.getElementById("output");
 
-		// Get the bold, italic, and underline buttons
-		var boldBtn = document.getElementById("bold");
-		var italicBtn = document.getElementById("italic");
-		var underlineBtn = document.getElementById("underline");
 
-		// Add event listeners to the buttons
-		boldBtn.addEventListener("click", function() {
-			applyStyle("bold");
-		});
-
-		italicBtn.addEventListener("click", function() {
-			applyStyle("italic");
-		});
-
-		underlineBtn.addEventListener("click", function() {
-			applyStyle("underline");
-		});
-
-		// Function to apply styles to the output textarea
-		function applyStyle(style) {
-			// Get the selected text from the input textarea
-			var selectedText = input.value.substring(input.selectionStart, input.selectionEnd);
-			
-			// Apply the specified style to the selected text
-			if (style == "bold") {
-				selectedText = "<b>" + selectedText + "</b>";
-			} else if (style == "italic") {
-				selectedText = "<i>" + selectedText + "</i>";
-			} else if (style == "underline") {
-				selectedText = "<u>" + selectedText + "</u>";
-			}
-			
-			// Insert the styled text into the output textarea
-			output.value = output.value.substring(0, output.selectionStart) + selectedText + output.value.substring(output.selectionEnd);
-		}
-	</script>
-</body>
+      function copyOutput() {
+        var outputTextarea = document.getElementById("output");
+        outputTextarea.select();
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Bold and Thank You</h1>
+    <label for="input">Enter text to be bolded:</label><br />
+    <textarea id="input" rows="5" cols="40"></textarea><br />
+    <button onclick="boldAndThank()">Bold and Thank</button>
+    <br /><br />
+    <label for="output">Bolded text:</label><br />
+    <textarea id="output" rows="5" cols="40" readonly></textarea><br />
+    <button onclick="copyOutput()">Copy</button>
+    <br /><br />
+    <div id="count"></div>
+  </body>
 </html>

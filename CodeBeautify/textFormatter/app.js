@@ -79,19 +79,26 @@ function addCopyButtonListener() {
       });
     }
   }
-  const wordCount = document.getElementById("word-count");
-const charCount = document.getElementById("char-count");
-
-// Add an event listener to the input text area that updates the counts whenever the text changes
-inputTextEl.addEventListener("input", () => {
-  // Get the input text and split it into words
-  const text = inputTextEl.value.trim();
-  const words = text.split(/\s+/);
-
-  // Update the word and character count elements
-  wordCount.value = words.length.toString();
-  charCount.value = text.length.toString();
+  function countWords(text) {
+    return text.trim().split(/\s+/).length;
+  }
+  
+  function countCharacters(text) {
+    return text.length;
+  }
+inputTextEl.addEventListener("keyup", () => {
+  console.log(inputTextEl.value)
+document.getElementById("word-count").value = countWords(inputTextEl.value);
+document.getElementById("char-count").value = countCharacters(inputTextEl.value);
 });
-
-// Call this function after the #output-text element is created
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    document.getElementById("output-word-count").value = countWords(outputTextEl.innerHTML);
+    document.getElementById("output-char-count").value = countCharacters(outputTextEl.innerHTML);
+  });
+});
+document.getElementById('reset').addEventListener('click',function(){
+  location.reload();
+})
 addCopyButtonListener();
