@@ -10,22 +10,23 @@ const copyButton = document.getElementById('copyButton');
 const outputSlug = document.getElementById('outputSlug');
 
 function slugifyText() {
-    const text = inputText.value.trim();
-    const separator = document.querySelector(".buttons button.is-selected").getAttribute("data-value");
-    const removeStopWords = document.getElementById("removeStopWords").checked;
-    let words = text.split(" ");
-    if (removeStopWords) {
-      words = words.filter(word => !stopWords.includes(word.toLowerCase()));
-    }
-    const removeNumbers = document.getElementById("removeNumbers").checked;
-    if (removeNumbers) {
-      words = words.map(word => word.replace(/[0-9]/g, ""));
-    } else {
-      words = words.map(word => word.replace(/[^\w]/g, ""));
-    }
-    const slug = words.map(word => word.toLowerCase()).join(separator);
-    outputSlug.value = slug;
+  const text = inputText.value.trim();
+  const separator = document.querySelector(".buttons button.is-selected").getAttribute("data-value");
+  const removeStopWords = document.getElementById("removeStopWords").checked;
+  const removeNumbers = document.getElementById("removeNumbers").checked;
+
+  let words = text.split(/[\s_-]+/);
+  if (removeStopWords) {
+    words = words.filter(word => !stopWords.includes(word.toLowerCase()));
   }
+  if (removeNumbers) {
+    words = words.map(word => word.replace(/[0-9]/g, ""));
+  }
+
+  const slug = words.join(separator).toLowerCase();
+  outputSlug.value = slug;
+}
+
   
   
 slugifyButton.addEventListener("click", slugifyText);
@@ -57,8 +58,8 @@ copyButton.addEventListener("click", () => {
 });  
 separatorButtons.forEach(button => {
     button.addEventListener("click", () => {
-      separatorButtons.forEach(btn => btn.classList.remove("is-primary"));
-        button.classList.add("is-primary");
+      separatorButtons.forEach(btn => btn.classList.remove("is-primary", "is-selected"));
+        button.classList.add("is-primary" , "is-selected");
     });
   });
  
