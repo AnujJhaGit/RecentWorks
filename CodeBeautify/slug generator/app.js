@@ -8,6 +8,7 @@ const resetButton = document.getElementById("resetButton");
 const separatorButtons = document.querySelectorAll(".buttons button");
 const copyButton = document.getElementById('copyButton');
 const outputSlug = document.getElementById('outputSlug');
+const autoCheckbox = document.getElementById('autoSlugify');
 
 function slugifyText() {
   const text = inputText.value.trim();
@@ -27,39 +28,64 @@ function slugifyText() {
   outputSlug.value = slug;
 }
 
-  
-  
-slugifyButton.addEventListener("click", slugifyText);
+function autoSlugify() {
+  if (autoCheckbox.checked) {
+    slugifyText();
+  }
+}
+
+inputText.addEventListener("keyup", () => {
+  autoSlugify();
+});
+
+autoCheckbox.addEventListener("click", () => {
+  autoSlugify();
+});
+
+document.getElementById("removeStopWords").addEventListener("click", () => {
+  autoSlugify();
+});
+
+document.getElementById("removeNumbers").addEventListener("click", () => {
+  autoSlugify();
+});
+
+separatorButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    autoSlugify();
+    separatorButtons.forEach(btn => btn.classList.remove("is-primary", "is-selected"));
+    button.classList.add("is-primary", "is-selected");
+  });
+});
+
+slugifyButton.addEventListener("click", () => {
+  autoCheckbox.checked = false;
+  slugifyText();
+});
+
 clearButton.addEventListener("click", () => {
   inputText.value = "";
   outputSlug.value = "";
 });
-resetButton.addEventListener("click", () => {
-    document.getElementById("removeStopWords").checked = false;
-    document.getElementById("removeNumbers").checked = false;
-    document.querySelector(".buttons button[data-value='-']").classList.add("is-primary");
-    document.querySelector(".buttons button[data-value='_']").classList.remove("is-primary");
-    inputText.value = "";
-    outputSlug.value = "";
-});
 
-const copyIcon = document.getElementById('copyIcon');
+resetButton.addEventListener("click", () => {
+  document.getElementById("removeStopWords").checked = false;
+  document.getElementById("removeNumbers").checked = false;
+  document.querySelector(".buttons button[data-value='-']").classList.add("is-primary");
+  document.querySelector(".buttons button[data-value='_']").classList.remove("is-primary");
+  inputText.value = "";
+  outputSlug.value = "";
+});
 
 copyButton.addEventListener("click", () => {
   outputSlug.select();
   outputSlug.setSelectionRange(0, 99999);
   document.execCommand("copy");
 
-  copyButton.textContent = "Copied !";
+  copyButton.textContent = "Copied!";
 
   setTimeout(() => {
     copyButton.textContent = "Copy";
   }, 2000);
-});  
-separatorButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      separatorButtons.forEach(btn => btn.classList.remove("is-primary", "is-selected"));
-        button.classList.add("is-primary" , "is-selected");
-    });
-  });
- 
+});
+
