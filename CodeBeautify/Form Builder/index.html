@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Example formBuilder</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<style>
+   .hljs{
+  white-space: pre-wrap;
+}
+.btn{
+      border: 1px solid black;
+    }
+.btn:hover{
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <div id="build-wrap" class="card border rounded shadow-sm" style="background-color: #dcdcdc;"></div>
+        <div class="text-center mt-3 align-self-center">
+          <div class="btn-group mx-auto align-self-end" role="group">
+            <div class="form-check mx-2 mt-2">
+              <input type="checkbox" class="form-check-input border-dark" id="autoPreview">
+              <label class="form-check-label" for="autoPreview">Auto Preview</label>
+            </div>
+            <button type="button" id="preview" class="btn btn-primary mx-2 rounded">Preview</button>
+            <button type="button" id="getHTML" class="btn btn-success mx-2 rounded">Get HTML</button>
+            <button type="button" id="getXML" class="btn btn-warning mx-2 rounded">Get XML</button>
+            <button type="button" id="getJSON" class="btn btn-secondary mx-2 rounded">Get JSON</button>
+            <button type="button" id="clear" class="btn rounded btn-danger mx-2">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <ul class="nav nav-pills mb-3">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="pill" href="#preview-tab">Preview</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#output-tab">Output</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="preview-tab">
+            <div class="card-body">
+              <div id="build-preview" class="">
+                <form action="#" class="card bg-light border rounded shadow-sm p-3">
+                  <div class="card-body"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="output-tab">
+            <div class="card-body">
+              <pre class="well well-sm border rounded shadow-sm " id="outDiv" >
+                  <textarea style="height:500px;" class="form-control bg-light hljs language-xml" id="out" name="out">
+                  </textarea>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.8.3/form-builder.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.8.3/form-render.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js">
+  </script>
+</body>
+</html>
