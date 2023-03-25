@@ -1,4 +1,6 @@
+
 document.addEventListener("DOMContentLoaded", () => {
+
   const formBuilderOptions = {
     showActionButtons: false,
     scrollToFieldOnAdd: false,
@@ -22,29 +24,45 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   getHTMLButton.addEventListener("click", () => {
+    previewButton.click();
     const $markup = $("<div/>");
     $markup.formRender({
       formData: formBuilder.actions.getData("json"),
     });
     outEl.value = $markup.formRender("html");
-    hljs.highlightAll();
+    
   });
-
+  
   getXMLButton.addEventListener("click", () => {
+    previewButton.click();
     outEl.value = formBuilder.actions.getData("xml");
   });
 
   getJSONButton.addEventListener("click", () => {
+    previewButton.click();
     outEl.value = formBuilder.actions.getData("json");
   });
 
   clearButton.addEventListener("click", () => {
-    previewButton.classList.remove("btn-secondary");
-    previewButton.classList.add("btn-info");
-    previewButton.textContent = `Preview`;
+    previewButton.click();
     outEl.value = "";
     formBuilder.actions.clearFields();
   });
+  const copyButton = document.querySelector("#copyButton");
+  copyButton.addEventListener("click", () => {
+    const textToCopy = outEl.value;
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        copyButton.textContent = "Copied";
+        setTimeout(() => {
+          copyButton.textContent = "Copy";
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error('Could not copy text: ', err);
+      });
+  });
+
 
   const autoPreviewCheckbox = document.querySelector("#autoPreview");
   const buildWrapEl = document.querySelector("#build-wrap");
@@ -68,3 +86,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
