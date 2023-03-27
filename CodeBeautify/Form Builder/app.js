@@ -98,9 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
       indent_with_tabs: false,
       wrap_line_length: 120,
     };
-    const htmlString = outEl.value; // Get the HTML string to be beautified
+    const htmlString = outEl.value;
     const beautifiedHtml = html_beautify(htmlString, options);
-    outEl.value = beautifiedHtml; // Set the beautified HTML back to the output element
+    outEl.value = beautifiedHtml;
   }
 });
 
