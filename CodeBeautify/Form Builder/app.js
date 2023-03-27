@@ -1,14 +1,10 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-
   const formBuilderOptions = {
     showActionButtons: false,
     scrollToFieldOnAdd: false,
     sortableControls: true,
   };
-
   const formBuilder = $("#build-wrap").formBuilder(formBuilderOptions);
-
   const previewButton = document.querySelector("#preview");
   const getHTMLButton = document.querySelector("#getHTML");
   const getXMLButton = document.querySelector("#getXML");
@@ -16,13 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const clearButton = document.querySelector("#clear");
   const buildPreviewFormEl = document.querySelector("#build-preview form");
   const outEl = document.querySelector("#out");
-
   previewButton.addEventListener("click", () => {
     $(buildPreviewFormEl).formRender({
       formData: formBuilder.actions.getData("json"),
     });
-  });
 
+  });
   getHTMLButton.addEventListener("click", () => {
     previewButton.click();
     const $markup = $("<div/>");
@@ -30,19 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
       formData: formBuilder.actions.getData("json"),
     });
     outEl.value = $markup.formRender("html");
-    
   });
-  
   getXMLButton.addEventListener("click", () => {
     previewButton.click();
     outEl.value = formBuilder.actions.getData("xml");
   });
-
   getJSONButton.addEventListener("click", () => {
     previewButton.click();
     outEl.value = formBuilder.actions.getData("json");
   });
-
   clearButton.addEventListener("click", () => {
     previewButton.click();
     outEl.value = "";
@@ -62,19 +53,36 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Could not copy text: ', err);
       });
   });
-
-
   const autoPreviewCheckbox = document.querySelector("#autoPreview");
   const buildWrapEl = document.querySelector("#build-wrap");
   let observer = null;
+  beautify();
 
-  autoPreviewCheckbox.addEventListener("change", () => {
     if (autoPreviewCheckbox.checked) {
       observer = new MutationObserver((mutations) => {
         getHTMLButton.click();
-        $(buildPreviewFormEl).formRender({
-          formData: formBuilder.actions.getData("json"),
-        });
+        previewButton.click();
+    beautify();
+
+      });
+      observer.observe(buildWrapEl, {
+        childList: true,
+        subtree: true,
+      });
+    } else {
+      observer.disconnect();
+      observer = null;
+    }
+  ;
+  autoPreviewCheckbox.addEventListener("change", () => {
+    getHTMLButton.click();
+    previewButton.click();
+    beautify();
+    if (autoPreviewCheckbox.checked) {
+      observer = new MutationObserver((mutations) => {
+        getHTMLButton.click();
+       previewButton.click();
+    beautify();
       });
       observer.observe(buildWrapEl, {
         childList: true,
@@ -85,5 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
       observer = null;
     }
   });
+  function beautify() {
+    const options = {
+      indent_with_tabs: false,
+      wrap_line_length: 120,
+    };
+    const htmlString = outEl.value; // Get the HTML string to be beautified
+    const beautifiedHtml = html_beautify(htmlString, options);
+    outEl.value = beautifiedHtml; // Set the beautified HTML back to the output element
+  }
 });
+
 
