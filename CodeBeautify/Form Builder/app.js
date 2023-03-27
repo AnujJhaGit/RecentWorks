@@ -95,13 +95,33 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   function beautify() {
     const options = {
+      indent_size: 4,
+      indent_char: " ",
       indent_with_tabs: false,
-      wrap_line_length: 120,
+      eol: "\n",
+      end_with_newline: false,
+      preserve_newlines: true,
+      max_preserve_newlines: 10,
+      indent_inner_html: false,
+      brace_style: "collapse",
+      indent_scripts: "normal",
+      wrap_line_length: 250,
+      wrap_attributes: "auto",
+      wrap_attributes_indent_size: 4,
+      inline: [],
+      unformatted: [],
+      content_unformatted: ["pre"],
+      extra_liners: ["head", "body", "/html"],
+      unformatted_content_delimiter: "",
+      indent_empty_lines: false,
+      templating: "auto"
     };
     const htmlString = outEl.value;
     const beautifiedHtml = html_beautify(htmlString, options);
     outEl.value = beautifiedHtml;
   }
+  
+  
 });
 
 
