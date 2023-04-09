@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const beautifiedHtml = html_beautify(htmlString, options);
     outEl.value = beautifiedHtml;
   }
+
   
   
 });
