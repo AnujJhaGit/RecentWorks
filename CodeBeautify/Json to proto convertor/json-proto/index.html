@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON-to-Proto: Convert JSON to Protobuf instantly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <style>
+        code {
+    font-family: 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace;
+  padding: 0 3px;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+#input,
+#output {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+
+  white-space: pre;
+  width: 100%;
+  display: block;
+  padding: 3%;
+    font: 14px/1.5em 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace;
+  outline: none;
+  border: none;
+  resize: vertical;
+  height: 500px;
+  height: 65vh;
+  overflow: scroll;
+  tab-size: 4;
+}
+
+#input {
+    background: #ECF2F5;
+    border-right: 2px solid #AAA;
+}
+
+#output {
+    background: #E0EBF5;
+}
+    </style>
+</head>
+<body>
+    <header style="display: none;">
+        <div class="intro">
+            <div class="title">
+                <h1>JSON-to-Proto</h1>
+                <h2>Convert JSON to Protobuf</h2>
+                <iframe src="https://ghbtns.com/github-btn.html?user=json-to-proto&repo=json-to-proto.github.io&type=star&count=true&size=large" class="github-stars" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+            </div>
+            <div>
+                <p>
+                    This tool instantly converts JSON into a Protobuf. Paste a JSON structure on the left and the equivalent Protobuf will be generated to the right, which you can paste into your program. The script has to make some assumptions, so double-check the output!
+                </p>
+                <p>
+                    For an example, try converting JSON from the <a href="javascript:void(0);" id="sample">GitHub API</a>.
+                </p>
+                <p>
+                    <a href="https://github.com/json-to-proto/json-to-proto.github.io" target="_blank">View on GitHub</a>
+                    &bull; Inspired by <a href="https://mholt.github.io/json-to-go/" target="_blank">JSON-to-Go</a>
+                </p>
+            </div>
+        </div>
+    </header>
+    <table style="display: none;">
+        <tr>
+            <th style="width: 45%;">JSON</th>
+            <th style="width: 10%; font-size: 22px;">&#8594;</th>
+            <th style="width: 45%;">Protobuf <label><input type="checkbox" id="inline" checked>Inline definitions</label><label><input type="checkbox" id="google.protobuf.Timestamp" checked>google.protobuf.Timestamp</label><label><input type="checkbox" id="merge-similar-objects">merge similar objects</label> <span class="copy" id="copy-to-clipboard">Copy to clipboard</span></th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td style="width: 50%;">
+                <div id="input" contenteditable></div>
+            </td>
+            <td style="width: 50%;">
+                <div id="output"></div>
+            </td>
+        </tr>
+    </table>
+    <script src="static/js/app.js"></script>
+</body>
+</html>

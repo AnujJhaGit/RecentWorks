@@ -1,44 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proto To JSON Convertor</title>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/xml.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>JSON-to-Proto: Convert JSON to Protobuf instantly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <style>
+        code {
+            font-family: 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace;
+            padding: 0 3px;
+        }
+
+        #input,
+        #output {
+            white-space: pre;
+            width: 100%;
+            display: block;
+            padding: 3%;
+            font: 14px/1.5em 'Consolas', 'Menlo', 'Monaco', 'Courier New', monospace;
+            outline: none;
+            border: none;
+            resize: vertical;
+            height: 500px;
+            height: 65vh;
+            overflow: scroll;
+            tab-size: 4;
+        }
+
+        #input {
+            background: #ECF2F5;
+            border-right: 2px solid #AAA;
+        }
+
+        #output {
+            background: #E0EBF5;
+        }
+    </style>
 </head>
 
-
-<body class="has-background-warning-light">
-    <p id="op"></p>
-    <h1 class="title has-text-centered is-size-1 pt-5" id="h1">JSON To Proto</h1>
-    <div class="container is-fluid mb-5">
-        <div class="columns is-centered">
-            <div class="column is-half">
-                <div class="box">
-                    <h1 class="title has-text-centered">JSON</h1>
-                    <textarea class="textarea has-background-dark is-primary has-text-danger" rows="15" id="inputarea">
-                    </textarea>
-                </div>
+<body>
+    <section class="hero is-primary ">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">JSON-to-Proto</h1>
+                <h2 class="subtitle">Convert JSON to Protobuf</h2>
             </div>
-            <div class="column is-half">
-                <div class="box">
-                    <h1 class="title has-text-centered">Proto</h1>
-                    <textarea class="textarea is-primary has-background-dark has-text-success" rows="15"
-                        id="outputarea"></textarea>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">JSON</label>
+                        <div class="control">
+                            <div id="input" contenteditable></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Protobuf <label>
+                                <div style="display: none;">
+                                    <input type="checkbox" id="inline" checked>Inline definitions
+                            </label><label><input type="checkbox" id="google.protobuf.Timestamp"
+                                    checked>google.protobuf.Timestamp</label><label><input type="checkbox"
+                                    id="merge-similar-objects">merge similar objects</label> <span class="copy"
+                                id="copy-to-clipboard">Copy to clipboard</span></label>
+                    </div>
+                    <div class="control">
+                        <div id="output"></div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="columns is-centered">
-            <div class="column is-half has-text-centered">
-                <button class="button is-primary is-medium mt-5" id="convertBtn" >Convert</button>
-            </div>
         </div>
-    </div>
+    </section>
+    <script src="script.js"></script>
 </body>
-<script src="//cdn.jsdelivr.net/npm/protobufjs@7.X.X/dist/protobuf.min.js"></script>
-<script src="script.js"></script>
+
 </html>
