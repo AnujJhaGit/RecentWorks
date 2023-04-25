@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punny Code Convertor</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <style>
+        .position-relative {
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 0;
+            right: 12px;
+            margin: 10px;
+            width: 80px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body class="has-background-warning-light">
+    <h1 class="title has-text-centered is-size-1 pt-5" id="h1">HTML JSX Converterr</h1>
+    <div class="container is-fluid mb-5">
+        <div class="columns is-centered">
+            <div class="column is-half">
+                <div class="box">
+                    <h1 class="title has-text-centered">Input HTML</h1>
+                    <div class="position-relative">
+                        <textarea class="textarea has-background-dark is-primary has-text-danger" rows="15" id="inputarea"></textarea>
+                        <button class="copy-button button is-primary" onclick="copyText('inputarea')">Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="box">
+                    <h1 class="title has-text-centered">JSX</h1>
+                    <div class="position-relative">
+                        <textarea class="textarea is-primary has-background-dark has-text-success" rows="15"
+                            id="outputarea"></textarea>
+                        <button class="copy-button button is-primary" onclick="copyText('outputarea')">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
