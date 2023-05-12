@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cubic Bezier Curve Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" />
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Cubic Bezier Curve Generator</h1>
+
+        <div class="field">
+          <label class="label">Control Point 1</label>
+          <div class="control">
+            <input id="p0x" class="input" type="number" placeholder="X" value="100" />
+            <input id="p0y" class="input" type="number" placeholder="Y" value="100" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Control Point 2</label>
+          <div class="control">
+            <input id="p1x" class="input" type="number" placeholder="X" value="200" />
+            <input id="p1y" class="input" type="number" placeholder="Y" value="100" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Control Point 3</label>
+          <div class="control">
+            <input id="p2x" class="input" type="number" placeholder="X" value="200" />
+            <input id="p2y" class="input" type="number" placeholder="Y" value="200" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Control Point 4</label>
+          <div class="control">
+            <input id="p3x" class="input" type="number" placeholder="X" value="300" />
+            <input id="p3y" class="input" type="number" placeholder="Y" value="200" />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary" onclick="drawBezier()">Draw Bezier Curve</button>
+          </div>
+        </div>
+
+        <canvas id="canvas" width="400" height="400"></canvas>
+      </div>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>
