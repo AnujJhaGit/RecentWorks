@@ -58,7 +58,7 @@ body {
     rgba(76, 52, 52, 0.7)
   );
 }
-.color.gradient-red-orange {
+color.gradient-red-orange {
   background: linear-gradient(
     45deg,
     rgba(255, 102, 65, 0.6),
