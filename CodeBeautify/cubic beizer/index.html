@@ -1,55 +1,171 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Cubic Bezier Curve Generator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" />
-  </head>
-  <body>
-    <section class="section">
-      <div class="container">
-        <h1 class="title">Cubic Bezier Curve Generator</h1>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <title>Your Page Title</title>
+  <style>
+    .box { 
+	left: 0; 
+	height: 30px; 
+	width: 80px; 
+	background: #2E86C1; 
+	border-radius:5px;
+	position: relative; 
 
-        <div class="field">
-          <label class="label">Control Point 1</label>
-          <div class="control">
-            <input id="p0x" class="input" type="number" placeholder="X" value="100" />
-            <input id="p0y" class="input" type="number" placeholder="Y" value="100" />
+}
+.custom { background: #FF5733; }
+
+.moveBox .box { left: calc(100% - 100px); }
+.moveBoxWidth .box { width:100%; }
+.moveBoxOpacity .box { opacity:0; }
+
+#animateBox {
+	margin-left:30px;
+	margin-top:15px;
+}
+#bezier {
+	margin-top:20px;
+}
+.clear { clear: both; }
+
+.c-b-function { color: #666; cursor:pointer }
+figcaption { text-align:center;}
+
+.field { width:35px; text-align:right;}
+
+span[contenteditable="true"] {
+   border-bottom:1px dotted #000;
+}
+
+span[contenteditable="true"]:focus {
+   padding:0 10px;
+}
+    .position-relative {
+  position: relative;
+}
+
+.copy-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.copy-button:hover {
+    color: #000;
+    text-decoration: underline;
+}
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container p-5">
+      <h1 class="title is-1">CSS Cubic Bezier Generator</h1>
+      <div class="card">
+        <div class="columns">
+          <div class="column is-5">
+            <div class="p-6">
+              <div class="canvas-container" style="position: relative; padding-bottom: 100%;">
+                <canvas id="bezier" style="position: absolute; width: 180%; height: 100%;"></canvas>
+              </div>
+            </div>
+            
+            <div class="has-text-centered">
+              <p><a href="#" class="button is-primary" id="animateBox">Compare Transitions</a></p>
+            </div>
+          </div>
+          
+          <div class="column is-7 p-5">
+
+            <span id="customBezier" class="is-flex">
+              <strong>cubic-bezier</strong>(
+              <span id="cX1" class="editable" contenteditable="true">0.79</span>,
+              <span id="cY1" class="editable" contenteditable="true">0.33</span>,
+              <span id="cX2" class="editable" contenteditable="true">0.14</span>,
+              <span id="cY2" class="editable" contenteditable="true">0.53</span>)
+              ← Editable!
+            </span>
+            <div class="box custom mt-5"></div>
+          	<span class=""><a href="#" class="c-b-function" data-easing="0,0,1,1">linear</a></span>
+			<div class="box linear "></div>
+
+			<span><a href="#" class="c-b-function" data-easing="0,0,.58,1">ease-out</a></span>
+			<div class="box ease-out"></div>
+
+			<span><a href="#" class="c-b-function" data-easing=".42,0,.58,1">ease-in-out</a></span>
+			<div class="box ease-in-out"></div>
+
+			<span><a href="#" class="c-b-function" data-easing=".42,0,1,1">ease-in</a></span>
+			<div class="box ease-in"></div>
+           
+          
+            <div class="columns" >
+              <div class="column is-4 p-6 ">
+                <label for="speed">Transition time:</label>
+                <strong><span id="speed">1</span>s</strong>
+          
+                <div class="range-slider">
+                  <input class="slider is-fullwidth is-primary form-range" data-key="speed" type="range" value="1" min="0" max="10" step=".1">
+                </div>
+              </div>
+              <div class="column is-8">
+                <div class="field p-5" style="margin-top: 25px;">
+                  <div class="control">
+                    <div class="field is-grouped">
+                      <div class="control">
+                        <label class="radio">
+                          <input class="is-checkradio" type="radio" id="onevalue" name="animation-type" value="1" checked="checked">
+                          <span class="checkmark"></span>
+                          Position
+                        </label>
+                      </div>
+                      <div class="control">
+                        <label class="radio">
+                          <input class="is-checkradio" type="radio" id="twovalue" name="animation-type" value="2">
+                          <span class="checkmark"></span>
+                          Width
+                        </label>
+                      </div>
+                      <div class="control">
+                        <label class="radio">
+                          <input class="is-checkradio" type="radio" id="threevalue" name="animation-type" value="3">
+                          <span class="checkmark"></span>
+                          Opacity
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+            </div>
+          
           </div>
         </div>
-
-        <div class="field">
-          <label class="label">Control Point 2</label>
-          <div class="control">
-            <input id="p1x" class="input" type="number" placeholder="X" value="200" />
-            <input id="p1y" class="input" type="number" placeholder="Y" value="100" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Control Point 3</label>
-          <div class="control">
-            <input id="p2x" class="input" type="number" placeholder="X" value="200" />
-            <input id="p2y" class="input" type="number" placeholder="Y" value="200" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Control Point 4</label>
-          <div class="control">
-            <input id="p3x" class="input" type="number" placeholder="X" value="300" />
-            <input id="p3y" class="input" type="number" placeholder="Y" value="200" />
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="control">
-            <button class="button is-primary" onclick="drawBezier()">Draw Bezier Curve</button>
-          </div>
-        </div>
-
-        <canvas id="canvas" width="400" height="400"></canvas>
       </div>
-    </section>
-    <script src="script.js"></script>
-  </body>
+      <div class="columns mt-5">
+        <div class="column">
+          <div class="">
+            <div class="title is-4">CSS Code</div>
+            <div class="position-relative">
+              <pre class="language-css"><code id="code"></code></pre>
+              <div class="buttons ">
+                <button class="button is-primary copy-button m-4" data-clipboard-target="#code">
+                  Copy
+                </button>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+           
+    </div>
+  </section>
+  <script src="app.js"></script>
+</body>
 </html>
