@@ -370,3 +370,25 @@ var rangeSlider = function(){
   
       });
   });
+  const copyButton = document.querySelector('.copy-button');
+const codeElement = document.querySelector('#code');
+
+copyButton.addEventListener('click', () => {
+
+  const range = document.createRange();
+  range.selectNode(codeElement);
+  
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+  
+
+  document.execCommand('copy');
+  
+  // Clear the selection
+  window.getSelection().removeAllRanges();
+
+  copyButton.textContent = 'Copied!';
+  setTimeout(() => {
+    copyButton.textContent = 'Copy';
+  }, 2000);
+});
