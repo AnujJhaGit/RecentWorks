@@ -34,37 +34,47 @@ var rangeSlider = function(){
       document.getElementById('code').textContent = codeCSS;
       
   }
-  
-  const radius = 7;
-  const rulers = 30.5;
-  const margin = 10.5;
-  const basic_scale_size = 5;
-  var scaling; 
-  var dragSM = 0;
-  
-  function initCanvas() { 
-      var canvas = document.getElementById('bezier');
-      
-      if(window.location.hash) {
-          var hash = window.location.hash.substring(1).split(',');
-      
-          document.getElementById('cX1').textContent = hash[0].trim();
-          document.getElementById('cY1').textContent = hash[1].trim();
-          document.getElementById('cX2').textContent = hash[2].trim();
-          document.getElementById('cY2').textContent = hash[3].trim();			
-      }	
-    
-      if (canvas.getContext) {    
-          var ctx = canvas.getContext('2d');
-  
-          scaling = Math.min(canvas.height - rulers - margin, canvas.width - rulers - margin);
-  
-          canvas.onmousedown = mouseDown;
-          canvas.onmouseup = mouseUp;
-      } else {
-          alert('Please update your browser to use this generator!');
-      }
+ 
+var scaling;
+var dragSM = 0;
+const radius = 7;
+const rulers = 30.5;
+const margin = 10.5;
+const basic_scale_size = 5;
+var scaling;
+var dragSM = 0;
+
+function initCanvas() {
+  var canvas = document.getElementById('bezier');
+
+  if (window.location.hash) {
+    var hash = window.location.hash.substring(1).split(',');
+
+    document.getElementById('cX1').textContent = hash[0].trim();
+    document.getElementById('cY1').textContent = hash[1].trim();
+    document.getElementById('cX2').textContent = hash[2].trim();
+    document.getElementById('cY2').textContent = hash[3].trim();
   }
+
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+
+    scaling = Math.min(canvas.height - rulers - margin, canvas.width - rulers - margin);
+
+   
+    canvas.width = canvas.width * 4;
+    canvas.height = canvas.height * 4;
+    ctx.scale(4, 4);
+
+    canvas.onmousedown = mouseDown;
+    canvas.onmouseup = mouseUp;
+  } else {
+    alert('Please update your browser to use this generator!');
+  }
+}
+
+
+
   
   function cX(x) {
       return x * scaling + rulers;

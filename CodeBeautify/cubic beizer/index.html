@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
+
   <title>Your Page Title</title>
   <style>
     .box { 
@@ -79,15 +79,47 @@ span[contenteditable="true"]:focus {
           </div>
           
           <div class="column is-7 p-5">
-
-            <span id="customBezier" class="is-flex">
-              <strong>cubic-bezier</strong>(
-              <span id="cX1" class="editable" contenteditable="true">0.79</span>,
-              <span id="cY1" class="editable" contenteditable="true">0.33</span>,
-              <span id="cX2" class="editable" contenteditable="true">0.14</span>,
-              <span id="cY2" class="editable" contenteditable="true">0.53</span>)
-              ← Editable!
-            </span>
+            <div class="columns is-centered">
+              <div class="column">
+                <div>
+                  <label for="cX1">Cordinates X1:</label>
+                  <strong><span id="cX1">0.79</span>s</strong>       
+                  <div class="range-slider">
+                    <input id="input_cX1" class="slider is-fullwidth is-primary form-range" data-key="cX1" type="range" value="0.79" min="0" max="1" step=".01">
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div>
+                  <label for="cY1">Cordinates Y1:</label>
+                  <strong><span id="cY1">0.33</span>s</strong>  
+                  <div class="range-slider">
+                    <input id="input_cY1" class="slider is-fullwidth is-primary form-range" data-key="cY1" type="range" value="0.33" min="0" max="1" step=".01">
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div>
+                  <label for="cX2">Cordinates X2:</label>
+                  <strong><span id="cX2">0.14</span>s</strong>       
+                  <div class="range-slider">
+                    <input id="input_cX2" class="slider is-fullwidth is-primary form-range" data-key="cX2" type="range" value="0.14" min="0" max="1" step=".01">
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div>
+                  <label for="cY2">Cordinates Y2:</label>
+                  <strong><span id="cY2">0.53</span>s</strong>       
+                  <div class="range-slider">
+                    <input id="input_cY2" class="slider is-fullwidth is-primary form-range" data-key="cY2" type="range" value="0.53" min="0" max="1" step=".01">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+         
+      
             <div class="box custom mt-5"></div>
           	<span class=""><a href="#" class="c-b-function" data-easing="0,0,1,1">linear</a></span>
 			<div class="box linear "></div>
