@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <title>Cursive Text Generator</title>
+</head>
+<body>
+  <section class="hero is-info is-fullheight">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">Cursive Text Generator</h1>
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <div class="box">
+              <div class="field">
+                <label class="label">Enter your text:</label>
+                <div class="control">
+                  <textarea id="input-text" class="textarea" placeholder="Type your text here"></textarea>
+                </div>
+              </div>
+              <div class="field is-grouped is-grouped-multiline">
+                <p class="control">
+                  <button id="cursive-button" class="button is-rounded">Cursive</button>
+                </p>
+                <p class="control">
+                  <button id="bold-button" class="button is-rounded">Bold</button>
+                </p>
+                <p class="control">
+                  <button id="strike-through-button" class="button is-rounded">Strike Through</button>
+                </p>
+                <p class="control">
+                  <button id="underline-button" class="button is-rounded">Underline</button>
+                </p>
+                <p class="control">
+                  <button id="italics-button" class="button is-rounded">Italics</button>
+                </p>
+                <p class="control">
+                  <button id="bold-italic-button" class="button is-rounded">Bold Italics</button>
+                </p>
+                <p class="control">
+                  <button id="bold-cursive-button" class="button is-rounded">Bold Cursive</button>
+                </p>
+                <p class="control">
+                  <button id="sans-bold-italic-button" class="button is-rounded">Sans Bold Italics</button>
+                </p>
+                <p class="control">
+                  <button id="serif-bold-italic-button" class="button is-rounded">Serif Bold Italics</button>
+                </p>
+              </div>
+              <div class="field">
+                <label class="label">Formatted Text:</label>
+                <div class="control">
+                  <textarea id="output-text" class="textarea" placeholder="Formatted text will appear here" readonly></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- 
+  <script>
+    function applyFilter(filter) {
+      const inputText = document.getElementById('input-text').value;
+      let outputText = '';
+
+      switch (filter) {
+        case 'cursive':
+          outputText = '<span class="cursive-text">' + inputText + '</span>';
+          break;
+        case 'bold':
+          outputText = '<strong class="bold-text">' + inputText + '</strong>';
+          break;
+        case 'strike-through':
+          outputText = '<span class="strike-through">' + inputText + '</span>';
+          break;
+        case 'underline':
+          outputText = '<span class="underline">' + inputText + '</span>';
+          break;
+        case 'italics':
+          outputText = '<em class="italics">' + inputText + '</em>';
+          break;
+        case 'bold-italic':
+          outputText = '<strong class="bold-italic">' + inputText + '</strong>';
+          break;
+        default:
+          outputText = inputText;
+      }
+
+      document.getElementById('output-text').innerHTML = outputText;
+    }
+
+    document.getElementById('generate-button').addEventListener('click', function() {
+      const inputText = document.getElementById('input-text').value;
+      document.getElementById('output-text').innerHTML = inputText;
+    });
+
+    document.getElementById('cursive-button').addEventListener('click', function() {
+      applyFilter('cursive');
+    });
+
+    document.getElementById('bold-button').addEventListener('click', function() {
+      applyFilter('bold');
+    });
+
+    document.getElementById('strike-through-button').addEventListener('click', function() {
+      applyFilter('strike-through');
+    });
+
+    document.getElementById('underline-button').addEventListener('click', function() {
+      applyFilter('underline');
+    });
+
+    document.getElementById('italics-button').addEventListener('click', function() {
+      applyFilter('italics');
+    });
+
+    document.getElementById('bold-italic-button').addEventListener('click', function() {
+      applyFilter('bold-italic');
+    });
+  </script> -->
+  <script src="app.js"></script>
+</body>
+</html>
