@@ -1,4 +1,4 @@
-const buttons = document.querySelectorAll('.button');
+const buttons = document.querySelectorAll('.btn');
 const inputText = document.getElementById("input-text");
 const outputText = document.getElementById('output-text');
 let activeButton = null;
@@ -86,4 +86,26 @@ inputText.addEventListener('input', updateOutput);
 function updateOutput() {
   outputText.textContent = inputText.value;
   applyFormat(activeButton ? activeButton.id : null);
+}
+
+const copyButton = document.getElementById('copy-button');
+copyButton.addEventListener('click', copyOutputText);
+
+function copyOutputText() {
+  const range = document.createRange();
+  range.selectNode(outputText);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+
+  try {
+    document.execCommand('copy');
+    copyButton.textContent = 'Copied!';
+    setTimeout(() => {
+      copyButton.textContent = 'Copy';
+    }, 2000);
+  } catch (err) {
+    console.error('Unable to copy.', err);
+  }
+
+  window.getSelection().removeAllRanges();
 }
