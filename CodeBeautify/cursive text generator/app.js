@@ -88,24 +88,29 @@ function updateOutput() {
   applyFormat(activeButton ? activeButton.id : null);
 }
 
+function copyOutputText() {
+  const outputText = document.getElementById('output-text');
+  const styledText = outputText.innerHTML;
+  const encodedText = unicoder.encode(styledText);
+
+  const temporaryInput = document.createElement('textarea');
+  temporaryInput.value = encodedText;
+  document.body.appendChild(temporaryInput);
+
+  temporaryInput.select();
+  document.execCommand('copy');
+
+  document.body.removeChild(temporaryInput);
+
+  copyButton.textContent = 'Copied!';
+  setTimeout(() => {
+    copyButton.textContent = 'Copy';
+  }, 2000);
+}
+
 const copyButton = document.getElementById('copy-button');
 copyButton.addEventListener('click', copyOutputText);
 
-function copyOutputText() {
-  const range = document.createRange();
-  range.selectNode(outputText);
-  window.getSelection().removeAllRanges();
-  window.getSelection().addRange(range);
 
-  try {
-    document.execCommand('copy');
-    copyButton.textContent = 'Copied!';
-    setTimeout(() => {
-      copyButton.textContent = 'Copy';
-    }, 2000);
-  } catch (err) {
-    console.error('Unable to copy.', err);
-  }
 
-  window.getSelection().removeAllRanges();
-}
+
