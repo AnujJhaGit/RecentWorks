@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <style>
+    .container {
+      margin-top: 2rem;
+    }
+    #copyButton {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="field">
+          <label class="label">Text Input</label>
+          <div class="control">
+            <textarea id="input" class="textarea" placeholder="Enter your text here..."></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button id="extractButton" class="button is-primary">Extract Phone Numbers</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Extracted Phone Numbers</label>
+          <div class="control">
+            <textarea id="output" class="textarea" readonly></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button id="copyButton" class="button is-info">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('extractButton').addEventListener('click', function() {
+      var inputText = document.getElementById('input').value;
+      var extractedNumbers = inputText.match(/\+?(?:\d{1,3}\s?)?(?:\(\d{1,4}\))?\s?\d{1,5}(?:[\s.-]?\d{1,5}){1,4}/g);
+      var outputTextarea = document.getElementById('output');
+      var copyButton = document.getElementById('copyButton');
+      if (extractedNumbers !== null) {
+        outputTextarea.value = extractedNumbers.join('\n');
+        copyButton.disabled = false;
+      } else {
+        outputTextarea.value = 'No phone numbers found.';
+        copyButton.disabled = true;
+      }
+    });
+
+    document.getElementById('copyButton').addEventListener('click', function() {
+      var outputTextarea = document.getElementById('output');
+      outputTextarea.select();
+      outputTextarea.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      alert('Copied to clipboard!');
+    });
+  </script>
+</body>
+</html>
