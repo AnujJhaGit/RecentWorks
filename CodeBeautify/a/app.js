@@ -1,3 +1,7 @@
+
+
+
+
 (() => {
     var e = {
         390: (e) => {
@@ -1523,6 +1527,7 @@
       const _ = document.getElementById("input"),
         y = document.getElementById("output"),
         w = document.getElementById("sample"),
+
         E = document.getElementById("inline"),
         x = document.getElementById("google.protobuf.Timestamp"),
         v = document.getElementById("merge-similar-objects"),
@@ -1534,6 +1539,11 @@
               (this.mergeSimilarObjects = n);
           }
         })(E.checked, x.checked, v.checked);
+        const sample = document.getElementById('sampleBtn');
+sample.addEventListener('click', function(e) {
+  e.preventDefault();
+  w.click();
+});
       function M() {
         const t = (function (e, t) {
           if ("" === e) return new s("", "");
