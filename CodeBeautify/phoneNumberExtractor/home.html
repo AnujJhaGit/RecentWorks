@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phone Number Extractor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <style>
+    /* Additional custom styles can be added here */
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="box">
+        <h3 class="title">What can this tool do?</h3>
+        <div class="content">
+          <ul>
+            <li>Use this tool to extract phone numbers from web pages and data files.</li>
+            <li>The output is one or more columns of phone numbers. You can see the output below or as an Excel file.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3 class="title">What are my options?</h3>
+        <div class="content">
+          <ul>
+            <li>Optionally input a list of web pages to scan.</li>
+            <li>You can choose the number of phone numbers per line (default is 1).</li>
+            <li>You may choose the output delimiter for multi-column output or use a comma (the default).</li>
+            <li>You can remove duplicate phone numbers.</li>
+            <li>You can sort the phone numbers.</li>
+            <li>Ignore phone numbers under a certain number of digits (see Output Options).</li>
+            <li>You can add a heading.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3 class="title">Step 1: Select your input</h3>
+        <br>
+        <div class="field">
+          <label class="label">Option 1 - Choose a file</label>
+          <div class="control">
+            <input type="file" id="f1" class="input" title="Choose a local file">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Option 2 - Enter a URL</label>
+          <div class="control">
+            <input type="text" size="40" value="" name="url" id="url" class="input" title="Enter the URL of a web page">
+            <button class="button is-primary" onclick="loadURL(document.getElementById('url').value)">Load URL</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Option 3 - Paste into the text box below</label>
+          <div class="control">
+            <textarea class="textarea" rows="10" cols="80" id="txt1" wrap="off" placeholder="Your phone number input goes here" onpaste="setTimeout(function(){ document.getElementById('btnRun').click() }, 10)"></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary" onclick="window.location.reload(true)">Clear Input</button>
+            <button class="button is-primary" onclick="document.getElementById('url').value='https://www.flhsmv.gov/contact-us/';document.getElementById('btnUrl').click()">Example URL</button>
+          </div>
+        </div>
+
+        <br>
+        <h3 class="title">Step 2: Choose output options (optional)</h3>
+        <br>
+
+        <div class="field">
+          <label class="label">Output Field Separator</label>
+          <div class="control">
+            <div class="select">
+              <select id="sep">
+                <option value=",">Comma</option>
+                <option value=";">Semicolon</option>
+                <option value=":">Colon</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox">
+            <input type="checkbox" id="header" checked>
+            Include header in the first row
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="label"># of Columns Per Line</label>
+          <div class="control">
+            <input type="number" id="cols" min="1" value="1" class="input">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Minimum Number of Digits</label>
+          <div class="control">
+            <input type="number" id="min" min="0" class="input">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Maximum Number of Digits</label>
+          <div class="control">
+            <input type="number" id="max" min="0" class="input">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox">
+            <input type="checkbox" id="sort">
+            Sort Phone Numbers
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="checkbox">
+            <input type="checkbox" id="remove-duplicates">
+            Remove Duplicate Phone Numbers
+          </label>
+        </div>
+
+        <br>
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary" id="btnRun">Run Extractor</button>
+            <button class="button is-primary" onclick="clearOutput()">Clear Output</button>
+          </div>
+        </div>
+
+        <br>
+        <h3 class="title">Output:</h3>
+        <br>
+        <pre id="output"></pre>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // JavaScript code for handling functionality and steps can be added here
+  </script>
+</body>
+</html>

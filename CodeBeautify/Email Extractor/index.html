@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Extractor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        .extractor-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .extractor-button {
+            margin-top: 1.5rem;
+        }
+
+        .extractor-clear {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title extractor-title">Email Extractor</h1>
+            <div class="field">
+                <label class="label">Enter text:</label>
+                <div class="control">
+                    <textarea id="inputText" class="textarea" placeholder="Paste text here..."></textarea>
+                </div>
+            </div>
+            <div class="field is-grouped extractor-button">
+                <div class="control">
+                    <button id="extractButton" class="button is-primary">Extract Emails</button>
+                </div>
+                <div class="control">
+                    <button id="clearButton" class="button is-link">Reset</button>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Extracted Emails:</label>
+                <div class="control">
+                    <textarea id="outputText" class="textarea" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('extractButton').addEventListener('click', function () {
+            var inputText = document.getElementById('inputText').value;
+            var emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+            var extractedEmails = inputText.match(emailRegex);
+            var outputText = extractedEmails ? extractedEmails.join('\n') : '';
+            document.getElementById('outputText').value = outputText;
+        });
+
+        document.getElementById('clearButton').addEventListener('click', function () {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+        });
+    </script>
+</body>
+
+</html>
