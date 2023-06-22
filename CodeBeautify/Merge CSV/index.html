@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Merge CSV Files</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Merge CSV Files</h1>
+
+      <div class="field">
+        <label class="label">Upload CSV Files</label>
+        <div class="file is-primary has-name is-boxed">
+          <label class="file-label">
+            <input class="file-input" type="file" id="csv-files" multiple>
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Choose Files
+              </span>
+            </span>
+            <span class="file-name" id="file-names"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Uploaded Files:</label>
+        <div class="control">
+          <ul id="uploaded-files"></ul>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Options:</label>
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" id="keep-header">
+            Keep only the header (first row) of the first file
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="remove-duplicates">
+            Remove duplicate rows
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="remove-empty-rows">
+            Remove empty rows
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="end-line">
+            Use \n as the line ending
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <button class="button is-primary" onclick="mergeCSV()">Merge CSV Files</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function mergeCSV() {
+      const files = document.getElementById('csv-files').files;
+      const keepHeader = document.getElementById('keep-header').checked;
+      const removeDuplicates = document.getElementById('remove-duplicates').checked;
+      const removeEmptyRows = document.getElementById('remove-empty-rows').checked;
+      const endLine = document.getElementById('end-line').checked;
+
+      if (files.length < 2) {
+        alert('Please select at least two CSV files for merging.');
+        return;
+      }
+
+      // Helper function to merge two arrays
+      function mergeArrays(arr1, arr2) {
+        return arr1.concat(arr2);
+      }
+
+      // Helper function to merge multiple CSV files
+      function mergeCSVFiles(files) {
+        // Helper function to parse CSV data into an array of objects
+        function parseCSV(csvData) {
+          const lines = csvData.trim().split('\n');
+          const headers = lines[0].split(',');
+          const data = [];
+
+          for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',');
+            const obj = {};
+
+            for (let j = 0; j < headers.length; j++) {
+              obj[headers[j]] = values[j];
+            }
+
+            data.push(obj);
+          }
+
+          return data;
+        }
+
+        // Helper function to convert an array of objects into a CSV string
+        function convertToCSV(data) {
+          const headers = Object.keys(data[0]);
+          const rows = data.map(obj => headers.map(header => obj[header]));
+          const csvArray = [headers.join(',')].concat(rows.map(row => row.join(',')));
+          return csvArray.join(endLine ? '\n' : '\r\n');
+        }
+
+        // Merge files one by one
+        const mergedData = [];
+
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+
+          reader.onload = function (event) {
+            const csvData = event.target.result;
+            const data = parseCSV(csvData);
+            mergedData.push(...data);
+
+            if (i === files.length - 1) {
+              // All files have been merged
+              const mergedCSV = convertToCSV(mergedData);
+
+              // Optionally, save the merged CSV data to a file
+              // You can modify this part to suit your needs
+              const mergedBlob = new Blob([mergedCSV], { type: 'text/csv' });
+              const mergedFile = new File([mergedBlob], 'merged.csv');
+
+              // Perform further operations with the merged CSV file as needed
+              console.log('Merged CSV file:', mergedFile);
+            }
+          };
+
+          reader.readAsText(file);
+        }
+      }
+
+      mergeCSVFiles(files);
+    }
+  </script>
+</body>
+
+</html>

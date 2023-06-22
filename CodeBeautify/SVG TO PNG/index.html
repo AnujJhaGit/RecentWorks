@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">SVG to PNG Converter</h1>
+
+      <!-- Single File Upload -->
+      <div class="box">
+        <h2 class="subtitle">Upload a SVG file and convert to PNG</h2>
+        <div class="file">
+          <label class="file-label">
+            <input class="file-input" type="file" id="singleFileUpload" accept=".svg">
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Choose a file…
+              </span>
+            </span>
+          </label>
+        </div>
+        <progress class="progress is-hidden" id="singleFileProgress" max="100"></progress>
+        <a class="button is-primary is-hidden" id="singleFileDownload" download>Download PNG</a>
+      </div>
+
+      <!-- Multiple Files Upload -->
+      <div class="box">
+        <h2 class="subtitle">Upload multiple SVG files and convert to PNG</h2>
+        <div class="file">
+          <label class="file-label">
+            <input class="file-input" type="file" id="multiFileUpload" accept=".svg" multiple>
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Choose files…
+              </span>
+            </span>
+          </label>
+        </div>
+        <progress class="progress is-hidden" id="multiFileProgress" max="100"></progress>
+        <a class="button is-primary is-hidden" id="multiFileDownload">Download All PNGs</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Single File Upload
+      const singleFileUpload = document.getElementById('singleFileUpload');
+      const singleFileProgress = document.getElementById('singleFileProgress');
+      const singleFileDownload = document.getElementById('singleFileDownload');
+
+      singleFileUpload.addEventListener('change', () => {
+        const file = singleFileUpload.files[0];
+        singleFileProgress.classList.remove('is-hidden');
+        singleFileDownload.classList.add('is-hidden');
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Perform the file upload using AJAX or fetch API
+        // Replace the URL with your server endpoint
+        fetch('/convert-single', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          onUploadProgress: (progressEvent) => {
+            const { loaded, total } = progressEvent;
+            const progressPercent = Math.round((loaded / total) * 100);
+            singleFileProgress.value = progressPercent;
+          }
+        })
+        .then(response => response.blob())
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          singleFileDownload.href = url;
+          singleFileDownload.classList.remove('is-hidden');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+
+      // Multiple Files Upload
+      const multiFileUpload = document.getElementById('multiFileUpload');
+      const multiFileProgress = document.getElementById('multiFileProgress');
+      const multiFileDownload = document.getElementById('multiFileDownload');
+
+      multiFileUpload.addEventListener('change', () => {
+        const files = multiFileUpload.files;
+        multiFileProgress.classList.remove('is-hidden');
+        multiFileDownload.classList.add('is-hidden');
+
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append('files', files[i]);
+        }
+
+        // Perform the file upload using AJAX or fetch API
+        // Replace the URL with your server endpoint
+        fetch('/convert-multiple', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          onUploadProgress: (progressEvent) => {
+            const { loaded, total } = progressEvent;
+            const progressPercent = Math.round((loaded / total) * 100);
+            multiFileProgress.value = progressPercent;
+          }
+        })
+        .then(response => response.blob())
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          multiFileDownload.href = url;
+          multiFileDownload.classList.remove('is-hidden');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

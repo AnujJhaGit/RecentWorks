@@ -20,6 +20,14 @@
         .extractor-clear {
             margin-top: 1.5rem;
         }
+
+        .extractor-sample {
+            margin-top: 1.5rem;
+        }
+
+        .extractor-sample-text {
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 
@@ -39,6 +47,14 @@
                 </div>
                 <div class="control">
                     <button id="clearButton" class="button is-link">Reset</button>
+                </div>
+            </div>
+            <div class="field extractor-sample">
+                <div class="extractor-sample-text">Or try a sample:</div>
+                <div class="buttons">
+                    <button id="sampleButton1" class="button">Sample 1</button>
+                    <button id="sampleButton2" class="button">Sample 2</button>
+                    <button id="sampleButton3" class="button">Sample 3</button>
                 </div>
             </div>
             <div class="field">
@@ -62,6 +78,18 @@
         document.getElementById('clearButton').addEventListener('click', function () {
             document.getElementById('inputText').value = '';
             document.getElementById('outputText').value = '';
+        });
+
+        document.getElementById('sampleButton1').addEventListener('click', function () {
+            document.getElementById('inputText').value = "Example text with email1@example.com and email2@example.com";
+        });
+
+        document.getElementById('sampleButton2').addEventListener('click', function () {
+            document.getElementById('inputText').value = "Sample input containing email3@example.com";
+        });
+
+        document.getElementById('sampleButton3').addEventListener('click', function () {
+            document.getElementById('inputText').value = "Testing email extraction for email4@example.com and email5@example.com";
         });
     </script>
 </body>
