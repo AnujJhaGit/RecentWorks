@@ -1,136 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          SVG to PNG Converter
+        </h1>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container">
-      <h1 class="title">SVG to PNG Converter</h1>
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <div class="box">
+            <div class="file has-name is-boxed">
+              <label class="file-label">
+                <input class="file-input" type="file" id="file-input" multiple>
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                  </span>
+                  <span class="file-label">
+                    Drag and drop SVG files here or click to browse
+                  </span>
+                </span>
+                <span class="file-name">
+                  Accepted file types: .svg
+                </span>
+              </label>
+            </div>
 
-      <!-- Single File Upload -->
-      <div class="box">
-        <h2 class="subtitle">Upload a SVG file and convert to PNG</h2>
-        <div class="file">
-          <label class="file-label">
-            <input class="file-input" type="file" id="singleFileUpload" accept=".svg">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Choose a file…
-              </span>
-            </span>
-          </label>
-        </div>
-        <progress class="progress is-hidden" id="singleFileProgress" max="100"></progress>
-        <a class="button is-primary is-hidden" id="singleFileDownload" download>Download PNG</a>
-      </div>
+            <div class="content" id="file-list"></div>
 
-      <!-- Multiple Files Upload -->
-      <div class="box">
-        <h2 class="subtitle">Upload multiple SVG files and convert to PNG</h2>
-        <div class="file">
-          <label class="file-label">
-            <input class="file-input" type="file" id="multiFileUpload" accept=".svg" multiple>
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Choose files…
-              </span>
-            </span>
-          </label>
+            <button class="button is-primary" id="convert-button" disabled>
+              Convert to PNG
+            </button>
+
+            <a class="button is-success" id="download-link" style="display: none;">
+              Download PNG
+            </a>
+
+            <div id="preview-container"></div>
+          </div>
         </div>
-        <progress class="progress is-hidden" id="multiFileProgress" max="100"></progress>
-        <a class="button is-primary is-hidden" id="multiFileDownload">Download All PNGs</a>
       </div>
     </div>
   </section>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Single File Upload
-      const singleFileUpload = document.getElementById('singleFileUpload');
-      const singleFileProgress = document.getElementById('singleFileProgress');
-      const singleFileDownload = document.getElementById('singleFileDownload');
+    const fileInput = document.getElementById('file-input');
+    const convertButton = document.getElementById('convert-button');
+    const fileList = document.getElementById('file-list');
+    const downloadLink = document.getElementById('download-link');
+    const previewContainer = document.getElementById('preview-container');
 
-      singleFileUpload.addEventListener('change', () => {
-        const file = singleFileUpload.files[0];
-        singleFileProgress.classList.remove('is-hidden');
-        singleFileDownload.classList.add('is-hidden');
+    let files = [];
 
-        const formData = new FormData();
-        formData.append('file', file);
+    function updateFileList() {
+      fileList.innerHTML = '';
+      files.forEach((file, index) => {
+        const listItem = document.createElement('div');
+        listItem.className = 'box';
+        listItem.innerHTML = `
+          <div class="level is-mobile">
+            <div class="level-left">
+              <div class="level-item">
+                <span class="icon">
+                  <i class="fas fa-file-image"></i>
+                </span>
+                <span>${file.name}</span>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="icon has-text-danger delete-button" data-index="${index}">
+                  <i class="fas fa-trash"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+        fileList.appendChild(listItem);
+      });
 
-        // Perform the file upload using AJAX or fetch API
-        // Replace the URL with your server endpoint
-        fetch('/convert-single', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          onUploadProgress: (progressEvent) => {
-            const { loaded, total } = progressEvent;
-            const progressPercent = Math.round((loaded / total) * 100);
-            singleFileProgress.value = progressPercent;
+      const deleteButtons = document.querySelectorAll('.delete-button');
+      deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const index = button.getAttribute('data-index');
+          files.splice(index, 1);
+          updateFileList();
+          if (files.length === 0) {
+            convertButton.disabled = true;
           }
-        })
-        .then(response => response.blob())
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          singleFileDownload.href = url;
-          singleFileDownload.classList.remove('is-hidden');
-        })
-        .catch(error => {
-          console.error('Error:', error);
         });
       });
 
-      // Multiple Files Upload
-      const multiFileUpload = document.getElementById('multiFileUpload');
-      const multiFileProgress = document.getElementById('multiFileProgress');
-      const multiFileDownload = document.getElementById('multiFileDownload');
+      if (files.length > 0) {
+        convertButton.disabled = false;
+      } else {
+        convertButton.disabled = true;
+      }
+    }
 
-      multiFileUpload.addEventListener('change', () => {
-        const files = multiFileUpload.files;
-        multiFileProgress.classList.remove('is-hidden');
-        multiFileDownload.classList.add('is-hidden');
-
-        const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append('files', files[i]);
+    function handleFileSelect(event) {
+      const selectedFiles = event.target.files;
+      for (let i = 0; i < selectedFiles.length; i++) {
+        if (selectedFiles[i].type === 'image/svg+xml') {
+          files.push(selectedFiles[i]);
         }
+      }
+      updateFileList();
+    }
 
-        // Perform the file upload using AJAX or fetch API
-        // Replace the URL with your server endpoint
-        fetch('/convert-multiple', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          onUploadProgress: (progressEvent) => {
-            const { loaded, total } = progressEvent;
-            const progressPercent = Math.round((loaded / total) * 100);
-            multiFileProgress.value = progressPercent;
-          }
-        })
-        .then(response => response.blob())
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          multiFileDownload.href = url;
-          multiFileDownload.classList.remove('is-hidden');
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+    function handleConversion() {
+      const formData = new FormData();
+      files.forEach(file => {
+        formData.append('svgFiles[]', file, file.name);
       });
-    });
+
+      fetch('/convert', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          const { downloadLink, previewImages } = data;
+          showPreviewImages(previewImages);
+          updateDownloadLink(downloadLink);
+        })
+        .catch(error => console.error('Conversion error:', error));
+    }
+
+    function showPreviewImages(images) {
+      previewContainer.innerHTML = '';
+      images.forEach(imageUrl => {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.classList.add('image', 'is-fullwidth');
+        previewContainer.appendChild(img);
+      });
+    }
+
+    function updateDownloadLink(link) {
+      downloadLink.href = link;
+      downloadLink.style.display = 'block';
+    }
+
+    fileInput.addEventListener('change', handleFileSelect);
+    convertButton.addEventListener('click', handleConversion);
   </script>
 </body>
 </html>

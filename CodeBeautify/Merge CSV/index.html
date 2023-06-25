@@ -2,150 +2,134 @@
 <html>
 
 <head>
-  <title>Merge CSV Files</title>
+  <meta charset="UTF-8">
+  <title>CSV File Merger - Drag & Drop</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <style>
+    .upload-box {
+      border: 2px dashed #dbdbdb;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
   <section class="section">
     <div class="container">
-      <h1 class="title">Merge CSV Files</h1>
-
+      <h1 class="title">CSV File Merger - Drag & Drop</h1>
+      <div class="upload-box box" id="uploadBox">
+        <div>Drag and drop files here or click to browse</div>
+      </div>
+      <br>
+      <div>
+        <button class="button is-primary" id="uploadButton">Upload Files</button>
+      </div>
+      <br>
+      <div class="uploaded-files-list">
+        <strong>Uploaded Files List</strong>
+        <table class="table is-fullwidth">
+          <tbody id="fileList">
+            <!-- Uploaded files will be listed here dynamically -->
+          </tbody>
+        </table>
+      </div>
+      <br>
       <div class="field">
-        <label class="label">Upload CSV Files</label>
-        <div class="file is-primary has-name is-boxed">
-          <label class="file-label">
-            <input class="file-input" type="file" id="csv-files" multiple>
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Choose Files
-              </span>
-            </span>
-            <span class="file-name" id="file-names"></span>
+        <label class="label">Options</label>
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" id="keepHeaderCheckbox">
+            Keep header of the first file
           </label>
         </div>
       </div>
-
       <div class="field">
-        <label class="label">Uploaded Files:</label>
+        <label class="label">Delimiter</label>
         <div class="control">
-          <ul id="uploaded-files"></ul>
+          <input class="input" type="text" id="delimiterInput" value="," placeholder="Enter delimiter (default: ,)">
         </div>
       </div>
-
-      <div class="field">
-        <label class="label">Options:</label>
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" id="keep-header">
-            Keep only the header (first row) of the first file
-          </label>
-          <label class="checkbox">
-            <input type="checkbox" id="remove-duplicates">
-            Remove duplicate rows
-          </label>
-          <label class="checkbox">
-            <input type="checkbox" id="remove-empty-rows">
-            Remove empty rows
-          </label>
-          <label class="checkbox">
-            <input type="checkbox" id="end-line">
-            Use \n as the line ending
-          </label>
-        </div>
+      <br>
+      <div>
+        <button class="button is-success" id="mergeButton">Merge Files</button>
       </div>
-
-      <div class="field">
-        <div class="control">
-          <button class="button is-primary" onclick="mergeCSV()">Merge CSV Files</button>
-        </div>
+      <br>
+      <div>
+        <a class="button is-info is-disabled" id="downloadButton" download>Download Merged CSV</a>
       </div>
     </div>
   </section>
 
   <script>
-    function mergeCSV() {
-      const files = document.getElementById('csv-files').files;
-      const keepHeader = document.getElementById('keep-header').checked;
-      const removeDuplicates = document.getElementById('remove-duplicates').checked;
-      const removeEmptyRows = document.getElementById('remove-empty-rows').checked;
-      const endLine = document.getElementById('end-line').checked;
+    const uploadBox = document.getElementById('uploadBox');
+    const uploadButton = document.getElementById('uploadButton');
+    const mergeButton = document.getElementById('mergeButton');
+    const fileList = document.getElementById('fileList');
+    const keepHeaderCheckbox = document.getElementById('keepHeaderCheckbox');
+    const delimiterInput = document.getElementById('delimiterInput');
+    const downloadButton = document.getElementById('downloadButton');
 
-      if (files.length < 2) {
-        alert('Please select at least two CSV files for merging.');
-        return;
+    // Drag and drop functionality
+    uploadBox.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadBox.classList.add('has-background-success');
+    });
+
+    uploadBox.addEventListener('dragleave', () => {
+      uploadBox.classList.remove('has-background-success');
+    });
+
+    uploadBox.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadBox.classList.remove('has-background-success');
+      const files = e.dataTransfer.files;
+      handleFiles(files);
+    });
+
+    // File upload functionality
+    uploadButton.addEventListener('click', () => {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.multiple = true;
+      fileInput.addEventListener('change', (e) => {
+        const files = e.target.files;
+        handleFiles(files);
+      });
+      fileInput.click();
+    });
+
+    // Handle uploaded files
+    function handleFiles(files) {
+      for (const file of files) {
+        const listItem = document.createElement('tr');
+        listItem.innerHTML = `
+          <td>${file.name}</td>
+          <td>
+            <button class="button is-small is-danger" onclick="removeFile(this)">Remove</button>
+          </td>
+        `;
+        fileList.appendChild(listItem);
       }
-
-      // Helper function to merge two arrays
-      function mergeArrays(arr1, arr2) {
-        return arr1.concat(arr2);
-      }
-
-      // Helper function to merge multiple CSV files
-      function mergeCSVFiles(files) {
-        // Helper function to parse CSV data into an array of objects
-        function parseCSV(csvData) {
-          const lines = csvData.trim().split('\n');
-          const headers = lines[0].split(',');
-          const data = [];
-
-          for (let i = 1; i < lines.length; i++) {
-            const values = lines[i].split(',');
-            const obj = {};
-
-            for (let j = 0; j < headers.length; j++) {
-              obj[headers[j]] = values[j];
-            }
-
-            data.push(obj);
-          }
-
-          return data;
-        }
-
-        // Helper function to convert an array of objects into a CSV string
-        function convertToCSV(data) {
-          const headers = Object.keys(data[0]);
-          const rows = data.map(obj => headers.map(header => obj[header]));
-          const csvArray = [headers.join(',')].concat(rows.map(row => row.join(',')));
-          return csvArray.join(endLine ? '\n' : '\r\n');
-        }
-
-        // Merge files one by one
-        const mergedData = [];
-
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const reader = new FileReader();
-
-          reader.onload = function (event) {
-            const csvData = event.target.result;
-            const data = parseCSV(csvData);
-            mergedData.push(...data);
-
-            if (i === files.length - 1) {
-              // All files have been merged
-              const mergedCSV = convertToCSV(mergedData);
-
-              // Optionally, save the merged CSV data to a file
-              // You can modify this part to suit your needs
-              const mergedBlob = new Blob([mergedCSV], { type: 'text/csv' });
-              const mergedFile = new File([mergedBlob], 'merged.csv');
-
-              // Perform further operations with the merged CSV file as needed
-              console.log('Merged CSV file:', mergedFile);
-            }
-          };
-
-          reader.readAsText(file);
-        }
-      }
-
-      mergeCSVFiles(files);
     }
+
+    // Remove file from the list
+    function removeFile(button) {
+      const listItem = button.closest('tr');
+      listItem.remove();
+    }
+
+    // Merge files
+    mergeButton.addEventListener('click', () => {
+      const fileNames = Array.from(fileList.getElementsByTagName('td')).map(td => td.textContent);
+      const keepHeader = keepHeaderCheckbox.checked;
+      const delimiter = delimiterInput.value || ',';
+      const mergedContent = 'Merged CSV content will be generated here';
+      downloadButton.href = `data:text/csv;charset=utf-8,${encodeURIComponent(mergedContent)}`;
+      downloadButton.classList.remove('is-disabled');
+    });
+    downloadButton.classList.add('is-disabled');
   </script>
 </body>
 
