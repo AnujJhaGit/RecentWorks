@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <title>Unclosed Tag Checker</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+    .no-errors {
+      color: green;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .error-list {
+      margin-top: 10px;
+    }
+    .error-list-item {
+      margin-bottom: 5px;
+    }
+    .error-list-item span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Unclosed Tag Checker</h1>
+      <div class="field">
+        <label class="label">Source Code:</label>
+        <div class="control">
+          <textarea id="unclosed-tags-source" class="textarea" rows="10"></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button id="unclosed-tags-submit" class="button is-primary">Check</button>
+        </div>
+      </div>
+      <div id="results" class="notification is-hidden"></div>
+    </div>
+  </section>
+
+  <script>
+    let submitBtn = document.querySelector("#unclosed-tags-submit");
+    submitBtn.addEventListener("click", checkTags);
+    let source = document.querySelector("#unclosed-tags-source");
+
+    function checkTags() {
+      var DOMHolderArray = [];
+      var tagsArray = [];
+      var lines = source.value.split('\n');
+      for (var x = 0; x < lines.length; x++) {
+        tagsArray = lines[x].match(/<(\/{1})?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)>/g);
+        if (tagsArray) {
+          for (var i = 0; i < tagsArray.length; i++) {
+            if (tagsArray[i].indexOf('</') >= 0) {
+              var elementToPop = tagsArray[i].substr(2, tagsArray[i].length - 3);
+              elementToPop = elementToPop.replace(/ /g, '');
+              for (var j = DOMHolderArray.length - 1; j >= 0; j--) {
+                if (DOMHolderArray[j].element === elementToPop) {
+                  DOMHolderArray.splice(j, 1);
+                  if (elementToPop !== 'html') {
+                    break;
+                  }
+                }
+              }
+            } else {
+              var tag = {
+                full: tagsArray[i],
+                line: x + 1
+              };
+              if (tag.full.indexOf(' ') > 0) {
+                tag.element = tag.full.substr(1, tag.full.indexOf(' ') - 1);
+              } else {
+                tag.element = tag.full.substr(1, tag.full.length - 2);
+              }
+              var selfClosingTags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+              var isSelfClosing = false;
+              for (var y = 0; y < selfClosingTags.length; y++) {
+                if (selfClosingTags[y].localeCompare(tag.element) === 0) {
+                  isSelfClosing = true;
+                  break;
+                }
+              }
+              if (!isSelfClosing) {
+                DOMHolderArray.push(tag);
+              }
+            }
+          }
+        }
+      }
+
+      var message = '';
+      if (DOMHolderArray.length === 0) {
+        message += '<p class="no-errors">Congratulations! No unclosed tags.</p>';
+      } else {
+        message += '<div class="notification is-danger">';
+        if (DOMHolderArray.length === 1) {
+          message += '<p>The following tag doesn\'t seem to be closed:</p>';
+        } else {
+          message += '<p>The following tags don\'t seem to be closed:</p>';
+        }
+
+        message += '<div class="error-list">';
+        for (var i = 0; i < DOMHolderArray.length; i++) {
+          var tagSanitized = DOMHolderArray[i].full.replace(/>/g, '&gt;');
+          tagSanitized = tagSanitized.replace(/</g, '&lt;');
+          message += '<div class="error-list-item"><span>' + tagSanitized + '</span></div>';
+        }
+        message += '</div>';
+        message += '</div>';
+      }
+
+      let results = document.querySelector("#results");
+      results.innerHTML = message;
+      results.classList.remove("is-hidden");
+    }
+  </script>
+</body>
+</html>
