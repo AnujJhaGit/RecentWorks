@@ -7,26 +7,10 @@
     <title>Email Extractor</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <style>
-        .extractor-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .extractor-button {
-            margin-top: 1.5rem;
-        }
-
-        .extractor-clear {
-            margin-top: 1.5rem;
-        }
-
-        .extractor-sample {
-            margin-top: 1.5rem;
-        }
-
-        .extractor-sample-text {
-            margin-bottom: 0.5rem;
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
         }
     </style>
 </head>
@@ -34,14 +18,14 @@
 <body>
     <section class="section">
         <div class="container">
-            <h1 class="title extractor-title">Email Extractor</h1>
+            <h1 class="title has-text-centered">Email Extractor</h1>
             <div class="field">
                 <label class="label">Enter text:</label>
                 <div class="control">
                     <textarea id="inputText" class="textarea" placeholder="Paste text here..."></textarea>
                 </div>
             </div>
-            <div class="field is-grouped extractor-button">
+            <div class="field is-grouped">
                 <div class="control">
                     <button id="extractButton" class="button is-primary">Extract Emails</button>
                 </div>
@@ -49,48 +33,90 @@
                     <button id="clearButton" class="button is-link">Reset</button>
                 </div>
             </div>
-            <div class="field extractor-sample">
-                <div class="extractor-sample-text">Or try a sample:</div>
+            <div class="field">
                 <div class="buttons">
-                    <button id="sampleButton1" class="button">Sample 1</button>
-                    <button id="sampleButton2" class="button">Sample 2</button>
-                    <button id="sampleButton3" class="button">Sample 3</button>
+                    <button id="sampleButton1" class="button" data-sample-text="Please send any inquiries to info@example.com or contact us at contact@example.com.">Sample 1</button>
+                    <button id="sampleButton2" class="button" data-sample-text="You can reach out to our sales team at sales@example.com or support team at support@example.com.">Sample 2</button>
+                    <button id="sampleButton3" class="button" data-sample-text="For partnership opportunities, email us at partnerships@example.com or reach out to our CEO at ceo@example.com.">Sample 3</button>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <label class="checkbox">
+                        <input id="autoCheckbox" type="checkbox" checked>
+                        Auto
+                    </label>
                 </div>
             </div>
             <div class="field">
                 <label class="label">Extracted Emails:</label>
-                <div class="control">
+                <div class="control has-icons-right">
                     <textarea id="outputText" class="textarea" readonly></textarea>
+                    <button id="copyButton" class="button is-primary is-outlined copy-button" title="Copy to clipboard">
+                        <span class="icon">
+                            <i class="fas fa-copy"></i>
+                        </span> Copy
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
-        document.getElementById('extractButton').addEventListener('click', function () {
-            var inputText = document.getElementById('inputText').value;
+        var inputText = document.getElementById('inputText');
+        var outputText = document.getElementById('outputText');
+        var autoCheckbox = document.getElementById('autoCheckbox');
+        var extractButton = document.getElementById('extractButton');
+        var clearButton = document.getElementById('clearButton');
+        var sampleButtons = document.querySelectorAll('.button[id^="sampleButton"]');
+
+        extractButton.addEventListener('click', function () {
+            extractEmails();
+        });
+
+        clearButton.addEventListener('click', function () {
+            clearInputAndOutput();
+        });
+
+        sampleButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var sampleText = button.dataset.sampleText;
+                inputText.value = sampleText;
+                if (autoCheckbox.checked) {
+                    extractEmails();
+                }
+            });
+        });
+
+        autoCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                extractEmails();
+            }
+        });
+
+        copyButton.addEventListener('click', function () {
+            outputText.select();
+            document.execCommand('copy');
+        });
+
+        inputText.addEventListener('input', function () {
+            if (autoCheckbox.checked) {
+                extractEmails();
+            }
+        });
+
+        function extractEmails() {
             var emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-            var extractedEmails = inputText.match(emailRegex);
-            var outputText = extractedEmails ? extractedEmails.join('\n') : '';
-            document.getElementById('outputText').value = outputText;
-        });
+            var extractedEmails = inputText.value.match(emailRegex);
+            var output = extractedEmails ? extractedEmails.join('\n') : '';
+            outputText.value = output;
+        }
 
-        document.getElementById('clearButton').addEventListener('click', function () {
-            document.getElementById('inputText').value = '';
-            document.getElementById('outputText').value = '';
-        });
-
-        document.getElementById('sampleButton1').addEventListener('click', function () {
-            document.getElementById('inputText').value = "Example text with email1@example.com and email2@example.com";
-        });
-
-        document.getElementById('sampleButton2').addEventListener('click', function () {
-            document.getElementById('inputText').value = "Sample input containing email3@example.com";
-        });
-
-        document.getElementById('sampleButton3').addEventListener('click', function () {
-            document.getElementById('inputText').value = "Testing email extraction for email4@example.com and email5@example.com";
-        });
+        function clearInputAndOutput() {
+            inputText.value = '';
+            outputText.value = '';
+        }
     </script>
 </body>
 
