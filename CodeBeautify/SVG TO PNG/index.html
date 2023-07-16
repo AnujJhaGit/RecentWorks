@@ -1,160 +1,213 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>SVG to PNG Converter</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <style>
+    .thumbnail {
+      max-width: 200px;
+      max-height: 200px;
+    }
+
+    .notification-container {
+      margin-top: 1rem;
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 200px;
+      margin-top: 1rem;
+    }
+
+    .drop-area {
+      border: 2px dashed #ccc;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .drop-area.dragover {
+      background-color: #f1f1f1;
+    }
+
+    .drop-area p {
+      margin: 0;
+    }
+
+    .clear-button {
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <section class="hero is-primary">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">
-          SVG to PNG Converter
-        </h1>
-      </div>
-    </div>
-  </section>
-
   <section class="section">
     <div class="container">
-      <div class="columns is-centered">
+      <h1 class="title">SVG to PNG Converter</h1>
+
+      <div class="columns">
         <div class="column is-half">
-          <div class="box">
-            <div class="file has-name is-boxed">
-              <label class="file-label">
-                <input class="file-input" type="file" id="file-input" multiple>
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-cloud-upload-alt"></i>
+          <form id="uploadForm" method="post" enctype="multipart/form-data">
+            <div class="field">
+              <label class="label">Upload SVG Files (Up to 20 files)</label>
+              <div class="file">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="svgFiles[]" id="uploadInput" multiple accept=".svg">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose SVG Files
+                    </span>
                   </span>
-                  <span class="file-label">
-                    Drag and drop SVG files here or click to browse
-                  </span>
-                </span>
-                <span class="file-name">
-                  Accepted file types: .svg
-                </span>
-              </label>
+                </label>
+              </div>
+              <div id="dropArea" class="drop-area">
+                <p>Drag and drop files here to upload</p>
+              </div>
+              <button id="clearButton" class="button is-danger clear-button" type="button">Clear Queue</button>
             </div>
 
-            <div class="content" id="file-list"></div>
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary" type="submit">Convert</button>
+              </div>
+            </div>
+          </form>
+        </div>
 
-            <button class="button is-primary" id="convert-button" disabled>
-              Convert to PNG
-            </button>
-
-            <a class="button is-success" id="download-link" style="display: none;">
-              Download PNG
-            </a>
-
-            <div id="preview-container"></div>
+        <div class="column is-half">
+          <div id="output" class="notification-container">
+            <!-- Conversion output will be displayed here -->
           </div>
         </div>
       </div>
+
+      <div id="previewContainer" class="columns is-multiline"></div>
     </div>
   </section>
 
   <script>
-    const fileInput = document.getElementById('file-input');
-    const convertButton = document.getElementById('convert-button');
-    const fileList = document.getElementById('file-list');
-    const downloadLink = document.getElementById('download-link');
-    const previewContainer = document.getElementById('preview-container');
+    document.addEventListener('DOMContentLoaded', () => {
+      const uploadInput = document.getElementById('uploadInput');
+      const uploadForm = document.getElementById('uploadForm');
+      const outputContainer = document.getElementById('output');
+      const previewContainer = document.getElementById('previewContainer');
+      const dropArea = document.getElementById('dropArea');
+      const clearButton = document.getElementById('clearButton');
 
-    let files = [];
-
-    function updateFileList() {
-      fileList.innerHTML = '';
-      files.forEach((file, index) => {
-        const listItem = document.createElement('div');
-        listItem.className = 'box';
-        listItem.innerHTML = `
-          <div class="level is-mobile">
-            <div class="level-left">
-              <div class="level-item">
-                <span class="icon">
-                  <i class="fas fa-file-image"></i>
-                </span>
-                <span>${file.name}</span>
-              </div>
-            </div>
-            <div class="level-right">
-              <div class="level-item">
-                <span class="icon has-text-danger delete-button" data-index="${index}">
-                  <i class="fas fa-trash"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-        `;
-        fileList.appendChild(listItem);
+      // Handle file drop events
+      dropArea.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('dragover');
       });
 
-      const deleteButtons = document.querySelectorAll('.delete-button');
-      deleteButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const index = button.getAttribute('data-index');
-          files.splice(index, 1);
-          updateFileList();
-          if (files.length === 0) {
-            convertButton.disabled = true;
-          }
+      dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('dragover');
+      });
+
+      dropArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+      });
+
+      dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+
+        const files = e.dataTransfer.files;
+        uploadInput.files = files;
+      });
+
+      // Clear file queue
+      clearButton.addEventListener('click', () => {
+        uploadInput.value = '';
+        previewContainer.innerHTML = '';
+        outputContainer.innerHTML = '';
+      });
+
+      // Handle file selection
+      uploadInput.addEventListener('change', () => {
+        const files = uploadInput.files;
+        previewContainer.innerHTML = '';
+
+        if (files.length > 0) {
+          const fileCount = Math.min(files.length, 20);
+          uploadForm.classList.remove('is-danger');
+          outputContainer.innerHTML = `
+            <div class="notification is-info">
+              <p>Selected ${fileCount} file${fileCount > 1 ? 's' : ''}.</p>
+              <p>Click "Convert" to start the conversion process.</p>
+            </div>`;
+
+          Array.from(files).slice(0, 20).forEach((file) => {
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+              const svgData = event.target.result;
+
+              const img = new Image();
+              img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
+              img.classList.add('preview-image');
+
+              const figure = document.createElement('figure');
+              figure.classList.add('column', 'is-half');
+              figure.appendChild(img);
+
+              previewContainer.appendChild(figure);
+            };
+
+            reader.readAsText(file);
+          });
+        } else {
+          outputContainer.innerHTML = '';
+        }
+      });
+
+      uploadForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const files = uploadInput.files;
+
+        if (files.length === 0) {
+          uploadForm.classList.add('is-danger');
+          return;
+        }
+
+        outputContainer.innerHTML = '';
+
+        Array.from(files).slice(0, 20).forEach((file) => {
+          const reader = new FileReader();
+
+          reader.onload = (event) => {
+            const svgData = event.target.result;
+
+            const img = new Image();
+            img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
+
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              const context = canvas.getContext('2d');
+              canvas.width = img.width;
+              canvas.height = img.height;
+
+              context.drawImage(img, 0, 0);
+
+              const pngData = canvas.toDataURL('image/png');
+
+              const downloadLink = document.createElement('a');
+              downloadLink.classList.add('button', 'is-link', 'mr-2');
+              downloadLink.href = pngData;
+              downloadLink.download = file.name.replace('.svg', '.png');
+              downloadLink.textContent = 'Download ' + file.name.replace('.svg', '.png');
+
+              outputContainer.appendChild(downloadLink);
+            };
+          };
+
+          reader.readAsText(file);
         });
       });
-
-      if (files.length > 0) {
-        convertButton.disabled = false;
-      } else {
-        convertButton.disabled = true;
-      }
-    }
-
-    function handleFileSelect(event) {
-      const selectedFiles = event.target.files;
-      for (let i = 0; i < selectedFiles.length; i++) {
-        if (selectedFiles[i].type === 'image/svg+xml') {
-          files.push(selectedFiles[i]);
-        }
-      }
-      updateFileList();
-    }
-
-    function handleConversion() {
-      const formData = new FormData();
-      files.forEach(file => {
-        formData.append('svgFiles[]', file, file.name);
-      });
-
-      fetch('/convert', {
-        method: 'POST',
-        body: formData
-      })
-        .then(response => response.json())
-        .then(data => {
-          const { downloadLink, previewImages } = data;
-          showPreviewImages(previewImages);
-          updateDownloadLink(downloadLink);
-        })
-        .catch(error => console.error('Conversion error:', error));
-    }
-
-    function showPreviewImages(images) {
-      previewContainer.innerHTML = '';
-      images.forEach(imageUrl => {
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.classList.add('image', 'is-fullwidth');
-        previewContainer.appendChild(img);
-      });
-    }
-
-    function updateDownloadLink(link) {
-      downloadLink.href = link;
-      downloadLink.style.display = 'block';
-    }
-
-    fileInput.addEventListener('change', handleFileSelect);
-    convertButton.addEventListener('click', handleConversion);
+    });
   </script>
 </body>
 </html>
