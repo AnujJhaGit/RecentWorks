@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Punny Code Convertor</title>
+    <title>PunnyCode Convertor</title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/punycode/2.3.0/punycode.min.js" integrity="sha512-DMxyecgBKZK+k2joQ1F3ok3kIeVjKbhJZjKc+XPSZpkiRDEf7GdwckDwxP71UDZeTubh3K6Fh3pFWE1TLW44/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         .position-relative {
-    position: relative;
-}
+            position: relative;
+        }
 
-.copy-button {
-    position: absolute;
-    top: 0;
-    right: 12px;
-    margin: 10px;
-    width: 80px;
-    border: none;
-    cursor: pointer;
-}
+        .copy-button {
+            position: absolute;
+            top: 0;
+            right: 12px;
+            margin: 10px;
+            width: 80px;
+            border: none;
+            cursor: pointer;
+        }
 
-.copy-button:hover {
-    color: #000;
-    text-decoration: underline;
-}
-
+        .copy-button:hover {
+            color: #000;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="has-background-warning-light">
@@ -48,8 +47,7 @@
                 <div class="box">
                     <h1 class="title has-text-centered">Punny Code</h1>
                     <div class="position-relative">
-                        <textarea class="textarea is-primary has-background-dark has-text-success" rows="15"
-                            id="outputarea"></textarea>
+                        <textarea class="textarea is-primary has-background-dark has-text-success" rows="15" id="outputarea"></textarea>
                         <button class="copy-button button is-primary" onclick="copyText('outputarea')">
                             Copy
                         </button>
@@ -57,23 +55,74 @@
                 </div>
             </div>
         </div>
-        <div class="columns ">
-            <div class="column  is-half has-text-centered">
+        
+        <div class="columns">
+            <div class="column is-half has-text-centered">
                 <div class="is-pulled-right is-flex">
                     <div class="mt-6">
                         <input type="checkbox" class="" id="autoPreview" checked>
                         <label class="mr-3" for="autoPreview">Auto Preview</label>
                     </div>
                     <button class="button is-success is-medium mt-5 is-pulled-right" onclick="TextToPunny()">Convert to PunnyCode</button>
+                    <button class="button is-primary is-medium mt-5 ml-5" onclick="loadSampleData()">Load Sample</button>
                 </div>
-               
             </div>
             <div class="column is-half has-text-centered">
                 <button class="button is-link is-medium mt-5 is-pulled-left" onclick="PunnyToText()">Convert to Text</button>
             </div>
         </div>
     </div>
-    <script src="app.js"></script>
-</body>
+    <script>
+        const inputArea = document.getElementById("inputarea");
+        const outputArea = document.getElementById("outputarea");
+        const autoPreviewCheckbox = document.getElementById("autoPreview");
 
+        inputArea.addEventListener('input',function(){
+            if(autoPreviewCheckbox.checked){
+                TextToPunny();
+            }
+        })
+
+        outputArea.addEventListener('input',function(){
+            if(autoPreviewCheckbox.checked){
+                PunnyToText();
+            }
+        })
+
+        function TextToPunny() {
+            const inputText = inputArea.value;
+            if (/[\u0080-\uffff]/.test(inputText)) {
+                const punycodeText = punycode.toASCII(inputText);
+                outputArea.value = punycodeText;
+            } else {
+                outputArea.value = inputText;
+            }
+        }
+
+        function PunnyToText() {
+            const punycodeText = outputArea.value;
+            try {
+                const inputText = punycode.toUnicode(punycodeText);
+                inputArea.value = inputText;
+            } catch (err) {
+                inputArea.value = punycodeText;
+            }
+        }
+
+        function copyText(id) {
+            var textarea = document.getElementById(id);
+            textarea.select();
+            document.execCommand("copy");
+        }
+
+        // Sample data to be loaded
+        const sampleInputText = "點看";
+        const sampleOutputText = "xn--c1yn36f";
+
+        function loadSampleData() {
+            inputArea.value = sampleInputText;
+            outputArea.value = sampleOutputText;
+        }
+    </script>
+</body>
 </html>
