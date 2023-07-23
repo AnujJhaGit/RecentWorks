@@ -3,6 +3,13 @@ const inputText = document.getElementById("input-text");
 const outputText = document.getElementById('output-text');
 let activeButton = null;
 
+window.addEventListener('DOMContentLoaded', () => {
+  const cursiveButton = document.getElementById('cursive-button');
+  cursiveButton.classList.add('is-primary');
+  cursiveButton.click();
+});
+
+
 buttons.forEach(button => {
   button.addEventListener('click', () => {
     if (activeButton) {
