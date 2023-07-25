@@ -25,6 +25,25 @@
           <div class="column is-half">
             <div class="box">
               <div class="field">
+                <div class="field">
+                  <label class="label">Upload a .txt file:</label>
+                  <div class="file has-name is-fullwidth">
+                    <label class="file-label">
+                      <input id="upload-file" class="file-input" type="file" accept=".txt">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Choose a file…
+                        </span>
+                      </span>
+                      <span class="file-name" id="uploaded-file-name">
+                        No file selected
+                      </span>
+                    </label>
+                  </div>
+                </div>
                 <label class="label">Enter your text:</label>
                 <div class="control">
                   <textarea id="input-text" class="textarea" placeholder="Type your text here"></textarea>
@@ -60,10 +79,22 @@
                 </p>
               </div>
               <div class="field">
+                <label class="checkbox">
+                  <input id="auto-checkbox" type="checkbox">
+                  Auto Formatting
+                </label>
+              </div>
+              <div class="field">
                 <label class="label">Formatted Text:</label>
                 <div class="control">
                   <textarea id="output-text" class="textarea" placeholder="Formatted text will appear here" readonly></textarea>
                   <button id="copy-button" class="copy-button button is-rounded is-info">Copy</button>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Download formatted text as .txt:</label>
+                <div class="control">
+                  <a href="#" id="download-button" class="button is-rounded is-info" download="formatted_text.txt">Download</a>
                 </div>
               </div>
             </div>
