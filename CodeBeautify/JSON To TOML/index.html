@@ -25,7 +25,6 @@
     <h1 class="title">JSON to TOML Converter</h1>
     <div class="field">
       <label class="label">Upload JSON file</label>
-      
       <div class="file has-name">
         <label class="file-label">
           <input id="fileInput" class="file-input" type="file" accept=".json">
@@ -40,8 +39,8 @@
       </div>
     </div>
     <div class="p-4">
-        <button id="sampleButton" class="button is-info is-pulled-right">Sample</button>
-      </div>
+      <button id="sampleButton" class="button is-info is-pulled-right">Sample</button>
+    </div>
     <div class="field">
       <label class="label">JSON</label>
       <div class="control">
@@ -49,7 +48,7 @@
       </div>
     </div>
     <center>
-        <button id="convertButton" class="button is-primary">Convert</button>
+      <button id="convertButton" class="button is-primary">Convert</button>
     </center>
     <div class="field">
       <label class="label">TOML</label>
@@ -58,14 +57,11 @@
         <button id="copyButton" class="button is-info" disabled>Copy TOML</button>
       </div>
     </div>
-    <div class="field is-grouped is-justify-content-center">
-     
-    </div>
+    <div class="field is-grouped is-justify-content-center"></div>
     <div class="field is-grouped is-justify-content-center">
       <div class="control">
         <button id="downloadButton" class="button is-primary" disabled>Download TOML</button>
       </div>
-      
     </div>
   </div>
 
@@ -151,24 +147,22 @@
       }, 2000);
     }
 
-    function jsonToToml(jsonData) {
-      function iterate(obj, prefix = '') {
-        let result = '';
-        for (let key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            const value = obj[key];
-            if (typeof value === 'object') {
-              result += iterate(value, prefix + key + '.');
-            } else {
-              result += `${prefix}${key} = ${value}\n`;
-            }
+    function jsonToToml(jsonData, indentation = '') {
+      let result = '';
+      for (let key in jsonData) {
+        if (jsonData.hasOwnProperty(key)) {
+          const value = jsonData[key];
+          if (typeof value === 'object') {
+            result += `${indentation}[${key}]\n`;
+            result += jsonToToml(value, indentation + '  ');
+          } else {
+            result += `${indentation}${key} = ${JSON.stringify(value)}\n`;
           }
         }
-        return result;
       }
-
-      return iterate(jsonData);
+      return result;
     }
   </script>
+
 </body>
 </html>
