@@ -124,15 +124,51 @@
 
     function loadSampleData() {
       const sampleJSON = `{
-        "name": "John Doe",
-        "age": 30,
-        "email": "john@example.com",
-        "address": {
-          "street": "123 Main St",
-          "city": "New York",
-          "state": "NY"
+  "user": {
+    "id": 12345,
+    "username": "johndoe",
+    "email": "john.doe@example.com",
+    "is_verified": true
+  },
+  "posts": [
+    {
+      "id": 1,
+      "title": "Introduction to JSON",
+      "content": "JSON (JavaScript Object Notation) is a lightweight data-interchange format...",
+      "likes": 56,
+      "comments": [
+        {
+          "user_id": 54321,
+          "text": "Great post!"
+        },
+        {
+          "user_id": 98765,
+          "text": "Very informative!"
         }
-      }`;
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Working with Python",
+      "content": "Python is a popular programming language...",
+      "likes": 72,
+      "comments": [
+        {
+          "user_id": 24680,
+          "text": "Python is my favorite!"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "theme": "dark",
+    "notifications": {
+      "email": true,
+      "push": false
+    }
+  }
+}
+`;
 
       jsonInput.value = sampleJSON;
       convertJSONtoTOML();
