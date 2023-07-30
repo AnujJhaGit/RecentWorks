@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TOML Validator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">TOML Validator</h1>
+            <div class="columns">
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Enter TOML:</label>
+                        <div class="control">
+                            <textarea id="toml-input" class="textarea" rows="10" placeholder="Paste your TOML here..."></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button id="validate-btn" class="button is-primary">Validate</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Validation Result:</label>
+                        <div class="control">
+                            <textarea id="validation-result" class="textarea" rows="10" disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Function to validate the TOML
+        function validateTOML() {
+            const tomlInput = document.getElementById('toml-input').value;
+            // Implement your TOML validation logic here
+            // For a basic example, you can use a JavaScript TOML parser library
+            // or call an API that performs the validation and returns the result
+            // For simplicity, let's just assume the validation result is a string.
+            const validationResult = "Validation successful! TOML is valid.";
+            document.getElementById('validation-result').value = validationResult;
+        }
+
+        // Add event listener to the validate button
+        document.getElementById('validate-btn').addEventListener('click', validateTOML);
+    </script>
+</body>
+</html>
