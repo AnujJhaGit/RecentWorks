@@ -21,7 +21,7 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container p-3">
     <h1 class="title">JSON to TOML Converter</h1>
     <div class="field">
       <label class="label">Upload JSON file</label>
@@ -47,9 +47,18 @@
         <textarea id="jsonInput" class="textarea" rows="10" placeholder="Enter JSON here"></textarea>
       </div>
     </div>
-    <center>
-      <button id="convertButton" class="button is-primary">Convert</button>
-    </center>
+    <div class="columns is-centered">
+      <div class="column is-narrow">
+        <div class="is-flex is-justify-content-flex-start is-align-items-center">
+          <button id="convertButton" class="button is-primary">Convert</button>
+          <label class="checkbox">
+            <input id="auto-checkbox" class="ml-2" type="checkbox" checked>
+            Auto
+          </label>
+        </div>
+      </div>
+    </div>
+
     <div class="field">
       <label class="label">TOML</label>
       <div class="control position-relative">
@@ -74,6 +83,7 @@
     const downloadButton = document.getElementById('downloadButton');
     const sampleButton = document.getElementById('sampleButton');
     const copyButton = document.getElementById('copyButton');
+    const auto = document.getElementById('auto-checkbox');
 
     fileInput.addEventListener('change', handleFileUpload);
     convertButton.addEventListener('click', convertJSONtoTOML);
@@ -198,6 +208,13 @@
       }
       return result;
     }
+
+    jsonInput.addEventListener('input', function () {
+      if (auto.checked === true) {
+        convertButton.click();
+      }
+    });
+
   </script>
 
 </body>
