@@ -62,7 +62,7 @@
     <div class="field">
       <label class="label">TOML</label>
       <div class="control position-relative">
-        <textarea id="tomlOutput" class="textarea" rows="10" readonly></textarea>
+        <textarea id="tomlOutput" class="textarea" rows="20" readonly></textarea>
         <button id="copyButton" class="button is-info" disabled>Copy TOML</button>
       </div>
     </div>
@@ -99,6 +99,9 @@
         const contents = e.target.result;
         jsonInput.value = contents;
         fileName.textContent = file.name;
+        if (auto.checked === true) {
+        convertButton.click();
+      }
       };
 
       reader.readAsText(file);
@@ -134,28 +137,24 @@
 
     function loadSampleData() {
       const sampleJSON = `{
-    "glossary": {
-        "title": "example glossary",
-		"GlossDiv": {
-            "title": "S",
-			"GlossList": {
-                "GlossEntry": {
-                    "ID": "SGML",
-					"SortAs": "SGML",
-					"GlossTerm": "Standard Generalized Markup Language",
-					"Acronym": "SGML",
-					"Abbrev": "ISO 8879:1986",
-					"GlossDef": {
-                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
-						"GlossSeeAlso": ["GML", "XML"]
-                    },
-					"GlossSee": "markup"
-                }
-            }
-        }
+  "title": "My Application",
+  "version": "1.0",
+  "server": {
+    "host": "localhost",
+    "port": 8080
+  },
+  "database": {
+    "name": "mydb",
+    "connection": {
+      "user": "user1",
+      "password": "password123"
     }
-}
-`;
+  },
+  "fruits": ["apple", "orange", "banana"],
+  "is_active": true,
+  "pi": 3.14159,
+  "created_at": "2023-08-02T12:34:56Z"
+}`;
 
       jsonInput.value = sampleJSON;
       convertJSONtoTOML();
@@ -176,10 +175,19 @@
         if (jsonData.hasOwnProperty(key)) {
           const value = jsonData[key];
           if (typeof value === 'object') {
-            result += `${indentation}[${key}]\n`;
+            result += `\n[${key}]\n`;
             result += jsonToToml(value, indentation + '  ');
           } else {
-            result += `${indentation}${key} = ${JSON.stringify(value)}\n`;
+            result += `${indentation}${key} = `;
+            if (Array.isArray(value)) {
+              result += `[${value.map(item => JSON.stringify(item)).join(', ')}]\n`;
+            } else if (typeof value === 'boolean') {
+              result += `${value}\n`;
+            } else if (!isNaN(Date.parse(value))) {
+              result += `"${value}"\n`;
+            } else {
+              result += `${JSON.stringify(value)}\n`;
+            }
           }
         }
       }
