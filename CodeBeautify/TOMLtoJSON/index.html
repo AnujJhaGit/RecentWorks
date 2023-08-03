@@ -62,10 +62,11 @@
     <div class="field">
       <label class="label">JSON</label>
       <div class="control position-relative">
-        <textarea id="jsonOutput" class="textarea" rows="10" readonly></textarea>
+        <textarea id="jsonOutput" class="textarea" rows="20" readonly></textarea>
         <button id="copyButton" class="button is-info" disabled>Copy JSON</button>
       </div>
     </div>
+    <div class="field is-grouped is-justify-content-center"></div>
     <div class="field is-grouped is-justify-content-center">
       <div class="control">
         <button id="downloadButton" class="button is-primary" disabled>Download JSON</button>
@@ -110,8 +111,9 @@
       const tomlData = tomlInput.value.trim();
 
       try {
-        const jsonData = parseTOML(tomlData);
-        jsonOutput.value = JSON.stringify(jsonData, null, 2);
+        const parsedData = tomlToJSON(tomlData);
+        const jsonData = JSON.stringify(parsedData, null, 2);
+        jsonOutput.value = jsonData;
         downloadButton.disabled = false;
         copyButton.disabled = false;
       } catch (error) {
@@ -121,57 +123,9 @@
       }
     }
 
-    function parseTOML(tomlData) {
-      const lines = tomlData.split('\n');
-      const jsonData = {};
-
-      let currentObj = jsonData;
-      let currentIndent = '';
-
-      for (const line of lines) {
-        const trimmedLine = line.trim();
-        const indentLength = line.length - trimmedLine.length;
-
-        if (indentLength > currentIndent.length) {
-          currentIndent = line.slice(0, indentLength);
-        } else if (indentLength < currentIndent.length) {
-          currentIndent = currentIndent.slice(0, indentLength);
-          currentObj = jsonData;
-          const keys = currentIndent.split('  ').map((key) => key.slice(1, -1));
-          for (const key of keys) {
-            currentObj = currentObj[key];
-          }
-        }
-
-        if (trimmedLine.length > 0 && !trimmedLine.startsWith('#')) {
-          if (trimmedLine.startsWith('[')) {
-            const key = trimmedLine.slice(1, -1);
-            currentObj[key] = {};
-            currentObj = currentObj[key];
-          } else {
-            const [key, value] = trimmedLine.split(' = ');
-            currentObj[key] = parseValue(value);
-          }
-        }
-      }
-
-      return jsonData;
-    }
-
-    function parseValue(value) {
-      if (value === 'true') return true;
-      if (value === 'false') return false;
-      if (!isNaN(value)) return parseFloat(value);
-      if (value.startsWith('"') && value.endsWith('"')) return value.slice(1, -1);
-      if (value.startsWith('[') && value.endsWith(']')) {
-        return value.slice(1, -1).split(',').map(parseValue);
-      }
-      return value;
-    }
-
     function downloadJSON() {
       const jsonData = jsonOutput.value;
-      const blob = new Blob([jsonData], { type: 'text/plain' });
+      const blob = new Blob([jsonData], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -182,25 +136,25 @@
     }
 
     function loadSampleData() {
-      const sampleTOML = `title = "TOML Example"
+      const sampleTOML = `
+title = "My Application"
+version = "1.0"
 
-[owner]
-  name = "John Doe"
-  dob = "1985-06-15T08:00:00Z"
+[server]
+host = "localhost"
+port = 8080
 
 [database]
-    enabled = true
+name = "mydb"
 
-[ports]
-      0 = "8001"
-      1 = "8002"
-      2 = "8003"
+[database.connection]
+user = "user1"
+password = "password123"
 
-[data]
-      0 = "[\\"one\\""
-      1 = " 1]"
-      2 = " [\\"two\\""
-      3 = " 2]"
+fruits = ["apple", "orange", "banana"]
+is_active = true
+pi = 3.14159
+created_at = "2023-08-02T12:34:56Z"
 `;
 
       tomlInput.value = sampleTOML;
@@ -214,6 +168,44 @@
       setTimeout(() => {
         copyButton.textContent = 'Copy JSON';
       }, 2000);
+    }
+
+    function tomlToJSON(tomlData) {
+      const lines = tomlData.split('\n');
+      const jsonData = {};
+      let currentSection = jsonData;
+
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+
+        if (!trimmedLine || trimmedLine.startsWith('#')) {
+          continue; // Skip empty lines and comments
+        }
+
+        if (trimmedLine.startsWith('[')) {
+          const sectionName = trimmedLine.slice(1, -1).trim();
+          currentSection[sectionName] = {};
+          currentSection = currentSection[sectionName];
+        } else {
+          const keyValueArr = trimmedLine.split('=').map(item => item.trim());
+          const key = keyValueArr[0];
+          let value = keyValueArr[1];
+
+          if (value.startsWith('"') && value.endsWith('"')) {
+            value = value.slice(1, -1);
+          } else if (value === 'true' || value === 'false') {
+            value = value === 'true';
+          } else if (!isNaN(Date.parse(value))) {
+            value = new Date(value).toISOString();
+          } else if (!isNaN(parseFloat(value))) {
+            value = parseFloat(value);
+          }
+
+          currentSection[key] = value;
+        }
+      }
+
+      return jsonData;
     }
 
     tomlInput.addEventListener('input', function () {
