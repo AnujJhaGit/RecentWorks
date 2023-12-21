@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRC Calculator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">CRC Calculator</h1>
+      <div class="columns">
+        <div class="column is-half">
+          <div class="field">
+            <label class="label">Input Data</label>
+            <div class="control">
+              <input class="input" type="text" id="inputData" placeholder="Enter input data">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">CRC Polynomial</label>
+            <div class="control">
+              <input class="input" type="text" id="crcPolynomial" placeholder="Enter CRC polynomial">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">CRC Initial Value</label>
+            <div class="control">
+              <input class="input" type="text" id="crcInitialValue" placeholder="Enter CRC initial value">
+            </div>
+          </div>
+          <div class="field">
+            <button class="button is-primary" id="calculateButton">Calculate CRC</button>
+            <button class="button is-info" id="sampleButton">Load Sample Data</button>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="field">
+            <label class="label">CRC Result</label>
+            <div class="control">
+              <input class="input" type="text" id="crcResult" disabled>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">XOR Output</label>
+            <div class="control">
+              <input class="input" type="text" id="xorOutput" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    const inputData = document.getElementById("inputData");
+    const crcPolynomial = document.getElementById("crcPolynomial");
+    const crcInitialValue = document.getElementById("crcInitialValue");
+    const crcResult = document.getElementById("crcResult");
+    const xorOutput = document.getElementById("xorOutput");
+    const calculateButton = document.getElementById("calculateButton");
+    const sampleButton = document.getElementById("sampleButton");
+
+    sampleButton.addEventListener("click", function() {
+      inputData.value = "HelloWorld";
+      crcPolynomial.value = "1011";
+      crcInitialValue.value = "0000";
+      calculateButton.click();
+    });
+
+    calculateButton.addEventListener("click", function() {
+      const data = inputData.value;
+      const polynomial = crcPolynomial.value;
+      const initialValue = crcInitialValue.value;
+
+      const crc = calculateCRC(data, polynomial, initialValue);
+      crcResult.value = crc;
+
+      const xorOutputValue = calculateXOR(data, polynomial);
+      xorOutput.value = xorOutputValue;
+    });
+
+    function calculateCRC(data, polynomial, initialValue) {
+      let crc = initialValue;
+
+      for (let i = 0; i < data.length; i++) {
+        crc ^= data[i];
+        crc >>= 1;
+
+        if (crc & 1) {
+          crc ^= polynomial;
+        }
+      }
+
+      return crc;
+    }
+
+    function calculateXOR(data, polynomial) {
+      let xorOutput = 0;
+
+      for (let i = 0; i < data.length; i++) {
+        xorOutput ^= data[i];
+      }
+
+      return xorOutput;
+    }
+  </script>
+</body>
+</html>

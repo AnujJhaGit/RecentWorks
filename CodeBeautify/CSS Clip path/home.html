@@ -1,11 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <title>Clip Path Generator</title>
 </head>
 <body>
-    
+  <div class="container">
+    <div class="containerTitle">
+      <div>
+        <h1 class="title">Clip Path Generator</h1>
+      </div>
+    </div>
+    <div class="container">
+      <div class="choseURL">
+        <input class="input" style="width:240px;" id="changeImg" placeholder="Enter URL of your image" fdprocessedid="6oqd5f">
+        <p class="button is-primary" id="changeImgSubmit">Submit</p>
+      </div>
+    </div>
+    <div class="main_container_square">
+      <div class="container_square">
+        <div class="flexContainer">
+          <p><strong>🚨 Click below </strong> to shape your clip-path</p>
+          <div class="containerImgClipPath" style="position: relative;" id="containerImgClipPath">
+            <!-- Points here -->
+          </div>
+          <div>
+            <div class="sizeDemoSetting">
+              <p class="label_p">Demo size:</p>
+              <input class="input" id="widthCustomDemo" type="number" value="300" min="100" max="800" fdprocessedid="0dguz">
+              <p>X</p>
+              <input class="input" id="heightCustomDemo" type="number" value="300" min="100" max="600" fdprocessedid="wkgog">
+            </div>
+          </div>
+        </div>
+        <div class="flexContainer">
+          <p>Result</p>
+          <div class="imgClipPath" style="clip-path: polygon(44% 35%, 9% 56%, 13% 89%, 83% 89%);"></div>
+          <div class="container">
+            <div class="setting-description">
+              <!-- Setting description content -->
+            </div>
+            <div class="wrapper-dropdown" id="dropdown">
+              <!-- Dropdown content -->
+            </div>
+          </div>
+        </div>
+        <div class="flexContainer">
+          <strong style="font-size: 16px;">💡 Quick Tips:</strong>
+          <div class="explanation">
+            <ul>
+              <li><strong>Adding a point:</strong><br>Simply <b>click</b> on the first image to shape your clip path.</li>
+              <li><strong>Removing a point:</strong><br><b>Right-click</b> on the point you wish to remove.</li>
+              <li><strong>Adding a point between two existing points:</strong><br><b>Double-click</b> on the previous point. For example, to add a point between point number 3 and point number 4, double-click on point number 3.</li>
+            </ul>
+          </div>
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <button class="button is-danger" id="reset" fdprocessedid="khild">Reset full clip-path</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="formClipPath">
+      <div id="clipPathValue" class="resultClipPath">polygon(44% 35%, 9% 56%, 13% 89%, 83% 89%)</div>
+      <div class="btnClipPath">
+        <button class="button is-info" type="submit" id="btncopyClipPath" fdprocessedid="leab8">Copy clip-path</button>
+        <div class="button" style="width: 325px;" id="copyShareURL">Copy unique URL to share your clip-path</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

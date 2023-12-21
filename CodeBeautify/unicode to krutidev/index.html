@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unicode to KrutiDev Converter</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <style>
+    .custom-buttons {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .custom-buttons .button {
+      margin-right: 0.5rem;
+    }
+
+    .custom-copy-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+  </style>
+  <script src="converter.js" defer></script>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Unicode to KrutiDev Converter</h1>
+      <div class="field">
+        <label class="label">Enter Unicode Text</label>
+        <div class="control">
+          <textarea id="unicodeInput" class="textarea" placeholder="Enter Unicode text"></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <div class="custom-buttons">
+            <input id="autoCheckbox" type="checkbox" class="checkbox" style="margin-right: 0.5rem;" checked>
+            <label for="">Auto</label>
+          <button id="convertButton" class="button is-primary ml-3">Convert</button>
+          <button id="sampleButton" class="button">Sample</button>
+         
+          <button id="resetButton" class="button is-danger">Reset</button>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">KrutiDev Text</label>
+        <div class="control">
+          <textarea id="krutiDevOutput" class="textarea" placeholder="KrutiDev text will appear here" readonly></textarea>
+          <button id="copyButton" class="button is-info custom-copy-button">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

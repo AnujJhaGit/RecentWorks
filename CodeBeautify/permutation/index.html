@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <title>Permutation Generator</title>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Permutation Generator</h1>
+      <div class="field">
+        <label class="label">Number of Items</label>
+        <div class="control">
+          <input class="input" type="number" id="numItems" placeholder="Enter the number of items">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Type of Items</label>
+        <div class="control">
+          <div class="select">
+            <select id="itemType">
+              <option value="letters">Letters</option>
+              <option value="digits">Digits</option>
+              <option value="custom">Custom List</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Custom List (comma-separated)</label>
+        <div class="control">
+          <input class="input" type="text" id="customList" placeholder="A, B, C">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Order</label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="order" value="ascending" checked>
+            Ascending
+          </label>
+          <label class="radio">
+            <input type="radio" name="order" value="descending">
+            Descending
+          </label>
+        </div>
+      </div>
+     
+      <div class="field">
+        <div class="control">
+          <button class="button is-primary" id="generateButton">Generate</button>
+          <button class="button is-link" id="sampleButton">Sample</button> 
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Generated Permutations</label>
+        <div class="control">
+          <textarea class="textarea" id="permutations" rows="10" readonly></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <a class="button is-info" id="exportButton" href="#" download="permutations.txt">Export to File</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const generateButton = document.getElementById("generateButton");
+  const itemTypeSelect = document.getElementById("itemType");
+  const numItemsInput = document.getElementById("numItems");
+  const customListInput = document.getElementById("customList");
+  const orderRadios = document.getElementsByName("order");
+  const permutationsTextArea = document.getElementById("permutations");
+  const exportButton = document.getElementById("exportButton");
+  const sampleButton = document.getElementById("sampleButton"); 
+
+  generateButton.addEventListener("click", generatePermutations);
+  exportButton.addEventListener("click", exportPermutations);
+  sampleButton.addEventListener("click", fillSampleInput);
+  function fillSampleInput() {
+    numItemsInput.value = "3";
+    itemTypeSelect.value = "letters"; 
+    customListInput.value = "A, B, C"; 
+  }
+
+  function generatePermutations() {
+    const numItems = parseInt(numItemsInput.value);
+    const itemType = itemTypeSelect.value;
+    const customList = customListInput.value.split(",").map(item => item.trim());
+    const order = getOrder();
+    
+    let items;
+    if (itemType === "letters") {
+      items = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").slice(0, numItems);
+    } else if (itemType === "digits") {
+      items = Array.from({ length: numItems }, (_, i) => (i + 1).toString());
+    } else {
+      items = customList.slice(0, numItems);
+    }
+
+    const permutations = generateAllPermutations(items);
+    const sortedPermutations = order === "ascending" ? permutations : permutations.reverse();
+
+    permutationsTextArea.value = sortedPermutations.join("\n");
+  }
+
+  function generateAllPermutations(items) {
+    if (items.length === 1) {
+      return items;
+    }
+
+    const result = [];
+    for (let i = 0; i < items.length; i++) {
+      const current = items[i];
+      const remaining = items.slice(0, i).concat(items.slice(i + 1));
+      const permutations = generateAllPermutations(remaining);
+      for (const permutation of permutations) {
+        result.push(current + permutation);
+      }
+    }
+    return result;
+  }
+
+  function getOrder() {
+    for (const radio of orderRadios) {
+      if (radio.checked) {
+        return radio.value;
+      }
+    }
+  }
+
+  function exportPermutations() {
+    const textToExport = permutationsTextArea.value;
+    const blob = new Blob([textToExport], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "permutations.txt");
+  }
+});
+
+  </script>
+</body>
+</html>
