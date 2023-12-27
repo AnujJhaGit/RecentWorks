@@ -7,13 +7,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <title>ARI Calculator</title>
 </head>
-<style>
-  #ariResult {
-    margin-top: 1em;
-    font-size: 1.2em;
-    line-height: 1.5;
-  }
-</style>
 
 <body>
 
@@ -41,8 +34,10 @@
 
       <div class="field is-grouped is-grouped-centered">
         <div class="control">
-          <input type="checkbox" id="autoUpdateCheckbox" checked>
-          <label for="autoUpdateCheckbox">Auto Update</label>
+          <label class="checkbox">
+            <input type="checkbox" id="autoUpdateCheckbox" checked>
+            Auto Update
+          </label>
         </div>
         <div class="control">
           <button class="button is-primary" onclick="calculateARI()" id="calculateButton" disabled>
@@ -74,8 +69,7 @@
       </div>
     </div>
   </section>
-
-  <script>
+	  <script>
     function calculateARI() {
     const inputText = document.getElementById('inputText').value;
     const words = inputText.split(/\s+/).length;
