@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Hedge Words Finder</title>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+          <h1 class="title">Hedge Words Finder</h1>
+      
+          <div class="columns">
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Enter Text:</label>
+                <div class="control">
+                  <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
+                </div>
+              </div>
+            </div>
+      
+            <div class="column is-half">
+              <div class="box">
+                <h2 class="subtitle">Result</h2>
+                <table class="table is-striped is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th>Hedge Word</th>
+                      <th>Count</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hedgeWordsTableBody">
+                    <!-- Hedge words and their count will be displayed here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+      
+          <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+              <input type="checkbox" id="autoUpdateCheckbox" checked onchange="handleAutoUpdateChange()">
+              <label for="autoUpdateCheckbox">Auto Update</label>
+            </div>
+            <div class="control">
+              <button class="button is-primary" onclick="findHedgeWords()" id="findHedgeWordsButton" disabled>
+                Find Hedge Words
+              </button>
+            </div>
+            <div class="control">
+              <button class="button" onclick="loadSampleText()">Sample Text</button>
+            </div>
+            <div class="control">
+              <div class="file is-info has-name">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Upload File
+                    </span>
+                  </span>
+                  <span class="file-name" id="fileName">No file chosen</span>
+                </label>
+              </div>
+            </div>
+            <div class="control">
+              <button class="button is-danger" onclick="clearText()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        function findHedgeWords() {
+          const inputText = document.getElementById('inputText').value;
+          const hedgeWordsTableBody = document.getElementById('hedgeWordsTableBody');
+
+          // Replace the following logic with your actual hedge words finding mechanism
+          const hedgeWords = inputText.match(/\b(maybe|perhaps|probably|possibly|likely)\b/gi);
+
+          if (hedgeWords) {
+            const uniqueHedgeWords = Array.from(new Set(hedgeWords));
+            const countMap = {};
+
+            uniqueHedgeWords.forEach(word => {
+              countMap[word] = hedgeWords.filter(w => w === word).length;
+            });
+
+            // Clear existing rows
+            hedgeWordsTableBody.innerHTML = '';
+
+            // Append new rows
+            for (const word in countMap) {
+              const row = `<tr><td>${word}</td><td>${countMap[word]}</td></tr>`;
+              hedgeWordsTableBody.innerHTML += row;
+            }
+          } else {
+            // No hedge words found
+            hedgeWordsTableBody.innerHTML = '<tr><td colspan="2">No hedge words found.</td></tr>';
+          }
+        }
+        
+        // Other functions for handling UI interactions go here
+      </script>
+</body>
+</html>

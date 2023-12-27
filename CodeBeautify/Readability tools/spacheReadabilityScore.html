@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Spache Readability Score Calculator</title>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+          <h1 class="title">Spache Readability Score Calculator</h1>
+      
+          <div class="columns">
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Enter Text:</label>
+                <div class="control">
+                  <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
+                </div>
+              </div>
+            </div>
+      
+            <div class="column is-half">
+              <div class="box">
+                <h2 class="subtitle">Result</h2>
+                <p id="spacheResult">Spache Score will be displayed here.</p>
+              </div>
+            </div>
+          </div>
+      
+          <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+              <input type="checkbox" id="autoUpdateCheckbox" checked onchange="handleAutoUpdateChange()">
+              <label for="autoUpdateCheckbox">Auto Update</label>
+            </div>
+            <div class="control">
+              <button class="button is-primary" onclick="calculateSpache()" id="calculateButton" disabled>
+                Calculate Spache Score
+              </button>
+            </div>
+            <div class="control">
+              <button class="button" onclick="loadSampleText()">Sample Text</button>
+            </div>
+            <div class="control">
+              <div class="file is-info has-name">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Upload File
+                    </span>
+                  </span>
+                  <span class="file-name" id="fileName">No file chosen</span>
+                </label>
+              </div>
+            </div>
+            <div class="control">
+              <button class="button is-danger" onclick="clearText()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        function calculateSpache() {
+          const inputText = document.getElementById('inputText').value;
+          const spacheResult = document.getElementById('spacheResult');
+
+          // Replace the following logic with your actual Spache calculation mechanism
+          const words = inputText.split(/\s+/);
+          const totalWords = words.length;
+          const difficultWordCount = words.filter(word => isDifficultWord(word)).length;
+
+          const spacheScore = 0.121 * difficultWordCount + 0.659 * (totalWords / 10);
+
+          spacheResult.innerHTML = `Spache Score: ${spacheScore.toFixed(2)}`;
+        }
+
+        function isDifficultWord(word) {
+          // Replace this function with your own logic to determine difficult words
+          // You may use external libraries or databases for better accuracy
+          // For simplicity, we'll consider words longer than 6 characters as difficult
+          return word.length > 6;
+        }
+        
+        // Other functions for handling UI interactions go here
+      </script>
+</body>
+</html>

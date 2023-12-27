@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Raygor Estimate Readability Calculator</title>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+          <h1 class="title">Raygor Estimate Readability Calculator</h1>
+      
+          <div class="columns">
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Enter Text:</label>
+                <div class="control">
+                  <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
+                </div>
+              </div>
+            </div>
+      
+            <div class="column is-half">
+              <div class="box">
+                <h2 class="subtitle">Result</h2>
+                <p id="raygorResult">Raygor Estimate Grade Level will be displayed here.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add a canvas element for the graph -->
+          <div class="box">
+            <canvas id="raygorGraph" width="400" height="200"></canvas>
+          </div>
+      
+          <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+              <input type="checkbox" id="autoUpdateCheckbox" checked onchange="handleAutoUpdateChange()">
+              <label for="autoUpdateCheckbox">Auto Update</label>
+            </div>
+            <div class="control">
+              <button class="button is-primary" onclick="calculateRaygor()" id="calculateButton" disabled>
+                Calculate Raygor Estimate
+              </button>
+            </div>
+            <div class="control">
+              <button class="button" onclick="loadSampleText()">Sample Text</button>
+            </div>
+            <div class="control">
+              <div class="file is-info has-name">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Upload File
+                    </span>
+                  </span>
+                  <span class="file-name" id="fileName">No file chosen</span>
+                </label>
+              </div>
+            </div>
+            <div class="control">
+              <button class="button is-danger" onclick="clearText()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        function calculateRaygor() {
+          const inputText = document.getElementById('inputText').value;
+          const raygorResult = document.getElementById('raygorResult');
+
+          // Replace the following logic with your actual Raygor Estimate calculation mechanism
+          const samplePassage = getSamplePassage(inputText);
+          const sentenceCount = countSentences(samplePassage);
+          const wordCount = countWordsWithSixOrMoreLetters(samplePassage);
+
+          // Assume a simple conversion for demonstration purposes
+          const raygorGradeLevel = Math.round(sentenceCount + wordCount);
+
+          raygorResult.innerHTML = `Raygor Estimate Grade Level: ${raygorGradeLevel}`;
+
+          // Create a bar graph using Chart.js
+          createGraph(raygorGradeLevel);
+        }
+
+        function getSamplePassage(text) {
+          // Replace this function with logic to get a 100-word sample passage
+          // For simplicity, return the first 100 words
+          return text.split(/\s+/).slice(0, 100).join(' ');
+        }
+
+        function countSentences(text) {
+          // Replace this function with logic to count sentences
+          // For simplicity, split by ".", "!", or "?" and count elements
+          return text.split(/[.!?]+/).length - 1;
+        }
+
+        function countWordsWithSixOrMoreLetters(text) {
+          // Replace this function with logic to count words with six or more letters
+          // For simplicity, split by whitespace and count words
+          return text.split(/\s+/).filter(word => word.length >= 6).length;
+        }
+
+        function createGraph(raygorGradeLevel) {
+          const ctx = document.getElementById('raygorGraph').getContext('2d');
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Raygor Estimate Grade Level'],
+              datasets: [{
+                label: 'Grade Level',
+                data: [raygorGradeLevel],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+
+        // ... (other functions remain unchanged)
+      </script>
+</body>
+</html>

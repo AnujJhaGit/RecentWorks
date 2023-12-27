@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Fry Readability Formula Calculator</title>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+          <h1 class="title">Fry Readability Formula Calculator</h1>
+      
+          <div class="columns">
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Enter Text:</label>
+                <div class="control">
+                  <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
+                </div>
+              </div>
+            </div>
+      
+            <div class="column is-half">
+              <div class="box">
+                <h2 class="subtitle">Result</h2>
+                <p id="fryResult">Fry Readability Score will be displayed here.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add a canvas element for the graph -->
+          <div class="box">
+            <canvas id="fryGraph" width="400" height="200"></canvas>
+          </div>
+      
+          <div class="field is-grouped is-grouped-centered">
+            <div class="control">
+              <input type="checkbox" id="autoUpdateCheckbox" checked onchange="handleAutoUpdateChange()">
+              <label for="autoUpdateCheckbox">Auto Update</label>
+            </div>
+            <div class="control">
+              <button class="button is-primary" onclick="calculateFry()" id="calculateButton" disabled>
+                Calculate Fry Readability Score
+              </button>
+            </div>
+            <div class="control">
+              <button class="button" onclick="loadSampleText()">Sample Text</button>
+            </div>
+            <div class="control">
+              <div class="file is-info has-name">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Upload File
+                    </span>
+                  </span>
+                  <span class="file-name" id="fileName">No file chosen</span>
+                </label>
+              </div>
+            </div>
+            <div class="control">
+              <button class="button is-danger" onclick="clearText()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        function calculateFry() {
+          const inputText = document.getElementById('inputText').value;
+          const fryResult = document.getElementById('fryResult');
+
+          // Replace the following logic with your actual Fry Readability Score calculation mechanism
+          const fryScore = calculateFryScore(inputText);
+
+          fryResult.innerHTML = `Fry Readability Score: ${fryScore}`;
+
+          // Create a line graph using Chart.js
+          createGraph(fryScore);
+        }
+
+        function calculateFryScore(text) {
+          // Replace this function with your actual Fry Readability Score calculation mechanism
+          // For simplicity, the following is a placeholder that always returns 5 (adjust as needed)
+          return 5;
+        }
+
+        function createGraph(fryScore) {
+          const ctx = document.getElementById('fryGraph').getContext('2d');
+
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['Fry Readability Score'],
+              datasets: [{
+                label: 'Score',
+                data: [fryScore],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                pointRadius: 5,
+                pointHoverRadius: 8,
+                fill: false
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+
+        // ... (other functions remain unchanged)
+      </script>
+</body>
+</html>

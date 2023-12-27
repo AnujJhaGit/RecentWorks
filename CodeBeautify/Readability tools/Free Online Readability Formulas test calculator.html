@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readability Calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .tab-content {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Readability Calculator</h1>
+            <div class="field">
+                <label class="label">Enter Text:</label>
+                <div class="control">
+                    <textarea class="textarea" id="inputText" placeholder="Enter your text here..."></textarea>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary" onclick="calculateReadability()">Calculate Readability</button>
+                </div>
+            </div>
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox" id="autoUpdate"> Auto-update
+                </label>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button" onclick="loadSampleText()">Load Sample Text</button>
+                    <button class="button is-danger" onclick="clearText()">Clear</button>
+                    <input type="file" id="fileInput" accept=".txt" style="display: none;">
+                    <label class="button is-info" for="fileInput">Upload File</label>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <ul>
+                    <li class="is-active" id="tab1"><a onclick="switchTab(1)">Readability Scores</a></li>
+                    <li id="tab2"><a onclick="switchTab(2)">Graphs</a></li>
+                    <li id="tab3"><a onclick="switchTab(3)">Frequency</a></li>
+                    <li id="tab4"><a onclick="switchTab(4)">Statistics</a></li>
+                </ul>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tabContent1" class="tab-content">
+                <!-- Readability Scores Tab Content -->
+                <p>Under readability scores tab:</p>
+                <ul>
+                    <li>Flesch Kincaid Grade Level: <span id="fkGradeLevel"></span></li>
+                    <li>Flesch Kincaid Reading Ease: <span id="fkReadingEase"></span></li>
+                    <li>New Dale-Chall Score: <span id="daleChallScore"></span></li>
+                    <li>Spache Readability Score: <span id="spacheScore"></span></li>
+                    <li>SMOG Index: <span id="smogIndex"></span></li>
+                    <li>Coleman-Liau Index: <span id="colemanLiauIndex"></span></li>
+                    <li>Gunning-Fog Score: <span id="gunningFogScore"></span></li>
+                    <li>Automated Readability Index: <span id="ari"></span></li>
+                    <li>Linsear Write: <span id="linsearWrite"></span></li>
+                    <li>Rix: <span id="rix"></span></li>
+                    <li>Standard: <span id="standard"></span></li>
+                    <li>Median Score: <span id="medianScore"></span></li>
+                </ul>
+            </div>
+
+            <div id="tabContent2" class="tab-content hidden">
+                <!-- Graphs Tab Content -->
+                <p>Under graph tab:</p>
+                <canvas id="fryGraph" width="400" height="200"></canvas>
+                <canvas id="raygorGraph" width="400" height="200"></canvas>
+            </div>
+
+            <div id="tabContent3" class="tab-content hidden">
+                <!-- Frequency Tab Content -->
+                <p>Under frequency tab:</p>
+                <ul>
+                    <li>Buzzwords: <span id="buzzwordsCount"></span></li>
+                    <li>Weasels: <span id="weaselsCount"></span></li>
+                    <!-- Add other frequency criteria here -->
+                </ul>
+            </div>
+
+            <div id="tabContent4" class="tab-content hidden">
+                <!-- Statistics Tab Content -->
+                <p>Under statistics tab:</p>
+                <ul>
+                    <li>Word Count: <span id="wordCount"></span></li>
+                    <li>Unique Word Count: <span id="uniqueWordCount"></span></li>
+                    <li>Sentence Count: <span id="sentenceCount"></span></li>
+                    <li>Syllable Count: <span id="syllableCount"></span></li>
+                    <li>Letter Count: <span id="letterCount"></span></li>
+                    <li>Polysyllabic Word Count: <span id="polysyllabicWordCount"></span></li>
+                    <li>Average Words per Sentence: <span id="avgWordsPerSentence"></span></li>
+                    <li>Average Syllables per Word: <span id="avgSyllablesPerWord"></span></li>
+                    <li>Average Word Length: <span id="avgWordLength"></span></li>
+                    <li>Average Letters per Sentence: <span id="avgLettersPerSentence"></span></li>
+                    <li>Longest Sentence (Words): <span id="longestSentence"></span></li>
+                    <li>Shortest Sentence (Words): <span id="shortestSentence"></span></li>
+                    <li>Reading Time: <span id="readingTime"></span> seconds</li>
+                    <li>Speaking Time: <span id="speakingTime"></span> seconds</li>
+                    <li>Writing Time: <span id="writingTime"></span> seconds</li>
+                </ul>
+            </div>
+
+            <div class="content" id="resultContainer"></div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function calculateReadability() {
+            const text = document.getElementById('inputText').value;
+
+            // Calculate Readability Scores
+            const fkGradeLevel = calculateFleschKincaidGradeLevel(text);
+            const fkReadingEase = calculateFleschKincaidReadingEase(text);
+            const daleChallScore = calculateDaleChallScore(text);
+            const spacheScore = calculateSpacheReadabilityScore(text);
+            const smogIndex = calculateSMOGIndex(text);
+            const colemanLiauIndex = calculateColemanLiauIndex(text);
+            const gunningFogScore = calculateGunningFogScore(text);
+            const ari = calculateARI(text);
+            const linsearWrite = calculateLinsearWrite(text);
+            const rix = calculateRix(text);
+            const standard = calculateStandard(text);
+            const medianScore = calculateMedianScore(text);
+
+            // Calculate Graphs (using a placeholder function, actual implementation depends on your chart library)
+            generateFryGraph();
+            generateRaygorGraph();
+
+            // Calculate Frequency
+            const buzzwordsCount = calculateBuzzwordsCount(text);
+            const weaselsCount = calculateWeaselsCount(text);
+
+            // Calculate Statistics
+            const wordCount = calculateWordCount(text);
+            const uniqueWordCount = calculateUniqueWordCount(text);
+            const sentenceCount = calculateSentenceCount(text);
+            const syllableCount = calculateSyllableCount(text);
+            const letterCount = calculateLetterCount(text);
+            const polysyllabicWordCount = calculatePolysyllabicWordCount(text);
+            const avgWordsPerSentence = calculateAverageWordsPerSentence(text);
+            const avgSyllablesPerWord = calculateAverageSyllablesPerWord(text);
+            const avgWordLength = calculateAverageWordLength(text);
+            const avgLettersPerSentence = calculateAverageLettersPerSentence(text);
+            const longestSentence = calculateLongestSentence(text);
+            const shortestSentence = calculateShortestSentence(text);
+            const readingTime = calculateReadingTime(text);
+            const speakingTime = calculateSpeakingTime(text);
+            const writingTime = calculateWritingTime(text);
+
+            // Display Results
+            displayReadabilityScores(fkGradeLevel, fkReadingEase, daleChallScore, spacheScore, smogIndex,
+                colemanLiauIndex, gunningFogScore, ari, linsearWrite, rix, standard, medianScore);
+
+            displayGraphs();
+
+            displayFrequency(buzzwordsCount, weaselsCount);
+
+            displayStatistics(wordCount, uniqueWordCount, sentenceCount, syllableCount, letterCount,
+                polysyllabicWordCount, avgWordsPerSentence, avgSyllablesPerWord, avgWordLength,
+                avgLettersPerSentence, longestSentence, shortestSentence, readingTime,
+                speakingTime, writingTime);
+
+            if (document.getElementById('autoUpdate').checked) {
+                updateTabs();
+            }
+        }
+
+        function generateFryGraph() {
+            const ctx = document.getElementById('fryGraph').getContext('2d');
+            const fryChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label: 'Fry Readability Formula',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }]
+                    }
+                }
+            });
+        }
+
+        function generateRaygorGraph() {
+            const ctx = document.getElementById('raygorGraph').getContext('2d');
+            const raygorChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label: 'Raygor Estimate',
+                        data: [45, 48, 50, 55, 60, 62, 65],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }]
+                    }
+                }
+            });
+        }
+
+        function displayReadabilityScores(fkGradeLevel, fkReadingEase, daleChallScore, spacheScore, smogIndex,
+            colemanLiauIndex, gunningFogScore, ari, linsearWrite, rix, standard, medianScore) {
+            document.getElementById('fkGradeLevel').textContent = fkGradeLevel;
+            document.getElementById('fkReadingEase').textContent = fkReadingEase;
+            document.getElementById('daleChallScore').textContent = daleChallScore;
+            document.getElementById('spacheScore').textContent = spacheScore;
+            document.getElementById('smogIndex').textContent = smogIndex;
+            document.getElementById('colemanLiauIndex').textContent = colemanLiauIndex;
+            document.getElementById('gunningFogScore').textContent = gunningFogScore;
+            document.getElementById('ari').textContent = ari;
+            document.getElementById('linsearWrite').textContent = linsearWrite;
+            document.getElementById('rix').textContent = rix;
+            document.getElementById('standard').textContent = standard;
+            document.getElementById('medianScore').textContent = medianScore;
+        }
+
+        function displayGraphs() {
+            // Graphs are generated in the calculateReadability function using Chart.js
+        }
+
+        function displayFrequency(buzzwordsCount, weaselsCount) {
+            document.getElementById('buzzwordsCount').textContent = buzzwordsCount;
+            document.getElementById('weaselsCount').textContent = weaselsCount;
+            // Add other frequency criteria here
+        }
+
+        function displayStatistics(wordCount, uniqueWordCount, sentenceCount, syllableCount, letterCount,
+            polysyllabicWordCount, avgWordsPerSentence, avgSyllablesPerWord, avgWordLength,
+            avgLettersPerSentence, longestSentence, shortestSentence, readingTime,
+            speakingTime, writingTime) {
+            document.getElementById('wordCount').textContent = wordCount;
+            document.getElementById('uniqueWordCount').textContent = uniqueWordCount;
+            document.getElementById('sentenceCount').textContent = sentenceCount;
+            document.getElementById('syllableCount').textContent = syllableCount;
+            document.getElementById('letterCount').textContent = letterCount;
+            document.getElementById('polysyllabicWordCount').textContent = polysyllabicWordCount;
+            document.getElementById('avgWordsPerSentence').textContent = avgWordsPerSentence;
+            document.getElementById('avgSyllablesPerWord').textContent = avgSyllablesPerWord;
+            document.getElementById('avgWordLength').textContent = avgWordLength;
+            document.getElementById('avgLettersPerSentence').textContent = avgLettersPerSentence;
+            document.getElementById('longestSentence').textContent = longestSentence;
+            document.getElementById('shortestSentence').textContent = shortestSentence;
+            document.getElementById('readingTime').textContent = readingTime;
+            document.getElementById('speakingTime').textContent = speakingTime;
+            document.getElementById('writingTime').textContent = writingTime;
+        }
+
+        // Add your existing functions here
+
+        // ...
+    </script>
+</body>
+
+</html>

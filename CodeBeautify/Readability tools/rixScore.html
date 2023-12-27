@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rix Readability Score Calculator Online</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Rix Readability Score Calculator</h1>
+      <div class="columns">
+        <div class="column is-half">
+          <div class="field">
+            <label class="label">Enter Text:</label>
+            <div class="control">
+              <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="box">
+            <h2 class="subtitle">Result</h2>
+            <p id="rixResult">RIX Score will be displayed here.</p>
+          </div>
+        </div>
+      </div>
+      <div class="field is-grouped is-grouped-centered">
+        <div class="control">
+          <input type="checkbox" id="autoUpdateCheckbox" checked onchange="handleAutoUpdateChange()">
+          <label for="autoUpdateCheckbox">Auto Update</label>
+        </div>
+        <div class="control">
+          <button class="button is-primary" onclick="calculateRIX()" id="calculateButton" disabled>
+            Calculate RIX
+          </button>
+        </div>
+        <div class="control">
+          <button class="button" onclick="loadSampleText()">Sample Text</button>
+        </div>
+        <div class="control">
+          <div class="file is-info has-name">
+            <label class="file-label">
+              <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Upload File
+                </span>
+              </span>
+              <span class="file-name" id="fileName">No file chosen</span>
+            </label>
+          </div>
+        </div>
+        <div class="control">
+          <button class="button is-danger" onclick="clearText()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    let autoUpdate = true;
+    function handleTextChange() {
+      if (autoUpdate) {
+        calculateRIX();
+      }
+      const inputText = document.getElementById('inputText').value;
+      const calculateButton = document.getElementById('calculateButton');
+      calculateButton.disabled = !inputText.trim();
+    }
+    function handleAutoUpdateChange() {
+      autoUpdate = document.getElementById('autoUpdateCheckbox').checked;
+      if (autoUpdate) {
+        calculateRIX();
+      }
+    }
+    function calculateRIX() {
+      const text = document.getElementById('inputText').value;
+      const rixScore = calculateRixScore(text);
+      document.getElementById('rixResult').innerText = `RIX Score: ${rixScore.toFixed(2)}`;
+    }
+    function loadSampleText() {
+      document.getElementById('inputText').value = "Pride and Prejudice by Jane Austen\nChapter 1\n\nIt is a truth universally acknowledged, ...";
+      calculateRIX();
+      handleTextChange();
+    }
+    function loadFile() {
+      const fileInput = document.getElementById('fileInput');
+      const fileNameElement = document.getElementById('fileName');
+      const file = fileInput.files[0];
+      fileNameElement.innerText = file ? file.name : 'No file chosen';
+    }
+    function clearText() {
+      document.getElementById('inputText').value = '';
+      document.getElementById('rixResult').innerText = 'RIX Score will be displayed here.';
+    }
+    function calculateRixScore(text) {
+  if (!text) {
+    return 0;
+  }
+  const arr = text.split(' ');
+  const words = arr.filter(word => word !== '');
+  const sentences = text.split(/[.?!]/g).filter(Boolean);
+  const longWords = words.filter(word => word.length > 6);
+
+  const rixScore = longWords.length / sentences.length;
+
+  return rixScore;
+}
+  </script>
+</body>
+</html>
