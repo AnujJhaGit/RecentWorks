@@ -32,41 +32,37 @@
           </div>
         </div>
       </div>
-<div class="card p-3"> <div class="field is-grouped is-grouped-centered">
-  <div class="">
-    <label class="checkbox">
-      <input type="checkbox" id="autoUpdateCheckbox" checked>
-      Auto Update
-    </label>
-  </div>
-  <div class="">
+ 
+
+  <div class="buttons">
+    <div class="button">
+      <label class="checkbox">
+        <input type="checkbox" id="autoUpdateCheckbox" checked>
+        Auto Update
+      </label>
+    </div>
     <button class="button is-primary" onclick="calculateARI()" id="calculateButton" disabled>
       Calculate ARI
     </button>
-  </div>
-  <div class="">
     <button class="button" onclick="loadSampleText()">Sample Text</button>
-  </div>
-  <div class="">
-    <div class="file is-info has-name">
-      <label class="file-label">
-        <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
-        <span class="file-cta">
-          <span class="file-icon">
-            <i class="fas fa-upload"></i>
+    <div class="button">
+      <div class="file is-info has-name">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Upload File
+            </span>
           </span>
-          <span class="file-label">
-            Upload File
-          </span>
-        </span>
-        <span class="file-name" id="fileName">No file chosen</span>
-      </label>
+          <span class="file-name" id="fileName">No file chosen</span>
+        </label>
+      </div>
     </div>
-  </div>
-  <div class="">
     <button class="button is-danger" onclick="clearText()">Clear</button>
-  </div>
-</div></div>
+</div>
      
     </div>
   </section>
