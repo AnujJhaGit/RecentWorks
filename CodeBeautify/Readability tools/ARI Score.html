@@ -5,95 +5,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <title>ARI Calculator</title>
-
-  <style>
-    /* Custom CSS for better mobile responsiveness */
-    @media screen and (max-width: 768px) {
-      .column.is-half {
-        width: 100%;
-      }
-    }
-  </style>
 </head>
 
 <body>
 
   <section class="section">
     <div class="container">
-      <div class="card">
-        <div class="card-content">
-          <h1 class="title">Automated Readability Index (ARI) Calculator</h1>
+      <h1 class="title">Automated Readability Index (ARI) Calculator</h1>
 
-          <div class="columns">
-            <div class="column is-half">
-              <div class="field">
-                <label class="label">Enter Text:</label>
-                <div class="control">
-                  <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
-                </div>
-              </div>
-            </div>
-
-            <div class="column is-half">
-              <div class="card">
-                <div class="card-content">
-                  <h2 class="subtitle">Result</h2>
-                  <p id="ariResult">ARI will be displayed here.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="field is-grouped">
+      <div class="columns">
+        <div class="column is-half">
+          <div class="field">
+            <label class="label">Enter Text:</label>
             <div class="control">
-              <label class="checkbox">
-                <input type="checkbox" id="autoUpdateCheckbox" checked>
-                Auto Update
-              </label>
-            </div>
-            <div class="control">
-              <button class="button is-primary" onclick="calculateARI()" id="calculateButton" disabled>
-                Calculate ARI
-              </button>
-            </div>
-            <div class="control">
-              <button class="button" onclick="loadSampleText()">Sample Text</button>
-            </div>
-            <div class="control">
-              <div class="file is-info has-name">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Upload File
-                    </span>
-                  </span>
-                  <span class="file-name" id="fileName">No file chosen</span>
-                </label>
-              </div>
-            </div>
-            <div class="control">
-              <!-- Responsive Bulma-styled buttons -->
-              <div class="buttons">
-                <button class="button" onclick="loadSampleText()">Sample 1</button>
-                <button class="button" onclick="loadSampleText()">Sample 2</button>
-                <button class="button" onclick="loadSampleText()">Sample 3</button>
-              </div>
-            </div>
-            <div class="control">
-              <button class="button is-danger" onclick="clearText()">Clear</button>
+              <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
             </div>
           </div>
         </div>
+
+        <div class="column is-half">
+          <div class="box">
+            <h2 class="subtitle">Result</h2>
+            <p id="ariResult">ARI will be displayed here.</p>
+          </div>
+        </div>
       </div>
+<div class="card p-3"> <div class="field is-grouped is-grouped-centered">
+  <div class="control">
+    <label class="checkbox">
+      <input type="checkbox" id="autoUpdateCheckbox" checked>
+      Auto Update
+    </label>
+  </div>
+  <div class="control">
+    <button class="button is-primary" onclick="calculateARI()" id="calculateButton" disabled>
+      Calculate ARI
+    </button>
+  </div>
+  <div class="control">
+    <button class="button" onclick="loadSampleText()">Sample Text</button>
+  </div>
+  <div class="control">
+    <div class="file is-info has-name">
+      <label class="file-label">
+        <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">
+            Upload File
+          </span>
+        </span>
+        <span class="file-name" id="fileName">No file chosen</span>
+      </label>
+    </div>
+  </div>
+  <div class="control">
+    <button class="button is-danger" onclick="clearText()">Clear</button>
+  </div>
+</div></div>
+     
     </div>
   </section>
-
-  <script>
+	  <script>
     function calculateARI() {
     const inputText = document.getElementById('inputText').value;
     const words = inputText.split(/\s+/).length;
@@ -178,7 +155,6 @@
 
         document.getElementById('inputText').addEventListener('input', enableCalculateButton);
   </script>
-
 </body>
 
 </html>
