@@ -13,60 +13,69 @@
 
   <section class="section">
     <div class="container">
-      <h1 class="title">Automated Readability Index (ARI) Calculator</h1>
+      <h1 class="title has-text-centered has-text-info">Automated Readability Index (ARI) Calculator</h1>
 
-      <div class="columns">
+      <div class="columns is-centered">
         <div class="column is-half">
           <div class="field">
             <label class="label">Enter Text:</label>
             <div class="control">
-              <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
+              <textarea class="textarea" id="inputText" placeholder="Enter your text here..."
+                oninput="handleTextChange()"></textarea>
             </div>
           </div>
         </div>
 
         <div class="column is-half">
           <div class="box">
-            <h2 class="subtitle">Result</h2>
+            <h2 class="subtitle has-text-info">Result</h2>
             <p id="ariResult">ARI will be displayed here.</p>
           </div>
         </div>
       </div>
- 
 
-  <div class="buttons">
-    <div class="button">
-      <label class="checkbox">
-        <input type="checkbox" id="autoUpdateCheckbox" checked>
-        Auto Update
-      </label>
-    </div>
-    <button class="button is-primary" onclick="calculateARI()" id="calculateButton" disabled>
-      Calculate ARI
-    </button>
-    <button class="button" onclick="loadSampleText()">Sample Text</button>
-    <div class="button">
-      <div class="file is-info has-name">
-        <label class="file-label">
-          <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-            <span class="file-label">
-              Upload File
-            </span>
-          </span>
-          <span class="file-name" id="fileName">No file chosen</span>
-        </label>
+      <div class="buttons is-centered">
+        <div class="field is-horizontal">
+          <div class="field-body">
+            <div class="field">
+              <input type="checkbox" id="autoUpdateCheckbox" class="is-checkradio" checked>
+              <label for="autoUpdateCheckbox">Auto Update</label>
+            </div>
+            <div class="field">
+              <button class="button is-primary" onclick="calculateARI()" id="calculateButton" disabled>
+                Calculate ARI
+              </button>
+            </div>
+            <div class="field">
+              <button class="button" onclick="loadSampleText()">Sample Text</button>
+            </div>
+            <div class="field">
+              <div class="file has-name is-info">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Upload File
+                    </span>
+                  </span>
+                  <span class="file-name" id="fileName">No file chosen</span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <button class="button is-danger" onclick="clearText()">Clear</button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <button class="button is-danger" onclick="clearText()">Clear</button>
-</div>
-     
+
     </div>
   </section>
-	  <script>
+
+  <script>
     function calculateARI() {
     const inputText = document.getElementById('inputText').value;
     const words = inputText.split(/\s+/).length;
@@ -117,6 +126,7 @@
         function loadSampleText() {
           document.getElementById('inputText').value = "The quick brown fox jumps over the lazy dog.";
           enableCalculateButton();
+          calculateARI();
         }
       
         function loadFile() {
