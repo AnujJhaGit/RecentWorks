@@ -45,7 +45,7 @@
             </div>
           </div>
 
-          <div class="field is-grouped is-grouped-centered">
+          <div class="field is-grouped">
             <div class="control">
               <label class="checkbox">
                 <input type="checkbox" id="autoUpdateCheckbox" checked>
@@ -77,6 +77,14 @@
               </div>
             </div>
             <div class="control">
+              <!-- Responsive Bulma-styled buttons -->
+              <div class="buttons">
+                <button class="button" onclick="loadSampleText()">Sample 1</button>
+                <button class="button" onclick="loadSampleText()">Sample 2</button>
+                <button class="button" onclick="loadSampleText()">Sample 3</button>
+              </div>
+            </div>
+            <div class="control">
               <button class="button is-danger" onclick="clearText()">Clear</button>
             </div>
           </div>
@@ -85,7 +93,7 @@
     </div>
   </section>
 
- <script>
+  <script>
     function calculateARI() {
     const inputText = document.getElementById('inputText').value;
     const words = inputText.split(/\s+/).length;
@@ -170,6 +178,7 @@
 
         document.getElementById('inputText').addEventListener('input', enableCalculateButton);
   </script>
+
 </body>
 
 </html>
