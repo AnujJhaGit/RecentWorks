@@ -48,7 +48,7 @@
               </button>
             </div>
             <div class="control">
-              <button class="button" onclick="loadSampleText()">Sample Text</button>
+              <button class="button" id="sample">Sample Text</button>
             </div>
             <div class="control">
               <div class="file is-info has-name">
@@ -73,24 +73,5 @@
         </div>
       </section>
 
-      <script>
-        function calculateDaleChall() {
-          const inputText = document.getElementById('inputText').value;
-          const daleChallResult = document.getElementById('daleChallResult');
-
-          // Replace the following logic with your actual Dale-Chall Score calculation mechanism
-          const daleChallScore = calculateDaleChallScore(inputText);
-
-          daleChallResult.innerHTML = `Dale-Chall Readability Score: ${daleChallScore}`;
-        }
-
-        function calculateDaleChallScore(text) {
-          // Replace this function with your actual Dale-Chall Score calculation mechanism
-          // For simplicity, the following is a placeholder that always returns 8 (adjust as needed)
-          return 8;
-        }
-
-        // ... (other functions remain unchanged)
-      </script>
-</body>
+     <script src="daleChall.js"></script>
 </html>

@@ -14,6 +14,11 @@
         .tab-content {
             margin-top: 20px;
         }
+
+        .dropdown {
+            cursor: pointer;
+            user-select: none;
+        }
     </style>
 </head>
 
@@ -59,7 +64,6 @@
             <!-- Tab Contents -->
             <div id="tabContent1" class="tab-content">
                 <!-- Readability Scores Tab Content -->
-                <p>Under readability scores tab:</p>
                 <ul>
                     <li>Flesch Kincaid Grade Level: <span id="fkGradeLevel"></span></li>
                     <li>Flesch Kincaid Reading Ease: <span id="fkReadingEase"></span></li>
@@ -78,40 +82,88 @@
 
             <div id="tabContent2" class="tab-content hidden">
                 <!-- Graphs Tab Content -->
-                <p>Under graph tab:</p>
                 <canvas id="fryGraph" width="400" height="200"></canvas>
                 <canvas id="raygorGraph" width="400" height="200"></canvas>
             </div>
 
             <div id="tabContent3" class="tab-content hidden">
                 <!-- Frequency Tab Content -->
-                <p>Under frequency tab:</p>
                 <ul>
-                    <li>Buzzwords: <span id="buzzwordsCount"></span></li>
-                    <li>Weasels: <span id="weaselsCount"></span></li>
-                    <!-- Add other frequency criteria here -->
+                    <li>
+                        Buzzwords <span id="buzzwordsCount" class="dropdown" onclick="toggleTable('buzzwords')">^</span>
+                        <div id="buzzwordsTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Weasels <span id="weaselsCount" class="dropdown" onclick="toggleTable('weasels')">^</span>
+                        <div id="weaselsTable" class="table-container hidden"></div>
+                    </li>
+                    <!-- Add similar structures for other categories -->
                 </ul>
             </div>
 
             <div id="tabContent4" class="tab-content hidden">
                 <!-- Statistics Tab Content -->
-                <p>Under statistics tab:</p>
                 <ul>
-                    <li>Word Count: <span id="wordCount"></span></li>
-                    <li>Unique Word Count: <span id="uniqueWordCount"></span></li>
-                    <li>Sentence Count: <span id="sentenceCount"></span></li>
-                    <li>Syllable Count: <span id="syllableCount"></span></li>
-                    <li>Letter Count: <span id="letterCount"></span></li>
-                    <li>Polysyllabic Word Count: <span id="polysyllabicWordCount"></span></li>
-                    <li>Average Words per Sentence: <span id="avgWordsPerSentence"></span></li>
-                    <li>Average Syllables per Word: <span id="avgSyllablesPerWord"></span></li>
-                    <li>Average Word Length: <span id="avgWordLength"></span></li>
-                    <li>Average Letters per Sentence: <span id="avgLettersPerSentence"></span></li>
-                    <li>Longest Sentence (Words): <span id="longestSentence"></span></li>
-                    <li>Shortest Sentence (Words): <span id="shortestSentence"></span></li>
-                    <li>Reading Time: <span id="readingTime"></span> seconds</li>
-                    <li>Speaking Time: <span id="speakingTime"></span> seconds</li>
-                    <li>Writing Time: <span id="writingTime"></span> seconds</li>
+                    <li>
+                        Word Count: <span id="wordCount" class="dropdown" onclick="toggleTable('wordCount')">^</span>
+                        <div id="wordCountTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Unique Word Count: <span id="uniqueWordCount" class="dropdown" onclick="toggleTable('uniqueWordCount')">^</span>
+                        <div id="uniqueWordCountTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Sentence Count: <span id="sentenceCount" class="dropdown" onclick="toggleTable('sentenceCount')">^</span>
+                        <div id="sentenceCountTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Syllable Count: <span id="syllableCount" class="dropdown" onclick="toggleTable('syllableCount')">^</span>
+                        <div id="syllableCountTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Letter Count: <span id="letterCount" class="dropdown" onclick="toggleTable('letterCount')">^</span>
+                        <div id="letterCountTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Polysyllabic Word Count: <span id="polysyllabicWordCount" class="dropdown" onclick="toggleTable('polysyllabicWordCount')">^</span>
+                        <div id="polysyllabicWordCountTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Average Words per Sentence: <span id="avgWordsPerSentence" class="dropdown" onclick="toggleTable('avgWordsPerSentence')">^</span>
+                        <div id="avgWordsPerSentenceTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Average Syllables per Word: <span id="avgSyllablesPerWord" class="dropdown" onclick="toggleTable('avgSyllablesPerWord')">^</span>
+                        <div id="avgSyllablesPerWordTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Average Word Length: <span id="avgWordLength" class="dropdown" onclick="toggleTable('avgWordLength')">^</span>
+                        <div id="avgWordLengthTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Average Letters per Sentence: <span id="avgLettersPerSentence" class="dropdown" onclick="toggleTable('avgLettersPerSentence')">^</span>
+                        <div id="avgLettersPerSentenceTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Longest Sentence (Words): <span id="longestSentence" class="dropdown" onclick="toggleTable('longestSentence')">^</span>
+                        <div id="longestSentenceTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Shortest Sentence (Words): <span id="shortestSentence" class="dropdown" onclick="toggleTable('shortestSentence')">^</span>
+                        <div id="shortestSentenceTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Reading Time: <span id="readingTime" class="dropdown" onclick="toggleTable('readingTime')">^</span>
+                        <div id="readingTimeTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Speaking Time: <span id="speakingTime" class="dropdown" onclick="toggleTable('speakingTime')">^</span>
+                        <div id="speakingTimeTable" class="table-container hidden"></div>
+                    </li>
+                    <li>
+                        Writing Time: <span id="writingTime" class="dropdown" onclick="toggleTable('writingTime')">^</span>
+                        <div id="writingTimeTable" class="table-container hidden"></div>
+                    </li>
                 </ul>
             </div>
 
@@ -121,166 +173,48 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        function calculateReadability() {
-            const text = document.getElementById('inputText').value;
+        const data = {
+            buzzwords: { word1: 5, word2: 8, word3: 12 },
+            weasels: { word1: 3, word2: 6, word3: 9 },
+            wordCount: { word1: 100, word2: 150, word3: 200 },
+            uniqueWordCount: { word1: 80, word2: 120, word3: 160 },
+            sentenceCount: { sentence1: 10, sentence2: 15, sentence3: 20 },
+            syllableCount: { syllable1: 50, syllable2: 75, syllable3: 100 },
+            letterCount: { letter1: 400, letter2: 600, letter3: 800 },
+            polysyllabicWordCount: { polysyllabicWord1: 15, polysyllabicWord2: 25, polysyllabicWord3: 35 },
+            avgWordsPerSentence: { avgWords1: 8, avgWords2: 10, avgWords3: 12 },
+            avgSyllablesPerWord: { avgSyllables1: 2.5, avgSyllables2: 3, avgSyllables3: 3.5 },
+            avgWordLength: { avgWordLength1: 4, avgWordLength2: 5, avgWordLength3: 6 },
+            avgLettersPerSentence: { avgLetters1: 40, avgLetters2: 50, avgLetters3: 60 },
+            longestSentence: { longest1: 25, longest2: 30, longest3: 35 },
+            shortestSentence: { shortest1: 5, shortest2: 8, shortest3: 10 },
+            readingTime: { readingTime1: 30, readingTime2: 45, readingTime3: 60 },
+            speakingTime: { speakingTime1: 20, speakingTime2: 30, speakingTime3: 40 },
+            writingTime: { writingTime1: 25, writingTime2: 35, writingTime3: 50 },
+            // Add data for other categories
+        };
 
-            // Calculate Readability Scores
-            const fkGradeLevel = calculateFleschKincaidGradeLevel(text);
-            const fkReadingEase = calculateFleschKincaidReadingEase(text);
-            const daleChallScore = calculateDaleChallScore(text);
-            const spacheScore = calculateSpacheReadabilityScore(text);
-            const smogIndex = calculateSMOGIndex(text);
-            const colemanLiauIndex = calculateColemanLiauIndex(text);
-            const gunningFogScore = calculateGunningFogScore(text);
-            const ari = calculateARI(text);
-            const linsearWrite = calculateLinsearWrite(text);
-            const rix = calculateRix(text);
-            const standard = calculateStandard(text);
-            const medianScore = calculateMedianScore(text);
+        // Function to create a table from the given data
+        function createTable(containerId, category) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '<table border="1"><tr><th>Word/Sentence</th><th>Count</th></tr>';
 
-            // Calculate Graphs (using a placeholder function, actual implementation depends on your chart library)
-            generateFryGraph();
-            generateRaygorGraph();
+            for (const [word, count] of Object.entries(data[category])) {
+                container.innerHTML += `<tr><td>${word}</td><td>${count}</td></tr>`;
+            }
 
-            // Calculate Frequency
-            const buzzwordsCount = calculateBuzzwordsCount(text);
-            const weaselsCount = calculateWeaselsCount(text);
+            container.innerHTML += '</table>';
+        }
 
-            // Calculate Statistics
-            const wordCount = calculateWordCount(text);
-            const uniqueWordCount = calculateUniqueWordCount(text);
-            const sentenceCount = calculateSentenceCount(text);
-            const syllableCount = calculateSyllableCount(text);
-            const letterCount = calculateLetterCount(text);
-            const polysyllabicWordCount = calculatePolysyllabicWordCount(text);
-            const avgWordsPerSentence = calculateAverageWordsPerSentence(text);
-            const avgSyllablesPerWord = calculateAverageSyllablesPerWord(text);
-            const avgWordLength = calculateAverageWordLength(text);
-            const avgLettersPerSentence = calculateAverageLettersPerSentence(text);
-            const longestSentence = calculateLongestSentence(text);
-            const shortestSentence = calculateShortestSentence(text);
-            const readingTime = calculateReadingTime(text);
-            const speakingTime = calculateSpeakingTime(text);
-            const writingTime = calculateWritingTime(text);
+        // Function to toggle visibility of the table
+        function toggleTable(category) {
+            const tableContainer = document.getElementById(`${category}Table`);
+            tableContainer.classList.toggle('hidden');
 
-            // Display Results
-            displayReadabilityScores(fkGradeLevel, fkReadingEase, daleChallScore, spacheScore, smogIndex,
-                colemanLiauIndex, gunningFogScore, ari, linsearWrite, rix, standard, medianScore);
-
-            displayGraphs();
-
-            displayFrequency(buzzwordsCount, weaselsCount);
-
-            displayStatistics(wordCount, uniqueWordCount, sentenceCount, syllableCount, letterCount,
-                polysyllabicWordCount, avgWordsPerSentence, avgSyllablesPerWord, avgWordLength,
-                avgLettersPerSentence, longestSentence, shortestSentence, readingTime,
-                speakingTime, writingTime);
-
-            if (document.getElementById('autoUpdate').checked) {
-                updateTabs();
+            if (!tableContainer.classList.contains('hidden')) {
+                createTable(`${category}Table`, category);
             }
         }
-
-        function generateFryGraph() {
-            const ctx = document.getElementById('fryGraph').getContext('2d');
-            const fryChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [{
-                        label: 'Fry Readability Formula',
-                        data: [65, 59, 80, 81, 56, 55, 40],
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
-                        fill: false
-                    }]
-                },
-                options: {
-                    scales: {
-                        x: [{
-                            type: 'linear',
-                            position: 'bottom'
-                        }]
-                    }
-                }
-            });
-        }
-
-        function generateRaygorGraph() {
-            const ctx = document.getElementById('raygorGraph').getContext('2d');
-            const raygorChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [{
-                        label: 'Raygor Estimate',
-                        data: [45, 48, 50, 55, 60, 62, 65],
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1,
-                        fill: false
-                    }]
-                },
-                options: {
-                    scales: {
-                        x: [{
-                            type: 'linear',
-                            position: 'bottom'
-                        }]
-                    }
-                }
-            });
-        }
-
-        function displayReadabilityScores(fkGradeLevel, fkReadingEase, daleChallScore, spacheScore, smogIndex,
-            colemanLiauIndex, gunningFogScore, ari, linsearWrite, rix, standard, medianScore) {
-            document.getElementById('fkGradeLevel').textContent = fkGradeLevel;
-            document.getElementById('fkReadingEase').textContent = fkReadingEase;
-            document.getElementById('daleChallScore').textContent = daleChallScore;
-            document.getElementById('spacheScore').textContent = spacheScore;
-            document.getElementById('smogIndex').textContent = smogIndex;
-            document.getElementById('colemanLiauIndex').textContent = colemanLiauIndex;
-            document.getElementById('gunningFogScore').textContent = gunningFogScore;
-            document.getElementById('ari').textContent = ari;
-            document.getElementById('linsearWrite').textContent = linsearWrite;
-            document.getElementById('rix').textContent = rix;
-            document.getElementById('standard').textContent = standard;
-            document.getElementById('medianScore').textContent = medianScore;
-        }
-
-        function displayGraphs() {
-            // Graphs are generated in the calculateReadability function using Chart.js
-        }
-
-        function displayFrequency(buzzwordsCount, weaselsCount) {
-            document.getElementById('buzzwordsCount').textContent = buzzwordsCount;
-            document.getElementById('weaselsCount').textContent = weaselsCount;
-            // Add other frequency criteria here
-        }
-
-        function displayStatistics(wordCount, uniqueWordCount, sentenceCount, syllableCount, letterCount,
-            polysyllabicWordCount, avgWordsPerSentence, avgSyllablesPerWord, avgWordLength,
-            avgLettersPerSentence, longestSentence, shortestSentence, readingTime,
-            speakingTime, writingTime) {
-            document.getElementById('wordCount').textContent = wordCount;
-            document.getElementById('uniqueWordCount').textContent = uniqueWordCount;
-            document.getElementById('sentenceCount').textContent = sentenceCount;
-            document.getElementById('syllableCount').textContent = syllableCount;
-            document.getElementById('letterCount').textContent = letterCount;
-            document.getElementById('polysyllabicWordCount').textContent = polysyllabicWordCount;
-            document.getElementById('avgWordsPerSentence').textContent = avgWordsPerSentence;
-            document.getElementById('avgSyllablesPerWord').textContent = avgSyllablesPerWord;
-            document.getElementById('avgWordLength').textContent = avgWordLength;
-            document.getElementById('avgLettersPerSentence').textContent = avgLettersPerSentence;
-            document.getElementById('longestSentence').textContent = longestSentence;
-            document.getElementById('shortestSentence').textContent = shortestSentence;
-            document.getElementById('readingTime').textContent = readingTime;
-            document.getElementById('speakingTime').textContent = speakingTime;
-            document.getElementById('writingTime').textContent = writingTime;
-        }
-
-        // Add your existing functions here
-
-        // ...
     </script>
 </body>
 

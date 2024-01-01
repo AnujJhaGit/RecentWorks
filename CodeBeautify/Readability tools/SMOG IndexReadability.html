@@ -29,75 +29,49 @@
               </div>
             </div>
           </div>
-      
-          <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-              <input type="checkbox" id="autoUpdateCheckbox" checked onchange="handleAutoUpdateChange()">
-              <label for="autoUpdateCheckbox">Auto Update</label>
-            </div>
-            <div class="control">
-              <button class="button is-primary" onclick="calculateSMOG()" id="calculateButton" disabled>
-                Calculate SMOG Index
-              </button>
-            </div>
-            <div class="control">
-              <button class="button" onclick="loadSampleText()">Sample Text</button>
-            </div>
-            <div class="control">
-              <div class="file is-info has-name">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Upload File
-                    </span>
-                  </span>
-                  <span class="file-name" id="fileName">No file chosen</span>
-                </label>
+          <div class="buttons is-centered">
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <input type="checkbox" id="autoUpdateCheckbox" class="is-checkradio" checked>
+                  <label for="autoUpdateCheckbox">Auto Update</label>
+                </div>
+                <div class="field">
+                  <button class="button is-primary" id="calculateButton" disabled>
+                    Calculate SMOG Index
+                  </button>
+                </div>
+                <div class="field">
+                  <button class="button" onclick="loadSampleText()">Sample Text</button>
+                </div>
+                <div class="field">
+                  <div class="file has-name is-info">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Upload File
+                        </span>
+                      </span>
+                      <span class="file-name" id="fileName">No file chosen</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="field">
+                  <button class="button is-danger" onclick="clearText()">Clear</button>
+                </div>
               </div>
             </div>
-            <div class="control">
-              <button class="button is-danger" onclick="clearText()">Clear</button>
-            </div>
           </div>
+
+
+          
         </div>
       </section>
 
-      <script>
-        function calculateSMOG() {
-          const inputText = document.getElementById('inputText').value;
-          const smogResult = document.getElementById('smogResult');
-
-          // Replace the following logic with your actual SMOG Index calculation mechanism
-          const sentences = inputText.split(/[.!?]+/);
-          const totalSentences = sentences.length;
-
-          const polysyllableWordCount = calculatePolysyllableWordCount(inputText);
-
-          const smogIndex = 1.043 * Math.sqrt(polysyllableWordCount * (30 / totalSentences)) + 3.1291;
-
-          smogResult.innerHTML = `SMOG Index: ${smogIndex.toFixed(2)}`;
-        }
-
-        function calculatePolysyllableWordCount(text) {
-          // Replace this function with your own logic to count polysyllable words
-          // You may use external libraries or databases for better accuracy
-          // For simplicity, we'll consider words with 3 or more syllables as polysyllable
-          const words = text.split(/\s+/);
-          const polysyllableWords = words.filter(word => syllableCount(word) >= 3);
-          return polysyllableWords.length;
-        }
-
-        function syllableCount(word) {
-          // Replace this function with a more accurate syllable counting mechanism if needed
-          const syllables = word.toLowerCase().replace(/[^aeiouy]+/g, '').length;
-          return syllables === 0 ? 1 : syllables;
-        }
-        
-        // Other functions for handling UI interactions go here
-      </script>
+ <script src="SMOGIndexCalculator.js"></script>
 </body>
 </html>

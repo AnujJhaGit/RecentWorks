@@ -23,7 +23,7 @@
             </div>
       
             <div class="column is-half">
-              <div class="box">
+              <div class="box"style="max-height: 500px; overflow-y: auto;">
                 <h2 class="subtitle">Result</h2>
                 <table class="table is-striped is-fullwidth">
                   <thead>
@@ -39,74 +39,46 @@
               </div>
             </div>
           </div>
-      
-          <div class="field is-grouped is-grouped-centered">
-            <div class="control">
-              <input type="checkbox" id="autoUpdateCheckbox" checked onchange="handleAutoUpdateChange()">
-              <label for="autoUpdateCheckbox">Auto Update</label>
-            </div>
-            <div class="control">
-              <button class="button is-primary" onclick="findBuzzWords()" id="findBuzzWordsButton" disabled>
-                Find Buzzwords
-              </button>
-            </div>
-            <div class="control">
-              <button class="button" onclick="loadSampleText()">Sample Text</button>
-            </div>
-            <div class="control">
-              <div class="file is-info has-name">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Upload File
-                    </span>
-                  </span>
-                  <span class="file-name" id="fileName">No file chosen</span>
-                </label>
+          <div class="buttons is-centered">
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <input type="checkbox" id="autoUpdateCheckbox" class="is-checkradio" checked onchange="handleAutoUpdateChange()">
+                  <label for="autoUpdateCheckbox">Auto Update</label>
+                </div>
+                <div class="field">
+                  <button class="button is-primary" id="findBuzzWordsButton" disabled>
+                    Find Buzzwords
+                  </button>
+                </div>
+                <div class="field">
+                  <button class="button" onclick="loadSampleText()">Sample Text</button>
+                </div>
+                <div class="field">
+                  <div class="file has-name is-info">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Upload File
+                        </span>
+                      </span>
+                      <span class="file-name" id="fileName">No file chosen</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="field">
+                  <button class="button is-danger" onclick="clearText()">Clear</button>
+                </div>
               </div>
-            </div>
-            <div class="control">
-              <button class="button is-danger" onclick="clearText()">Clear</button>
             </div>
           </div>
         </div>
       </section>
 
-      <script>
-        function findBuzzWords() {
-          const inputText = document.getElementById('inputText').value;
-          const buzzWordsTableBody = document.getElementById('buzzWordsTableBody');
-
-          // Replace the following logic with your actual buzzwords finding mechanism
-          const buzzWords = inputText.match(/\b(innovative|synergy|disruptive|leverage|robust|sustainable|optimize|transformative)\b/gi);
-
-          if (buzzWords) {
-            const uniqueBuzzWords = Array.from(new Set(buzzWords));
-            const countMap = {};
-
-            uniqueBuzzWords.forEach(word => {
-              countMap[word] = buzzWords.filter(w => w === word).length;
-            });
-
-            // Clear existing rows
-            buzzWordsTableBody.innerHTML = '';
-
-            // Append new rows
-            for (const word in countMap) {
-              const row = `<tr><td>${word}</td><td>${countMap[word]}</td></tr>`;
-              buzzWordsTableBody.innerHTML += row;
-            }
-          } else {
-            // No buzzwords found
-            buzzWordsTableBody.innerHTML = '<tr><td colspan="2">No buzzwords found.</td></tr>';
-          }
-        }
-        
-        // Other functions for handling UI interactions go here
-      </script>
+      <script src="buzzWords.js"></script>
 </body>
 </html>
