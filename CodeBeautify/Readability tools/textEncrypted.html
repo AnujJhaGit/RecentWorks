@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
+  <style>
+    /* Add your custom styles here */
+    .result-buttons {
+      text-align: right;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+    }
+
+    .upload-icon,
+    .download-icon {
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="columns">
+    <div class="column is-half">
+      <h3>Encrypt Me</h3>
+      <form id="encryptForm">
+        <div class="field">
+          <label class="label">Key</label>
+          <div class="control">
+            <input class="input" type="text" name="key" placeholder="Key">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Message to Encrypt</label>
+          <div class="control">
+            <textarea class="textarea" name="message" placeholder="Message to encrypt"></textarea>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button" type="button" onclick="loadSampleText('en-message')">Sample Text</button>
+          </div>
+          <div class="control">
+            <input class="button is-primary" type="submit" value="Encrypt">
+          </div>
+          <div class="control">
+            <label class="button is-link upload-icon">
+              <input type="file" accept=".txt, .json" name="file" id="uploadFileEncrypt" style="display:none;">
+              <i class="fas fa-upload"></i> Upload
+            </label>
+          </div>
+          <div class="control">
+            <a class="button is-success download-icon" id="downloadResultEncrypt" download="encrypted_result.txt">
+              <i class="fas fa-download"></i> Download Result
+            </a>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Result</label>
+          <div class="control">
+            <div class="field has-addons">
+              <div class="control is-expanded">
+                <textarea class="textarea" name="result" id="en-message" placeholder="Result" readonly></textarea>     
+                  <button class="button is-info copy-button" onclick="copyToClipboard('#en-message')">
+                    <i class="fas fa-copy"></i> Copy
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="column is-half">
+      <h3>Decrypt Me</h3>
+      <form id="decryptForm">
+        <div class="field">
+          <label class="label">Key</label>
+          <div class="control">
+            <input class="input" type="text" name="key" placeholder="Key">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Encrypted Message</label>
+          <div class="control">
+            <textarea class="textarea" name="encrypted" placeholder="Encrypted message"></textarea>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button" type="button" onclick="loadSampleText('de-message')">Sample Text</button>
+          </div>
+          <div class="control">
+            <input class="button is-primary" type="submit" value="Decrypt">
+          </div>
+         
+          <div class="control">
+            <label class="button is-link upload-icon">
+              <input type="file" accept=".txt, .json" name="file" id="uploadFileDecrypt" style="display:none;">
+              <i class="fas fa-upload"></i> Upload
+            </label>
+          </div>
+          <div class="control">
+            <a class="button is-success download-icon" id="downloadResultDecrypt" download="decrypted_result.txt">
+              <i class="fas fa-download"></i> Download Result
+            </a>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Result</label>
+          <div class="control">
+            <div class="field has-addons">
+              <div class="control is-expanded">
+                <textarea class="textarea" name="result" id="de-message" placeholder="Result" readonly></textarea>
+                <button class="button is-info copy-button" onclick="copyToClipboard('#de-message')">
+                  <i class="fas fa-copy"></i> Copy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyToClipboard(elementId) {
+    var copyText = document.querySelector(elementId);
+    copyText.select();
+    document.execCommand("copy");
+    alert("Copied to clipboard!");
+  }
+
+  function loadSampleText(targetId) {
+    if (targetId === 'en-message') {
+      document.querySelector("#en-message").value = "This is a sample input.";
+    } else if (targetId === 'de-message') {
+      document.querySelector("#de-message").value = "Sample encrypted text";
+    }
+  }
+
+  var enForm = document.querySelector("#encryptForm");
+
+  enForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formData = new FormData(enForm);
+    let key = formData.get("key");
+    let message = formData.get("message");
+    let msg = encryptMe(message, key);
+    document.querySelector("#en-message").value = msg;
+  });
+
+  var deForm = document.querySelector("#decryptForm");
+
+  deForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let formData = new FormData(deForm);
+    let key = formData.get("key");
+    let encrypted = formData.get("encrypted");
+    let msg = decryptMe(encrypted, key);
+    document.querySelector("#de-message").value = msg;
+  });
+
+  function encryptMe(mes, key) {
+    return CryptoJS.AES.encrypt(mes, key).toString();
+  }
+
+  function decryptMe(mes, key) {
+    var bytes = CryptoJS.AES.decrypt(mes, key);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  }
+
+</script>
+
+</body>
+</html>
