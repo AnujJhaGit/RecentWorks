@@ -28,31 +28,31 @@
 </head>
 <body>
 
-<div class="container">
-  <div class="columns">
-    <div class="column is-half">
-      <h3>Encrypt Me</h3>
-      <form id="encryptForm">
-        <div class="field">
-          <label class="label">Key</label>
-          <div class="control">
-            <input class="input" type="text" name="key" placeholder="Key">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-half">
+        <h3>Encrypt Me</h3>
+        <form id="encryptForm">
+          <div class="field">
+            <label class="label">Key</label>
+            <div class="control">
+              <input class="input" type="text" name="key" placeholder="Key" required>
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label class="label">Message to Encrypt</label>
-          <div class="control">
-            <textarea class="textarea" name="message" placeholder="Message to encrypt"></textarea>
+          <div class="field">
+            <label class="label">Message to Encrypt</label>
+            <div class="control">
+              <textarea class="textarea" id="msgToEncrypt" name="message" placeholder="Message to encrypt"></textarea>
+            </div>
           </div>
-        </div>
 
         <div class="field is-grouped">
           <div class="control">
             <button class="button" type="button" onclick="loadSampleText('en-message')">Sample Text</button>
           </div>
           <div class="control">
-            <input class="button is-primary" type="submit" value="Encrypt">
+            <input class="button is-primary"id="encr"  type="submit" value="Encrypt">
           </div>
           <div class="control">
             <label class="button is-link upload-icon">
@@ -97,7 +97,7 @@
         <div class="field">
           <label class="label">Encrypted Message</label>
           <div class="control">
-            <textarea class="textarea" name="encrypted" placeholder="Encrypted message"></textarea>
+            <textarea class="textarea" name="encrypted" placeholder="Encrypted message" id="msgToDecrypt"></textarea>
           </div>
         </div>
 
@@ -106,7 +106,7 @@
             <button class="button" type="button" onclick="loadSampleText('de-message')">Sample Text</button>
           </div>
           <div class="control">
-            <input class="button is-primary" type="submit" value="Decrypt">
+            <input class="button is-primary"id="decr" type="submit" value="Decrypt">
           </div>
          
           <div class="control">
@@ -150,12 +150,20 @@
   }
 
   function loadSampleText(targetId) {
-    if (targetId === 'en-message') {
-      document.querySelector("#en-message").value = "This is a sample input.";
-    } else if (targetId === 'de-message') {
-      document.querySelector("#de-message").value = "Sample encrypted text";
-    }
+  if (targetId === 'en-message') {
+    document.querySelector("#msgToEncrypt").value = "This is a sample input.";
+    document.querySelector("#encryptForm input[name='key']").value = "SampleKey"; // Change SampleKey to your desired key
+  } else if (targetId === 'de-message') {
+    document.querySelector("#msgToDecrypt").value = "U2FsdGVkX19s4RF3Qj8418i0c5PtVyJHnrVER220KOoUF+LTCWfQRPq1la/cLhh6";
+    document.querySelector("#decryptForm input[name='key']").value = "SampleKey"; 
   }
+
+ const click1 = document.getElementById('encr');
+ click1.click();
+ const click2 = document.getElementById('decr');
+ click2.click();
+}
+
 
   var enForm = document.querySelector("#encryptForm");
 
