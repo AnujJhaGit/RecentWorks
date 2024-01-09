@@ -111,8 +111,9 @@
          
           <div class="control">
             <label class="button is-link upload-icon">
-              <input type="file" accept=".txt, .json" name="file" id="uploadFileDecrypt" style="display:none;">
+              <input type="file" accept=".txt, .json" name="file" id="uploadFileDecrypt" style="display:none;" onchange="loadFile()">
               <i class="fas fa-upload"></i> Upload
+              
             </label>
           </div>
           <div class="control">
@@ -195,7 +196,47 @@
     var bytes = CryptoJS.AES.decrypt(mes, key);
     return bytes.toString(CryptoJS.enc.Utf8);
   }
+  function loadFile(inputId, targetId) {
+      const fileInput = document.getElementById(inputId);
+      const targetTextArea = document.getElementById(targetId);
 
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          targetTextArea.value = e.target.result;
+        };
+
+        reader.readAsText(file);
+      }
+    }
+
+    document.getElementById('uploadFileEncrypt').addEventListener('change', function () {
+      loadFile('uploadFileEncrypt', 'msgToEncrypt');
+    });
+
+    document.getElementById('uploadFileDecrypt').addEventListener('change', function () {
+      loadFile('uploadFileDecrypt', 'msgToDecrypt');
+    });
+    function downloadResult(content, fileName) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      link.click();
+    }
+
+    document.getElementById('downloadResultEncrypt').addEventListener('click', function () {
+      const resultContent = document.getElementById('en-message').value;
+      downloadResult(resultContent, 'encrypted_result.txt');
+    });
+
+    document.getElementById('downloadResultDecrypt').addEventListener('click', function () {
+      const resultContent = document.getElementById('de-message').value;
+      downloadResult(resultContent, 'decrypted_result.txt');
+    });
+        
 </script>
 
 </body>
