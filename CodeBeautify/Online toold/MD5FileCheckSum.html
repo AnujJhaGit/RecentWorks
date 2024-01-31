@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <title>MD5 Calculator</title>
+  <style>
+    .hmac {
+      display: none;
+    }
+
+    .output-container {
+      position: relative;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 40px;
+      right: 10px;
+    }
+
+    #auto-update {
+      margin-left: 10px;
+    }
+
+    /* Updated styles for the upload box */
+    #upload {
+      width: 100%;
+      box-sizing: border-box;
+      border: 2px dashed #dbdbdb;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    #file-name {
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/hmac-md5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/enc-base64.js"></script>
+  
+  
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">MD5 File Checksum</h1>
+
+      <div class="field" id="upload" onclick="document.getElementById('file-input').click()">
+        <label class="label">Upload/Drop File</label>
+        <div class="file is-boxed">
+          <label class="file-label">
+            <input class="file-input" type="file" name="resume" id="file-input">
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Choose a file…
+              </span>
+            </span>
+            <span class="file-name" id="file-name"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field is-flex is-justify-content-center m-5">
+        <label class="checkbox">
+          <input type="checkbox" id="hmac-enabled">
+          Enable HMAC
+        </label>
+      </div>
+
+      <div class="hmac p-3">
+        <div class="field is-grouped">
+          <label class="label m-3">HMAC Type</label>
+          <div class="control">
+            <div class="select">
+              <select id="hmac-input-type">
+                <optgroup label="Binary">
+                  <option value="hex">Hex</option>
+                </optgroup>
+                <optgroup label="Text">
+                  <option value="utf-8" selected="selected">UTF-8</option>
+                  <option value="utf-16le" data-load-encoding="1">UTF-16LE</option>
+                  <option value="ibm866" data-load-encoding="2">IBM866</option>
+                  <option value="iso-8859-2" data-load-encoding="2">ISO-8859-2</option>
+                  <option value="iso-8859-3" data-load-encoding="2">ISO-8859-3</option>
+                  <option value="iso-8859-4" data-load-encoding="2">ISO-8859-4</option>
+                  <option value="iso-8859-5" data-load-encoding="2">ISO-8859-5</option>
+                  <option value="shift_jis" data-load-encoding="2">Shift_JIS</option>
+                  <option value="euc-kr" data-load-encoding="2">EUC-KR</option>
+                  <option value="x-user-defined" data-load-encoding="2">x-user-defined</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+          <div class="control is-expanded">
+            <input class="input" id="hmac-key" type="text" placeholder="Enter HMAC key">
+          </div>
+        </div>
+      </div>
+
+      <div class="field buttons-group is-grouped is-flex is-justify-content-center">
+        <div class="control">
+          <button class="button is-primary" id="hash-button">Hash</button>
+        </div>
+        <div class="control m-3">
+          <label class="checkbox">
+            <input type="checkbox" id="auto-update" checked>
+            Auto Update
+          </label>
+        </div>
+      </div>
+
+      <div class="output-container">
+        <label class="label">Output</label>
+        <textarea class="textarea" id="output" readonly placeholder="Hashed Result"></textarea>
+        <button class="button is-info copy-button" id="copy-button" onclick="copyToClipboard()">Copy</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="MD5FileCheckSum.js"></script>
+  
+</body>
+
+</html>
