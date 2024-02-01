@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  <title>Caesar Cipher Decoder</title>
+</head>
+
+<style>
+  .copy-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+</style>
+
+<body>
+
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Caesar Cipher Decoder</h1>
+
+      <div class="field">
+        <label class="label">Input Text</label>
+        <div class="control">
+          <textarea id="inputText" class="textarea" placeholder="Enter text"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Number of Shifts</label>
+        <div class="control">
+          <input id="shiftAmount" class="input" type="number" value="0">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Alphabet</label>
+        <div class="control">
+          <input id="alphabet" class="input" type="text" value="abcdefghijklmnopqrstuvwxyz">
+        </div>
+      </div>
+
+      <div class="columns is-multiline">
+        <div class="column is-one-quarter">
+          <div class="field">
+            <label class="label">Case Strategy</label>
+            <div class="control">
+              <div class="select">
+                <select id="caseStrategy">
+                  <option>Ignore Case</option>
+                  <option>Maintain Case</option>
+                  <option>Strict</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-one-quarter">
+          <div class="field">
+            <label class="label">Foreign Chars</label>
+            <div class="control">
+              <div class="select">
+                <select id="foreignChars">
+                  <option>Include</option>
+                  <option>Ignore</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-one-quarter ">
+          <div class="field">
+            <div class="control ">
+              <label class="checkbox">
+                <input id="autoUpdate" type="checkbox">
+                Auto Update Output
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-one-quarter">
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary" onclick="decode()">Decode</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Output</label>
+        <div class="control">
+          <div class="is-flex is-justify-content-space-between">
+            <textarea id="outputArea" class="textarea" readonly></textarea>
+            <button class="button is-info copy-button" onclick="copyToClipboard()" style="margin-top: 0;">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-grouped is-grouped-centered">
+        <div class="control">
+          <a id="downloadLink" class="button is-success" download="decoded_text.txt">Download</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    const inputTextArea = document.getElementById("inputText");
+    const shiftAmountInput = document.getElementById("shiftAmount");
+    const alphabetInput = document.getElementById("alphabet");
+    const caseStrategySelect = document.getElementById("caseStrategy");
+    const foreignCharsSelect = document.getElementById("foreignChars");
+    const outputArea = document.getElementById("outputArea");
+    const autoUpdateCheckbox = document.getElementById("autoUpdate");
+    const downloadLink = document.getElementById("downloadLink");
+
+    function decode() {
+      var text = inputTextArea.value;
+      var shiftAmount = parseInt(shiftAmountInput.value);
+      var alphabet = alphabetInput.value.toLowerCase();
+      var caseStrategy = caseStrategySelect.value;
+      var foreignCharsStrategy = foreignCharsSelect.value;
+
+      if (text.trim() === "" || alphabet.trim() === "") {
+        alert("Please enter text and alphabet.");
+        return;
+      }
+      if (isNaN(shiftAmount)) {
+        alert("Please enter a valid number for the shift amount.");
+        return;
+      }
+
+      var decodedText = "";
+
+      for (let i = 0; i < text.length; i++) {
+        var char = text[i];
+        var charIndex = alphabet.indexOf(char.toLowerCase());
+
+        let newChar;
+        if (charIndex !== -1) {
+          var shiftedIndex = (charIndex - shiftAmount + alphabet.length) % alphabet.length;
+          newChar = alphabet[shiftedIndex];
+
+          if (caseStrategy === "Maintain Case") {
+            newChar = char.toUpperCase() === char ? newChar.toUpperCase() : newChar;
+          } else if (caseStrategy === "Strict") {
+            newChar = alphabet.toUpperCase().indexOf(char) !== -1 ? newChar.toUpperCase() : newChar;
+          }
+        } else {
+          if (foreignCharsStrategy === "Include") {
+            newChar = char;
+          }
+        }
+
+        decodedText += newChar;
+      }
+
+      outputArea.value = decodedText;
+      updateDownloadLink();
+    }
+
+    function copyToClipboard() {
+      var text = outputArea.value;
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          alert("Text copied to clipboard!");
+        })
+        .catch(err => {
+          console.error("Failed to copy text:", err);
+        });
+    }
+
+    function updateDownloadLink() {
+      var decodedText = outputArea.value;
+      downloadLink.href = "data:text/plain;charset=utf-8," + encodeURIComponent(decodedText);
+    }
+
+    if (autoUpdateCheckbox) {
+      autoUpdateCheckbox.addEventListener("change", () => {
+        if (autoUpdateCheckbox.checked) {
+          inputTextArea.addEventListener("input", decode);
+          shiftAmountInput.addEventListener("input", decode);
+          alphabetInput.addEventListener("input", decode);
+          caseStrategySelect.addEventListener("change", decode);
+          foreignCharsSelect.addEventListener("change", decode);
+        } else {
+          inputTextArea.removeEventListener("input", decode);
+          shiftAmountInput.removeEventListener("input", decode);
+          alphabetInput.removeEventListener("input", decode);
+          caseStrategySelect.removeEventListener("change", decode);
+          foreignCharsSelect.removeEventListener("change", decode);
+        }
+      });
+    }
+  </script>
+
+</body>
+
+</html>
