@@ -33,7 +33,7 @@
                     </tr>
                   </thead>
                   <tbody id="transitionWordsTableBody">
-                    <!-- Transition words and their count will be displayed here -->
+                   
                   </tbody>
                 </table>
               </div>
@@ -80,36 +80,7 @@
       </section>
 
       <script src="transitionWords.js">
-        function findTransitionWords() {
-          const inputText = document.getElementById('inputText').value;
-          const transitionWordsTableBody = document.getElementById('transitionWordsTableBody');
-
-          // Replace the following logic with your actual transition words finding mechanism
-          const transitionWords = inputText.match(/\b(although|however|therefore|meanwhile|consequently|furthermore|nevertheless|otherwise)\b/gi);
-
-          if (transitionWords) {
-            const uniqueTransitionWords = Array.from(new Set(transitionWords));
-            const countMap = {};
-
-            uniqueTransitionWords.forEach(word => {
-              countMap[word] = transitionWords.filter(w => w === word).length;
-            });
-
-            // Clear existing rows
-            transitionWordsTableBody.innerHTML = '';
-
-            // Append new rows
-            for (const word in countMap) {
-              const row = `<tr><td>${word}</td><td>${countMap[word]}</td></tr>`;
-              transitionWordsTableBody.innerHTML += row;
-            }
-          } else {
-            // No transition words found
-            transitionWordsTableBody.innerHTML = '<tr><td colspan="2">No transition words found.</td></tr>';
-          }
-        }
         
-        // Other functions for handling UI interactions go here
       </script>
 </body>
 </html>
