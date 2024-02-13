@@ -79,69 +79,77 @@ function countSyllables(word) {
 
 
 function updateGraph(averageSentencesPer100Words, averageSyllablesPer100Words) {
+    const imageUrl = './400px-Fry_Graph.png'
     const ctx = fryGraph.getContext("2d");
+    const canvas = document.getElementById('fryGraph');
+    const img = new Image();
+    img.crossOrigin = "Annonymous";
+    img.src = imageUrl;
 
-    if (myChart) {
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      if (myChart) {
         myChart.destroy();
     }
-
+    }
+    
     myChart = new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [
-                {
-                    label: 'Fry Graph',
-                    data: [{ x: 0, y: 0 }, { x: averageSyllablesPer100Words, y: averageSentencesPer100Words }],
-                    fill: false,
-                    pointRadius: 0,
-                    showLine: true, // Show line connecting the points
-                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 2,
-                },
-            ],
-        },
-        options: {
-            scales: {
-                x: {
-                    type: 'linear',
-                    position: 'bottom',
-                    title: {
-                        display: true,
-                        text: 'Syllables per 100 Words',
-                    },
-                    min: 0,
-                    max: averageSyllablesPer100Words + 10,
-                },
-                y: {
-                    type: 'linear',
-                    position: 'left',
-                    title: {
-                        display: true,
-                        text: 'Sentences per 100 Words',
-                    },
-                    min: 0,
-                    beginAtZero: true,
-                },
-            },
-            plugins: {
-                legend: {
-                    display: true,
-                },
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: {
-                padding: {
-                    left: 20,
-                    right: 20,
-                    top: 20,
-                    bottom: 20,
-                },
-            },
-        },
-    });
-}
+      type: 'scatter',
+      data: {
+          datasets: [
+              {
+                  label: 'Fry Graph',
+                  data: [{ x: 0, y: 0 }, { x: averageSyllablesPer100Words, y: averageSentencesPer100Words }],
+                  fill: false,
+                  pointRadius: 5,
+                  backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  borderWidth: 2,
+              },
+          ],
+      },
+      options: {
+          scales: {
+              x: {
+                  type: 'linear',
+                  position: 'bottom',
+                  title: {
+                      display: true,
+                      text: 'Syllables per 100 Words',
+                  },
+                  min: 0,
+                  max: averageSyllablesPer100Words + 10,
+              },
+              y: {
+                  type: 'linear',
+                  position: 'left',
+                  title: {
+                      display: true,
+                      text: 'Sentences per 100 Words',
+                  },
+                  min: 0,
+                  beginAtZero: true,
+              },
+          },
+          plugins: {
+              legend: {
+                  display: true,
+              },
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+              padding: {
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: 20,
+              },
+          },
+      },
+  });
+};
+
 
   
   

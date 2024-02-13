@@ -300,6 +300,64 @@ var getScores = function(text) {
     return obj;
   };
 
+
+  function calculateFleschkincaidGrade() {
+    const text = document.getElementById('inputText').value;
+    const { fleschReadingEase, fleschkincaidGrade } = getScores(text);
+    const gradeLevel = getGradeLevel(fleschReadingEase)
+    const wordCount = countWords(text);
+    var numberOfSentences = countSentences(text);
+    const avgWordsPerSentence = (wordCount/numberOfSentences).toFixed(2);
+    document.getElementById('fleschKincaidResult').innerHTML = `
+    <strong>Flesch Kincaid Ease:</strong> ${fleschReadingEase.toFixed(2)}<br>
+    <strong>Flesch Kincaid Grade:</strong> ${fleschkincaidGrade.toFixed(2)}<br>
+    <strong>Grade Level:</strong> ${gradeLevel}<br>
+    <strong>Words:</strong> ${wordCount}<br>
+    <strong>Sentences:</strong> ${numberOfSentences}<br>
+    <strong>Average Number of Words Per Sentence:</strong> ${avgWordsPerSentence}
+`;
+
+    
+console.log("Number of sentences:", numberOfSentences);
+}
+const countSentences = text => {
+  return text.split(/[.?!]/g).filter(Boolean).length;
+};
+function countWords(str) {
+  var matches = str.match(/[\w\d\’\'-]+/gi);
+  return matches ? matches.length : 0;
+}
+
+
+function calculateFleschkincaidGradeScore(text) {
+    const { fleschReadingEase } = getScores(text);
+    return fleschReadingEase;
+}
+
+function getGradeLevel(score) {
+  if (score >= 90 && score <= 100) {
+      return "5th grade";
+  } else if (score >= 80 && score < 90) {
+      return "6th grade";
+  } else if (score >= 70 && score < 80) {
+      return "7th grade";
+  } else if (score >= 60 && score < 70) {
+      return "8th and 9th grade";
+  } else if (score >= 50 && score < 60) {
+      return "10th to 12th grade (high school)";
+  } else if (score >= 30 && score < 50) {
+      return "College";
+  } else if (score >= 0 && score < 30) {
+      return "College graduate";
+  } else {
+      return "Invalid score";
+  }
+}
+
+
+
+  document.getElementById('calculateButton').addEventListener('click',calculateFleschkincaidGrade);
+
   let autoUpdate = document.getElementById('autoUpdateCheckbox');
 
   function handleTextChange() {
@@ -316,15 +374,9 @@ var getScores = function(text) {
       calculateFleschkincaidGrade(); // Fixed function name
     }
   }
-  
-  function calculateFleschkincaidGrade() { // Fixed function name
-    const text = document.getElementById('inputText').value;
-    const fleschkincaidGrade = calculateFleschkincaidGradeScore(text);
-    document.getElementById('fleschKincaidResult').innerText = `Flesch Kincaid Ease: ${fleschkincaidGrade.toFixed(2)}`;
-  }
-  
+
   function loadSampleText() {
-    document.getElementById('inputText').value = "Pride and Prejudice by Jane Austen\nChapter 1\n\nIt is a truth universally acknowledged, ...";
+    document.getElementById('inputText').value = "Pride and Prejudice by Jane Austen.\nChapter 1.\n\nIt is a truth universally acknowledged, ...";
     calculateFleschkincaidGrade(); // Fixed function name
     handleTextChange();
   }
@@ -337,12 +389,7 @@ var getScores = function(text) {
   }
   function clearText() {
     document.getElementById('inputText').value = '';
-    document.getElementById('fleschKincaidResult').innerText = 'Flesch Kincaid Ease will be displayed here.';
-  }
-  function calculateFleschkincaidGradeScore(text) { 
-    const fleschkincaidEase = getScores(text).fleschReadingEase;
-    console.log(getScores(text));
-    return fleschkincaidEase;
+    document.getElementById('fleschKincaidResult').innerText = 'Flesch Kincaid Ease Score/Grade will be displayed here.';
   }
 
-  document.getElementById('calculateButton').addEventListener('click',calculateFleschkincaidGrade);
+  console.log(getScores("Anuj jha"));

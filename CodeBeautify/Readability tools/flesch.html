@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Flesch-Kincaid Reading Ease Readability Calculator</title>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Flesch-Kincaid Reading Ease Readability Calculator</h1>
+
+            <div class="columns">
+                <div class="column is-half">
+                    <div class="field">
+                        <label class="label">Enter Text:</label>
+                        <div class="control">
+                            <textarea class="textarea" id="inputText" placeholder="Enter your text here..." oninput="handleTextChange()"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-half">
+                    <div class="box">
+                        <h2 class="subtitle">Result</h2>
+                        <p id="fleschKincaidResult">Flesch-Kincaid Reading Ease Score/Grade will be displayed here.</p>
+                        <p id="readingLevelResult">Reading Level: </p>
+                        <p id="averageWordsPerSentence">Average Words per Sentence: </p>
+                        <p id="averageSyllablesPerWord">Average Syllables per Word: </p>
+                        <p id="sentenceCount">Sentences: </p>
+                        <p id="wordCount">Words: </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons is-centered">
+                <div class="field is-horizontal">
+                    <div class="field-body">
+                        <div class="field">
+                            <input type="checkbox" id="autoUpdateCheckbox" class="is-checkradio" checked>
+                            <label for="autoUpdateCheckbox">Auto Update</label>
+                        </div>
+                        <div class="field">
+                            <button class="button is-primary" id="calculateButton" disabled onclick="calculateReadability()">Calculate Flesch-Kincaid Reading Ease Score</button>
+                        </div>
+                        <div class="field">
+                            <button class="button" onclick="loadSampleText()">Sample Text</button>
+                        </div>
+                        <div class="field">
+                            <div class="file has-name is-info">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" name="resume" id="fileInput" onchange="loadFile()">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Upload File
+                                        </span>
+                                    </span>
+                                    <span class="file-name" id="fileName">No file chosen</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <button class="button is-danger" onclick="clearText()">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function handleTextChange() {
+            if (document.getElementById('autoUpdateCheckbox').checked) {
+                calculateReadability();
+            } else {
+                document.getElementById('calculateButton').disabled = false;
+            }
+        }
+
+        function calculateReadability() {
+            const text = document.getElementById('inputText').value;
+            const readabilityResult = calculateFleschKincaid(text);
+            displayResults(readabilityResult);
+        }
+
+        function calculateFleschKincaid(text) {
+            const words = text.split(/\s+/).filter(Boolean);
+            const sentences = text.split(/[.!?]/).filter(Boolean);
+            const syllables = countSyllables(words);
+
+            const fleschReadingEaseScore = 206.835 - 1.015 * (words.length / sentences.length) - 84.6 * (syllables / words.length);
+            const fleschKincaidGradeLevel = 0.39 * (words.length / sentences.length) + 11.8 * (syllables / words.length) - 15.59;
+            const readingLevel = determineReadingLevel(fleschReadingEaseScore);
+            const averageWordsPerSentence = words.length / sentences.length;
+            const averageSyllablesPerWord = syllables / words.length;
+
+            return {
+                fleschReadingEaseScore,
+                fleschKincaidGradeLevel,
+                readingLevel,
+                averageWordsPerSentence,
+                averageSyllablesPerWord,
+                sentenceCount: sentences.length,
+                wordCount: words.length
+            };
+        }
+
+        function determineReadingLevel(score) {
+            if (score >= 90) {
+                return "5th Grade";
+            } else if (score >= 80) {
+                return "6th Grade";
+            } else if (score >= 70) {
+                return "7th Grade";
+            } else if (score >= 60) {
+                return "8th and 9th Grade";
+            } else if (score >= 50) {
+                return "10th to 12th Grade (High School)";
+            } else if (score >= 30) {
+                return "College";
+            } else {
+                return "College Graduate";
+            }
+        }
+
+        function countSyllables(words) {
+            // Implement syllable count logic
+            // You can use external libraries for accurate syllable counting
+            // For simplicity, we assume 2.5 syllables per word
+            return words.length * 2.5;
+        }
+
+        function displayResults(result) {
+            document.getElementById('fleschKincaidResult').textContent = `Flesch-Kincaid Reading Ease Score: ${result.fleschReadingEaseScore.toFixed(2)} / Grade Level: ${result.fleschKincaidGradeLevel.toFixed(2)}`;
+            document.getElementById('readingLevelResult').textContent = `Reading Level: ${result.readingLevel}`;
+            document.getElementById('averageWordsPerSentence').textContent = `Average Words per Sentence: ${result.averageWordsPerSentence.toFixed(2)}`;
+            document.getElementById('averageSyllablesPerWord').textContent = `Average Syllables per Word: ${result.averageSyllablesPerWord.toFixed(2)}`;
+            document.getElementById('sentenceCount').textContent = `Sentences: ${result.sentenceCount}`;
+            document.getElementById('wordCount').textContent = `Words: ${result.wordCount}`;
+            document.getElementById('calculateButton').disabled = true;
+        }
+
+        function countSentences(text) {
+            // Implement sentence count logic
+            // You can use regular expressions or other methods
+            return text.split(/[.!?]/).filter(Boolean).length;
+        }
+
+        function countWords(text) {
+            // Implement word count logic
+            // You can use regular expressions or other methods
+            return text.split(/\s+/).filter(Boolean).length;
+        }
+
+        function loadSampleText() {
+            // Load sample text into the textarea
+            const sampleText = `Flesch Reading Ease Score
+                The Flesch Reading Ease Score was first used in 1948 to show how readable a text is. 
+                The score lets you know the approximate educational level a person will need to be able to read a particular text easily.
+
+                How comprehensible a document is will be indicated on the Flesch Reading Ease Score by a number between 0 and 100. 
+                Scores around 100 mean the document is extremely easy to read, while scores around 0 mean that it is highly complex and difficult to understand. 
+                Conversion tables can be used to translate the score into educational levels, e.g., if the score is around 70 to 80 that equates to the text being appropriate for around school grade level 7, i.e., the average adult should find it reasonably simple to read.
+
+                The Flesch Reading Ease score is arrived at by using this equation:
+
+                Flesch Reading Ease Score = 206.835 − 1.015 × ( Total Words / Total Sentences ) − 84.6 × ( Total Syllables / Total Words )
+
+                These scores are used by policy writers, research communicators, and digital marketers in order to find how easily a target audience will be able to understand and engage with a particular text.
+
+                Flesch-Kincaid Grade Level
+                The Flesch-Kincaid Grade Level shows what educational level a person will need in order to understand a particular text.
+
+                The scores created by the Flesch-Kincaid Grade Level match up to the US grade levels of education readers will need to be able to comprehend a particular text, e.g., if the text has a Flesch-Kincaid Grade Level of 9, to be able to understand the document easily the reader would have had to have undergone around nine years of education (i.e., reached around 9th grade).
+
+                The Flesch-Kincaid Grade Level is assessed by examining how many words, sentences, and syllables a document contains, employing the equation below:
+
+                Flesch-Kincaid Grade Level = 0.39 × ( Total Words / Total Sentences ) + 11.8 × ( Total Syllables / Total Words ) − 15.59`;
+            document.getElementById('inputText').value = sampleText;
+            handleTextChange();
+        }
+
+        function loadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('inputText').value = e.target.result;
+                    handleTextChange();
+                };
+                reader.readAsText(file);
+                document.getElementById('fileName').textContent = file.name;
+            }
+        }
+
+        function clearText() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('fleschKincaidResult').textContent = 'Flesch-Kincaid Reading Ease Score/Grade will be displayed here.';
+            document.getElementById('readingLevelResult').textContent = 'Reading Level: ';
+            document.getElementById('averageWordsPerSentence').textContent = 'Average Words per Sentence: ';
+            document.getElementById('averageSyllablesPerWord').textContent = 'Average Syllables per Word: ';
+            document.getElementById('sentenceCount').textContent = 'Sentences: ';
+            document.getElementById('wordCount').textContent = 'Words: ';
+            document.getElementById('calculateButton').disabled = false;
+        }
+    </script>
+</body>
+</html>
