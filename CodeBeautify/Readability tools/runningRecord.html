@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Running Records Calculator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+
+    .columns {
+      justify-content: space-between;
+    }
+
+    .column.is-half {
+      width: 48%;
+    }
+
+    .result-container {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    .result-container label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-half">
+          <form id="running-records-form">
+            <div class="field">
+              <label class="label">Running Words</label>
+              <div class="control">
+                <input class="input" type="number" id="runningWords" placeholder="Enter total running words" oninput="autoUpdate()">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Errors</label>
+              <div class="control">
+                <input class="input" type="number" id="errors" placeholder="Enter number of errors" oninput="autoUpdate()">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Self-corrections</label>
+              <div class="control">
+                <input class="input" type="number" id="selfCorrections" placeholder="Enter number of self-corrections" oninput="autoUpdate()">
+              </div>
+            </div>
+            <div class="field is-grouped">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" id="autoUpdateCheckbox" onchange="autoUpdate()" checked> Auto-update scores
+                </label>
+              </div>
+              <div class="control">
+                <button class="button is-primary" type="button" onclick="calculateRunningRecords()">Calculate</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="column is-half result-container">
+          <label class="label">Results</label>
+          <div class="field">
+            <label class="label">Error Ratio</label>
+            <div class="control">
+              <input class="input" type="text" id="errorRatio" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Accuracy Percentage</label>
+            <div class="control">
+              <input class="input" type="text" id="accuracyPercentage" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Self-correction Rate</label>
+            <div class="control">
+              <input class="input" type="text" id="selfCorrectionRate" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Reading Level</label>
+            <div class="control">
+              <input class="input" type="text" id="readingLevel" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    function calculateRunningRecords() {
+      try {
+        const runningWords = parseInt(document.getElementById('runningWords').value);
+        const errors = parseInt(document.getElementById('errors').value);
+        const selfCorrections = parseInt(document.getElementById('selfCorrections').value);
+
+        if (isNaN(runningWords) || isNaN(errors) || isNaN(selfCorrections)) {
+          throw new Error('Please enter valid numeric values for Running Words, Errors, and Self-corrections.');
+        }
+
+        const errorRatio = errors / runningWords;
+        const accuracyPercentage = ((runningWords - errors) / runningWords) * 100;
+        const selfCorrectionRate = (errors + selfCorrections) / selfCorrections;
+
+        document.getElementById('errorRatio').value = `1:${Math.round(1 / errorRatio)}`;
+        document.getElementById('accuracyPercentage').value = accuracyPercentage.toFixed(2) + '%';
+        document.getElementById('selfCorrectionRate').value = `1:${Math.round(1 / selfCorrectionRate)}`;
+
+        let readingLevel = "Independent";
+        if (accuracyPercentage >= 95) {
+          readingLevel = "Independent";
+        } else if (accuracyPercentage >= 90) {
+          readingLevel = "Instructional";
+        } else {
+          readingLevel = "Frustration";
+        }
+
+        document.getElementById('readingLevel').value = readingLevel;
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    }
+
+    function autoUpdate() {
+      const autoUpdateCheckbox = document.getElementById('autoUpdateCheckbox');
+      if (autoUpdateCheckbox.checked) {
+        calculateRunningRecords();
+      }
+    }
+  </script>
+
+</body>
+
+</html>
