@@ -77,82 +77,73 @@ function countSyllables(word) {
   return syllCount;
 }
 
+function updateGraph(longSentences, longWords) {
+  const ctx = fryGraph.getContext("2d");
 
-function updateGraph(averageSentencesPer100Words, averageSyllablesPer100Words) {
-    const imageUrl = './400px-Fry_Graph.png'
-    const ctx = fryGraph.getContext("2d");
-    const canvas = document.getElementById('fryGraph');
-    const img = new Image();
-    img.crossOrigin = "Annonymous";
-    img.src = imageUrl;
+  if (myChart) {
+    myChart.destroy();
+  }
 
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      if (myChart) {
-        myChart.destroy();
-    }
-    }
-    
-    myChart = new Chart(ctx, {
-      type: 'scatter',
-      data: {
-          datasets: [
-              {
-                  label: 'Fry Graph',
-                  data: [{ x: 0, y: 0 }, { x: averageSyllablesPer100Words, y: averageSentencesPer100Words }],
-                  fill: false,
-                  pointRadius: 5,
-                  backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                  borderColor: 'rgba(255, 99, 132, 1)',
-                  borderWidth: 2,
-              },
-          ],
-      },
-      options: {
-          scales: {
-              x: {
-                  type: 'linear',
-                  position: 'bottom',
-                  title: {
-                      display: true,
-                      text: 'Syllables per 100 Words',
-                  },
-                  min: 0,
-                  max: averageSyllablesPer100Words + 10,
-              },
-              y: {
-                  type: 'linear',
-                  position: 'left',
-                  title: {
-                      display: true,
-                      text: 'Sentences per 100 Words',
-                  },
-                  min: 0,
-                  beginAtZero: true,
-              },
-          },
-          plugins: {
-              legend: {
-                  display: true,
-              },
-          },
-          responsive: true,
-          maintainAspectRatio: false,
-          layout: {
-              padding: {
-                  left: 20,
-                  right: 20,
-                  top: 20,
-                  bottom: 20,
-              },
-          },
-      },
-  });
-};
+  // Clear the graph
+  ctx.clearRect(0, 0, fryGraph.width, fryGraph.height);
 
+  // Draw x-axis
+  ctx.strokeStyle = 'black';
+  ctx.beginPath();
+  ctx.moveTo(0, fryGraph.height / 2);
+  ctx.lineTo(fryGraph.width, fryGraph.height / 2);
+  ctx.stroke();
 
-  
-  
+  // Draw y-axis
+  ctx.beginPath();
+  ctx.moveTo(fryGraph.width / 2, 0);
+  ctx.lineTo(fryGraph.width / 2, fryGraph.height);
+  ctx.stroke();
+
+  // Draw points on the x-axis
+  const pointInterval = 4;
+  for (let x = 108; x <= 172; x += pointInterval) {
+    const xPosition = mapValue(x, 108, 172, 0, fryGraph.width);
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(xPosition, fryGraph.height / 2, 3, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // Draw dotted lines based on user input
+  drawDottedLines(ctx, longSentences, longWords);
+}
+
+function mapValue(value, inMin, inMax, outMin, outMax) {
+  return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+}
+
+function drawDottedLines(ctx, xValue, yValue, xDash, yDash) {
+  // Dotted line for x-axis
+  ctx.setLineDash([xDash, xDash]);
+  ctx.strokeStyle = 'rgba(255, 0, 0, 0.7)';
+  ctx.beginPath();
+  ctx.moveTo(xValue, 0);
+  ctx.lineTo(xValue, fryGraph.height);
+  ctx.stroke();
+  ctx.setLineDash([]); // Reset line dash
+
+  // Dotted line for y-axis
+  ctx.setLineDash([yDash, yDash]);
+  ctx.strokeStyle = 'rgba(0, 255, 0, 0.7)';
+  ctx.beginPath();
+  ctx.moveTo(0, yValue);
+  ctx.lineTo(fryGraph.width, yValue);
+  ctx.stroke();
+  ctx.setLineDash([]); // Reset line dash
+
+  // Intersection point
+  ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+  ctx.beginPath();
+  ctx.arc(xValue, yValue, 5, 0, 2 * Math.PI);
+  ctx.fill();
+}
+
 function handleAutoUpdateChange() {
   if (autoUpdateCheckbox.checked) {
     calculateButton.disabled = true;
@@ -163,12 +154,10 @@ function handleAutoUpdateChange() {
   }
 }
 
-
 function loadSampleText() {
   inputText.value = "This is some sample text to demonstrate the Fry readability calculator.";
   calculateFry();
 }
-
 
 function loadFile() {
   const file = document.getElementById("fileInput").files[0];
@@ -183,7 +172,6 @@ function loadFile() {
 
 function clearText() {
   inputText.value = "";
-
   fryGraph.innerHTML = ""; // Clear the graph
   fileName.textContent = "No file chosen";
 }
