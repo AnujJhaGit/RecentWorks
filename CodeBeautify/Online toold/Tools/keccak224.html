@@ -54,7 +54,7 @@
                     
                     <div class="mb-3 d-grid gap-2">
                         <button type="button" class="btn btn-dark" onclick="copyToClipboard()">Copy</button>
-                        <button type="button" class="btn btn-secondary">Download</button>
+                        <button type="button" class="btn btn-secondary" onclick="downloadTextareaContent()">Download</button>
                     </div>
                 </div>
             </div>
@@ -124,6 +124,20 @@ function autoUpdate(){
         outputTextarea.select();
         document.execCommand('copy');
     }
+
+    function downloadTextareaContent() {
+  const textarea = document.getElementById("output");
+
+  if (textarea.value.trim() === "") {
+    alert("Error: The output is empty");
+    return;
+  }
+
+  const a = document.createElement("a");
+  a.href = "data:text/plain;charset=utf-8," + encodeURIComponent(textarea.value);
+  a.download = "output.txt";
+  a.click();
+}
 </script>
 
 </body>
