@@ -37,7 +37,7 @@
     </form>
 
     <div class="form-check">
-      <input type="checkbox" class="form-check-input" id="autoUpdateCheckbox" checked>
+      <input type="checkbox" class="form-check-input" id="autoUpdateCheckbox" onchange="autoUpdate()" checked>
       <label class="form-check-label" for="autoUpdateCheckbox">Auto Update</label>
     </div>
 
@@ -56,13 +56,17 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
-    document.getElementById('hexInput').addEventListener('input', function () {
-      const autoUpdateCheckbox = document.getElementById('autoUpdateCheckbox');
+   document.getElementById('hexInput').addEventListener('input', function () {
+     autoUpdate();
+    });
+
+    function autoUpdate(){
+        const autoUpdateCheckbox = document.getElementById('autoUpdateCheckbox');
       
       if (autoUpdateCheckbox.checked) {
         updateImage();
       }
-    });
+    }
   
     function convert() {
       let input = document.frmConvert.hex.value.replace(/[^A-Fa-f0-9]/g, "");
