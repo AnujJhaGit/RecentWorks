@@ -71,7 +71,7 @@
     const autoUpdateCheckbox = document.getElementById('autoUpdateCheckbox');
     if (autoUpdateCheckbox.checked) {
       const imageInput = document.getElementById('imageInput');
-      imageInput.addEventListener('input', convertImageToHex);
+      imageInput.addEventListener('change', convertImageToHex);
     } else {
       const imageInput = document.getElementById('imageInput');
       imageInput.removeEventListener('input', convertImageToHex);
