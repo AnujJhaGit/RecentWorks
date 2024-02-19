@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hex to Image Tool</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+    #output-image {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+    }
+    #output-image-container {
+      display: none; 
+    }
+    .error {
+      background-color: #333; 
+      color: #fff;
+      padding: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mt-5 mb-4">Hex to Image Tool</h2>
+    
+    <form name="frmConvert">
+      <div class="form-group">
+        <label for="hexInput">Hex Input:</label>
+        <input type="text" class="form-control textarea" id="hexInput" name="hex" placeholder="Enter hex Input">
+      </div>
+    </form>
+
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="autoUpdateCheckbox" checked>
+      <label class="form-check-label" for="autoUpdateCheckbox">Auto Update</label>
+    </div>
+
+    <button class="btn btn-primary mt-3" onclick="updateImage()">Update Image</button>
+    <button class="btn btn-success mt-3" onclick="downloadImage()">Download Image</button>
+
+    <div id="output-image-container">
+      <img id="output-image" class="heximage" src="" alt="Output Image">
+    </div>
+
+    <div id="error-message" class="error"></div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function convert() {
+      let input = document.frmConvert.hex.value.replace(/[^A-Fa-f0-9]/g, "");
+      if (input.length % 2) {
+        displayError("Cleaned hex string length is odd.");
+        return;
+      }
+
+      let binary = new Array();
+      for (let i = 0; i < input.length / 2; i++) {
+        let h = input.substr(i * 2, 2);
+        binary[i] = parseInt(h, 16);
+      }
+
+      let byteArray = new Uint8Array(binary);
+      let img = document.getElementById('output-image');
+
+      img.src = window.URL.createObjectURL(new Blob([byteArray], { type: 'application/octet-stream' }));
+
+      img.onload = function () {
+       
+        document.getElementById('output-image-container').style.display = 'block';
+        hideError();
+      };
+
+      img.onerror = function () {
+        displayError("Error loading image. Please check your input.");
+       
+      };
+    }
+
+    function updateImage() {
+      convert();
+    }
+
+    function downloadImage() {
+      convert();
+      const hexInput = document.getElementById('hexInput').value;
+
+      if (isValidHex(hexInput)) {
+        const outputImage = document.getElementById('output-image');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        canvas.width = outputImage.width;
+        canvas.height = outputImage.height;
+        context.drawImage(outputImage, 0, 0);
+
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = `output_${hexInput.substring(1)}.png`;
+        link.click();
+      } else {
+        displayError('Invalid hex color code. Please enter a valid hex color.');
+      }
+    }
+
+    function isValidHex(hex) {
+      const regex = /^#[0-9A-Fa-f]{6}$/;
+      return regex.test(hex);
+    }
+
+    function displayError(message) {
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+    }
+
+    function hideError() {
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.style.display = 'none';
+    }
+
+    document.getElementById('autoUpdateCheckbox').addEventListener('change', function () {
+      const autoUpdateCheckbox = document.getElementById('autoUpdateCheckbox');
+      const hexInput = document.getElementById('hexInput');
+
+      if (autoUpdateCheckbox.checked) {
+        hexInput.addEventListener('input', updateImage);
+      } else {
+        hexInput.removeEventListener('input', updateImage);
+      }
+    });
+  </script>
+</body>
+</html>

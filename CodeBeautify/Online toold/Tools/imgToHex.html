@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Hex Converter</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 class="mb-4">Image to Hex Converter</h2>
+
+  <div class="mb-3">
+    <label for="imageInput" class="form-label">Choose an Image File:</label>
+    <input type="file" class="form-control" id="imageInput" accept="image/*" onchange="autoUpdate()">
+  </div>
+
+  <div class="mb-3">
+    <label for="hexOutput" class="form-label">Hex Representation:</label>
+    <textarea class="form-control" id="hexOutput" rows="5" readonly></textarea>
+  </div>
+
+  <div class="mb-3">
+    <input type="checkbox" id="autoUpdateCheckbox" onchange="autoUpdate()" checked> 
+    <label for="autoUpdateCheckbox">Auto Update</label>
+    <button type="button" class="btn btn-primary" onclick="convertImageToHex()">Convert</button>
+    <button type="button" class="btn btn-secondary" onclick="copyToClipboard()">Copy</button>
+    <button type="button" class="btn btn-success" onclick="downloadHexOutput()">Download</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+  function convertImageToHex() {
+    const input = document.getElementById('imageInput');
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const arrayBuffer = e.target.result;
+        const uint8Array = new Uint8Array(arrayBuffer);
+        const hexString = Array.from(uint8Array, byte => byte.toString(16).padStart(2, '0')).join('');
+        document.getElementById('hexOutput').value = hexString;
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
+  function copyToClipboard() {
+    const hexOutput = document.getElementById('hexOutput');
+    hexOutput.select();
+    document.execCommand('copy');
+  }
+
+  function downloadHexOutput() {
+    const hexOutput = document.getElementById('hexOutput').value;
+    const blob = new Blob([hexOutput], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'hex_output.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  function autoUpdate() {
+    const autoUpdateCheckbox = document.getElementById('autoUpdateCheckbox');
+    if (autoUpdateCheckbox.checked) {
+      const imageInput = document.getElementById('imageInput');
+      imageInput.addEventListener('input', convertImageToHex);
+    } else {
+      const imageInput = document.getElementById('imageInput');
+      imageInput.removeEventListener('input', convertImageToHex);
+    }
+  }
+</script>
+
+</body>
+</html>
