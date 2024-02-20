@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keccak-224 Online Tool</title>
+    <title>Keccak-256 Online Tool</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="text-center mb-4">Keccak-224</h1>
+                    <h1 class="text-center mb-4">Keccak-256</h1>
                     <p class="text-center mb-4">Calculate hash from string or binary data in UTF-8, or Hex format.</p>
                     
                     <div class="mb-3">
@@ -23,8 +23,7 @@
                                 <option value="hex">Hex</option>
                             </optgroup>
                             <optgroup label="Text">
-                                <option value="utf-8" selected="selected">UTF-8</option>
-                               
+                                <option value="utf-8" selected="selected">UTF-8<option>                            
                             </optgroup>
                         </select>
                     </div>
@@ -78,7 +77,6 @@
             const content = e.target.result;
             document.getElementById('inputData').value = content;
             
-            
             autoUpdate();
         };
 
@@ -115,7 +113,7 @@ function autoUpdate(){
                 inputData = hexToBinary(inputData);
             }
 
-            var hash = sha3_224(inputData);
+            var hash = keccak256(inputData);
 
             document.getElementById('output').value = hash;
 
