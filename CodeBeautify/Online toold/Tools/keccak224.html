@@ -86,13 +86,17 @@
     }
 });
 
-    document.getElementById('inputData','inputType').addEventListener('input', function() {
+    document.getElementById('inputData').addEventListener('input', function() {
         autoUpdate();
     });
     document.getElementById('inputType').addEventListener('input', function() {
         autoUpdate();
     });
+    document.getElementById('autoUpdate').addEventListener('input', function() {
+        autoUpdate();
+    });
 
+    
 function autoUpdate(){
     var autoUpdate = document.getElementById('autoUpdate');
         if (autoUpdate.checked) {
