@@ -1,0 +1,28 @@
+Keccak  
+Keccak-224        --D
+Keccak-224 File   --D
+Keccak-256        --D
+Keccak-256 File   --D
+Keccak-384
+Keccak-384 File
+Keccak-512
+Keccak-512 File
+cSHAKE
+cSHAKE128
+cSHAKE128 File
+cSHAKE256
+cSHAKE256 File
+KMAC
+KMAC128
+KMAC128 File
+KMAC256
+KMAC256 File
+RIPEMD
+RIPEMD-128
+RIPEMD-128 File
+RIPEMD-160
+RIPEMD-160 File
+RIPEMD-256
+RIPEMD-256 File
+RIPEMD-320
+RIPEMD-320 File

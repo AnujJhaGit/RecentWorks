@@ -13,7 +13,7 @@
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="text-center mb-4">Keccak-224</h1>
+                    <h1 class="text-center mb-4">SHAKE 256</h1>
                     <p class="text-center mb-4">Calculate hash from string or binary data in UTF-8, or Hex format.</p>
                     
                     <div class="mb-3">
@@ -119,7 +119,7 @@ function autoUpdate(){
                 inputData = hexToBinary(inputData);
             }
 
-            var hash = keccak224(inputData);
+            var hash = shake256(inputData);
 
             document.getElementById('output').value = hash;
 
